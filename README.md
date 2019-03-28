@@ -4,7 +4,7 @@ A Website to make hiring easy.
 # How to Use
 
 1. Python3
-2. git clone https://github.com/priyamshah112/Apli.ai.git
+2. git clone https://gitlab.com/apliai.iitb/website.git
 3. cd Apli.ai
 4. source env/bin/activate
 5. pip install -r requirements.txt --ignore-installed
