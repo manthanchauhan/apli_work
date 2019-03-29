@@ -3635,7 +3635,7 @@ a.navbar-item,
     border-bottom-color: #dbdbdb;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: rgba(28, 30, 33, 0.63);
+    color: black;
     display: flex;
     justify-content: center;
     margin-bottom: -1px;
@@ -4033,7 +4033,7 @@ pre {
   font-family: monospace; }
 
 body {
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5; }
@@ -4086,7 +4086,7 @@ fieldset {
 pre {
   -webkit-overflow-scrolling: touch;
   background-color: whitesmoke;
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   font-size: 0.875em;
   overflow-x: auto;
   padding: 1.25rem 1.5rem;
@@ -4875,7 +4875,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   display: block;
   padding: 1.25rem; }
 
@@ -4926,7 +4926,7 @@ a.box:active {
   .button.is-text {
     background-color: transparent;
     border-color: transparent;
-    color: rgba(28, 30, 33, 0.63);
+    color: black;
     text-decoration: underline; }
     .button.is-text:hover, .button.is-text.is-hovered, .button.is-text:focus, .button.is-text.is-focused {
       background-color: whitesmoke;
@@ -6896,11 +6896,11 @@ a.box:active {
   .progress::-webkit-progress-bar {
     background-color: #dbdbdb; }
   .progress::-webkit-progress-value {
-    background-color: rgba(28, 30, 33, 0.63); }
+    background-color: black; }
   .progress::-moz-progress-bar {
-    background-color: rgba(28, 30, 33, 0.63); }
+    background-color: black; }
   .progress::-ms-fill {
-    background-color: rgba(28, 30, 33, 0.63);
+    background-color: black;
     border: none; }
   .progress:indeterminate {
     animation-duration: 1.5s;
@@ -6908,7 +6908,7 @@ a.box:active {
     animation-name: moveIndeterminate;
     animation-timing-function: linear;
     background-color: #dbdbdb;
-    background-image: linear-gradient(to right, rgba(28, 30, 33, 0.63) 30%, #dbdbdb 30%);
+    background-image: linear-gradient(to right, black 30%, #dbdbdb 30%);
     background-position: top left;
     background-repeat: no-repeat;
     background-size: 150% 150%; }
@@ -7187,7 +7187,7 @@ a.box:active {
   align-items: center;
   background-color: whitesmoke;
   border-radius: 4px;
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   display: inline-flex;
   font-size: 1.5rem;
   height: 2em;
@@ -7431,7 +7431,7 @@ a.tag:hover {
 .card {
   background-color: white;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1);
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   max-width: 100%;
   position: relative; }
 
@@ -7626,7 +7626,7 @@ button.dropdown-item {
   display: block;
   padding: 0.5em 1em; }
   .list-item:not(a) {
-    color: rgba(28, 30, 33, 0.63); }
+    color: black; }
   .list-item:first-child {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px; }
@@ -7703,7 +7703,7 @@ a.list-item {
   line-height: 1.25; }
   .menu-list a {
     border-radius: 2px;
-    color: rgba(28, 30, 33, 0.63);
+    color: black;
     display: block;
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
@@ -7825,7 +7825,7 @@ a.list-item {
 
 .message-header {
   align-items: center;
-  background-color: rgba(28, 30, 33, 0.63);
+  background-color: black;
   border-radius: 4px 4px 0 0;
   color: #fff;
   display: flex;
@@ -7848,7 +7848,7 @@ a.list-item {
   border-radius: 4px;
   border-style: solid;
   border-width: 0 0 0 4px;
-  color: rgba(28, 30, 33, 0.63);
+  color: black;
   padding: 1.25em 1.5em; }
   .message-body code,
   .message-body pre {
@@ -8833,7 +8833,7 @@ a.navbar-item,
       color: #363636; }
 
 .panel-list a {
-  color: rgba(28, 30, 33, 0.63); }
+  color: black; }
   .panel-list a:hover {
     color: black; }
 
@@ -8892,7 +8892,7 @@ label.panel-block {
     border-bottom-color: #dbdbdb;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: rgba(28, 30, 33, 0.63);
+    color: black;
     display: flex;
     justify-content: center;
     margin-bottom: -1px;
@@ -10670,6 +10670,40 @@ label.panel-block {
   background-image: -o-linear-gradient(180deg, white 0%, #e0c3fc 40%, #8ec5fc 100%);
   background-image: -webkit-gradient(180deg, white 0%, #e0c3fc 40%, #8ec5fc 100%); }
 
+.ocean {
+  height: 5%;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background: #015871; }
+
+.wave {
+  background: url(../img/wave.svg) repeat-x;
+  position: absolute;
+  top: -198px;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0); }
+
+.wave:nth-of-type(2) {
+  top: -175px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite, swell 7s ease -1.25s infinite;
+  opacity: 1; }
+
+@keyframes wave {
+  0% {
+    margin-left: 0; }
+  100% {
+    margin-left: -1600px; } }
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0, -25px, 0); }
+  50% {
+    transform: translate3d(0, 5px, 0); } }
+
 #hero {
   font-weight: bold; }
   #hero h1, #hero h2, #hero h3 {
@@ -10679,22 +10713,26 @@ label.panel-block {
     color: black;
     font-size: 1.5rem; }
 
-#tabs .info-tabs {
-  display: flex;
-  position: relative;
-  top: 0;
-  left: 0; }
-
-#tabs .info-tab {
-  min-width: 100%;
-  display: none; }
-
-#tabs .info-tabs div:target {
-  background: linear-gradient(180deg, white 0%, #e0c3fc 100%);
-  display: flex; }
-
-#tabs .small-font {
-  font-size: 1.2rem; }
-
-#tabs .heading {
-  font-size: 1.5rem; }
+#tabs {
+  background: linear-gradient(180deg, #e0c3fc 0%, white 100%); }
+  #tabs .container {
+    background: linear-gradient(180deg, #e0c3fc 0%, white 100%); }
+    #tabs .container .tabs {
+      background: white; }
+  #tabs .info-tab {
+    max-width: 80%;
+    margin: auto;
+    border: 1px solid rgba(97, 85, 97, 0.67);
+    border-radius: 30px;
+    -webkit-box-shadow: 7px 7px 19px 1px rgba(97, 85, 97, 0.67);
+    -moz-box-shadow: 7px 7px 19px 1px rgba(97, 85, 97, 0.67);
+    box-shadow: 7px 7px 19px 1px rgba(97, 85, 97, 0.67);
+    transition: left 0.4s; }
+  #tabs #students-tab {
+    display: none; }
+  #tabs #institutions-tab {
+    display: none; }
+  #tabs .small-font {
+    font-size: 1.2rem; }
+  #tabs .heading {
+    font-size: 1.5rem; }

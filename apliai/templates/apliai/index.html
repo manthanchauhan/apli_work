@@ -6,31 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- link for fontawesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <!-- link for local css -->
     <link rel="stylesheet" href="../../static/apliai/css/index.css">
 
     <script>
-        $(document).ready(function() {
-        var hash = window.location.hash;
-        var link = $('a');
-        $('a').click(function(e) {
-            e.preventDefault();
-            hash = link.attr("href");
-            window.location = hash;
-        });
-        });
+        function openTab(evt, tabName) {
+            
+
+            var tabs = document.getElementsByClassName("info-tab");
+            for(var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = "none";
+            }
+
+            var links = document.getElementsByClassName("tab");
+            for(var i = 0; i < links.length; i++) {
+                links[i].className = links[i].className.replace(" is-active", "");
+            }
+
+            document.getElementById(tabName).style.display = "flex";
+            evt.currentTarget.className += " is-active"
+        }
+
     </script>
 
 </head>
-<body>
-   <nav id="top-nav" class="navbar">
+<body class="has-navbar-fixed-top">
+   <nav id="top-nav" class="navbar is-fixed-top">
         <div class="navbar-brand">
             <a href="#" class="navbar-item">
-                <img src="../../static/apliai/img/apli-black.png" alt="apli-logo" width="120" height="50">
+                <img src="../../static/apliai/img/apli-blue.png" alt="apli-logo" width="120" height="50">
             </a>
         </div>
 
@@ -75,6 +81,8 @@
 
     </section>
 
+    
+
     <section id="hero" class="hero is-mobile is-medium">
         <div class="hero-body">
             <div class="title">
@@ -87,23 +95,28 @@
         </div>
     </section>
 
+    <div class="ocean">
+            <div class="wave"></div>
+            <div class="wave"></div>
+          </div>
+
     <section id="tabs">
         <div class="section">
-            <div class="tabs is-centered is-boxed is-medium">
+            <div id="tab-links" class="tabs is-centered is-medium">
                 <ul>
-                    <li>
-                        <a id="student-tab-link" href="#students-tab" >
-                            Student
+                    <li class="tab" onclick="openTab(event, 'students-tab')">
+                        <a>
+                            Students
                         </a>
                     </li>   
-                    <li>
-                        <a id="companies-tab-link" href="#companies-tab" >
+                    <li class="tab is-active" onclick="openTab(event, 'companies-tab')">
+                        <a>
                             Companies
                         </a>
                     </li>
-                    <li>
-                        <a id="institution-tab-link" href="#institutions-tab" >
-                            Institution
+                    <li class="tab" onclick="openTab(event, 'institutions-tab')"> 
+                        <a>
+                            Institutions
                         </a>
                     </li>
                 </ul>
@@ -127,7 +140,7 @@
                         
                         <div class="columns is-centered small-font">
                             <div class="column has-text-centered">
-                                <span><i class="faster fa-user-friends"></i></span>
+                                <span><i class="fas fa-user-friends"></i></span>
                                 <span>Mock Interview</span>
                             </div>
                             <div class="column has-text-centered">
@@ -200,7 +213,7 @@
                                 <span>Placements</span>
                             </div>
                             <div class="column has-text-centered">
-                                <span><i class="fas fa-accessible-icon"></i></span>
+                                <span><i class="fab fa-accessible-icon"></i></span>
                                 <span>Accessible</span>
                             </div>
                             <div class="column has-text-centered">
@@ -215,46 +228,53 @@
         </div>
     </section>
 
-    <section class="hero is-mobile">
-        <div class="hero-body">
-            <div class="title">
-                <h3 class="has-text-centered">Shortlist and hire quality candidates faster.</h3>
-            </div>
-            <div class="subtitle">
-                <h4 class="has-text-centered">Connect + Access = Transform</h4>
-            </div>
-        </div>
-    </section>
+    <div class="section">
+            <section class="hero is-mobile">
+                    <div class="hero-body">
+                        <div class="title">
+                            <h3 class="has-text-centered">Shortlist and hire quality candidates faster.</h3>
+                        </div>
+                        <div class="subtitle">
+                            <h4 class="has-text-centered">Connect + Access = Transform</h4>
+                        </div>
+                    </div>
+                </section>
+    </div>
+    
 
-    <footer class="footer columns">
-        <figure class="image is-128x128">
-            <img src="../../static/apliai/img/apli-blue.png" alt="apli-black-logo">
-        </figure>
-
-        <div class="column">
-            <div class="columns">
-                <div class="column is-offset-10">
-                    <figure>
-                        <i class="fab fa-instagram"></i>
-                    </figure>
-                </div>
-                <div class="column">
-                    <figure>
-                        <i class="fab fa-facebook"></i>
-                    </figure>
-                </div>
-                <div class="column">
-                    <figure>
-                        <i class="fab fa-twitter"></i>
-                    </figure>
-                </div>
-            </div>
+    <footer class="footer">
+            <nav id="top-nav" class="navbar">
+                    <div class="navbar-brand">
+                        <a href="#" class="navbar-item">
+                            <img src="../../static/apliai/img/apli-blue.png" alt="apli-logo" width="120" height="50">
+                        </a>
+                    </div>
             
-        </div>
-
+                    <div class="navbar-menu">
+                        <div class="navbar-end">
+                            <div class="navbar-item">
+                                <figure>
+                                    <i class="fab fa-instagram"></i>
+                                </figure>
+                            </div>
+                            <div class="navbar-item">
+                                <figure>
+                                    <i class="fab fa-facebook"></i>
+                                </figure>
+                            </div>
+                            <div class="navbar-item">
+                                <figure>
+                                    <i class="fab fa-twitter"></i>
+                                </figure>
+                            </div>
+                        </div>
+                        
+                    </div>
+               </nav>
     </footer>
 
 
+    
     
 
 </body>
