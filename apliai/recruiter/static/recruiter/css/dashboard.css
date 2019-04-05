@@ -10711,3 +10711,12 @@
     }
   }
   
+  .bt-none{
+    background:none !important;
+    border:none !important;
+    outline:inherit !important;
+  }
+
+  button.bt-none:hover{
+    background-color: #d9ff00 !important;
+  }

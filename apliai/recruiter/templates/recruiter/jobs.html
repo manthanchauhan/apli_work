@@ -1,0 +1,244 @@
+{% extends "recruiter/base.html" %}
+{% block title %}Apli.ai | Jobs{% endblock title %}
+{% block content %}
+        <!-- Icon Cards-->
+        <div class="row">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white bg-primary o-hidden h-100">
+              <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    </div>
+                    <h3>Post Job</h3>
+                </div>
+                
+             </button>
+             </div>
+          </div>
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white bg-success o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h3>Jobs Opened</h3>
+                <div class="mr-5">25</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white bg-danger o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="far fa-thumbs-up"></i>
+                </div>
+                <h3>Jobs Closed</h3>
+                <div class="mr-5">5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Jobs Posted</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Post</th>
+                    <th>Description</th>
+                    <th>Place of Posting</th>
+                    <th>Salary (₹)</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+
+                  </tr> 
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                   
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>10,000</td>
+                    <td>Opened</td>
+                   
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>8000</td>
+                    <td>Closed</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>2000</td>
+                    <td>Closed</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>Accountant</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
+                    <td>Edinburgh</td>
+                    <td>5000</td>
+                    <td>Closed</td>
+                    
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+{% comment %} Post job Modal {% endcomment %}
+<div class="modal fade" id="PostJobModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Post a Job</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
+			</div> 
+			<div class="modal-body">
+        <form>
+          
+          <div class="form-group">
+            <label class="col-form-label">Post:</label>
+            <input type="text" class="form-control" id="post" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-form-label">Job Description:</label>
+            <textarea class="form-control" id="description" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label">Technical Skills:</label>
+            <textarea class="form-control" id="tskill" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-form-label">Deadline:</label>
+            <input id="datefield" type='date' min='1899-01-01' required>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label">Bond:</label>
+            <select class="form-control" id="bond">
+              <option value="0">No Bond</option>
+              <option value="1">Bond</option>
+            </select>            
+          </div>
+          
+          <div class="form-group">
+            <label class="col-form-label">Salary:</label>
+            <input type="number" class="form-control" id="salary" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-form-label">Additional Details:</label>
+            <textarea class="form-control" id="adddetail" ></textarea>
+          </div>
+        </form>
+			
+      </div>   
+			<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Post Job</button>                             
+			</div>
+		</div>                                                                       
+	</div>                                      
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-textext/1.3.0/jquery.textext.min.js"></script>
+<script>
+// For latest date
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+ if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+
+today = yyyy+'-'+mm+'-'+dd;
+document.getElementById("datefield").setAttribute("min", today);
+
+// autocomplete and dropdown list
+
+    $('#tskill').textext({
+        plugins : 'tags prompt focus autocomplete ajax arrow',
+        tagsItems : [ 'Basic', 'JavaScript', 'PHP', 'Scala' ],
+        prompt : 'Add one...',
+        ajax : {
+            url : '/manual/examples/data.json',
+            dataType : 'json',
+            cacheResults : true
+        }
+    });
+
+</script>
+{% endblock content %}
