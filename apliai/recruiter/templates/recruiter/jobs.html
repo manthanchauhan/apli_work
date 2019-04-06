@@ -4,11 +4,11 @@
 {% load staticfiles%}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
-<script src="{% static 'recruiter/js/index.js' %}"></script>
+
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-primary o-hidden h-100">
+            <div class="ch card text-white bg-primary o-hidden h-100">
               <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
                 <div class="card-body">
                     <div class="card-body-icon">
@@ -166,71 +166,243 @@
 			<div class="modal-body">
         <form>
           
-          <div class="form-group">
-            <label class="col-form-label">Post:</label>
-            <input type="text" class="form-control" id="post" required>
-          </div>
+        	<div id="wrapper4">
+      			<div class="control-group">
+					    <label for="select-links4">Post:</label>
+					    <select id="select-links4" placeholder="Accountant..."></select>
+				    </div>
+                <script>
+               
+                $('#select-links4').selectize({
+                  plugins: ['remove_button'],
+                  theme: 'links',
+                  maxItems: null,
+                  valueField: 'title',
+                  searchField: 'title',
+                  options: [
+                    { title: 'Accountant'},
+                    { title: 'Software Developer'},
+                    { title: 'Manager'},
+                  ],
+                  render: {
+                    option: function(data, escape) {
+                      return '<div class="option">' +
+                          '<span class="title">' + escape(data.title) + '</span>' 
+                        '</div>';
+                    },
+                    item: function(data, escape) {
+                      
+                      return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                    }
+                  },
+                  create: function(input) {
+                    return {
+                      title: input,
+                    };
+                  }
+                });
+
+                $('#select-links4').on('change', function(){
+                    var $wrapper = $('#wrapper4');
+                    
+                    // show current input values
+                    $('select.selectized,input.selectized', $wrapper).each(function() {
+                      
+                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $value = $('<span>').appendTo($container);
+                      var $input = $(this);
+                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+
+                      $(this).on('change', update);
+                      update();
+
+                      $container.insertAfter($input);
+                    });
+                });
+
+              </script>
+				
+			    </div>
           
           <div class="form-group">
             <label class="col-form-label">Job Description:</label>
             <textarea class="form-control" id="description" required></textarea>
           </div>
 
-        	<div id="wrapper">
+        	<div id="wrapper3">
       			<div class="control-group">
 					    <label for="select-links">Tech Skills:</label>
-					    <select id="select-links" placeholder="C..."></select>
+					    <select id="select-links" placeholder="C.."></select>
 				    </div>
-              <script>
+                <script>
 
-              $('#select-links').selectize({
-                theme: 'links',
-                maxItems: null,
-                valueField: 'title',
-                searchField: 'title',
-                options: [
-                  { title: 'C'},
-                  { title: 'Go'},
-                  { title: 'HTML'},
-                ],
-                render: {
-                  option: function(data, escape) {
-                    return '<div class="option">' +
-                        '<span class="title">' + escape(data.title) + '</span>' 
-                      '</div>';
+                $('#select-links').selectize({
+                  plugins: ['remove_button'],
+                  theme: 'links',
+                  maxItems: null,
+                  valueField: 'title',
+                  searchField: 'title',
+                  options: [
+                    { title: 'HTML'},
+                    { title: 'CSS'},
+                    { title: 'Java'},
+                  ],
+                  render: {
+                    option: function(data, escape) {
+                      return '<div class="option">' +
+                          '<span class="title">' + escape(data.title) + '</span>' 
+                        '</div>';
+                    },
+                    item: function(data, escape) {
+                      
+                      return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                    }
                   },
-                  item: function(data, escape) {
-                    
-                    return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                  create: function(input) {
+                    return {
+                      title: input,
+                    };
                   }
-                },
-                create: function(input) {
-                  return {
-                    title: input,
-                  };
-                }
-              });
+                });
 
-            $(function() {
-              var $wrapper = $('#wrapper');
+                $('#select-links').on('change', function(){
+                    var $wrapper = $('#wrapper3');
+                    
+                    // show current input values
+                    $('select.selectized,input.selectized', $wrapper).each(function() {
+                      
+                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $value = $('<span>').appendTo($container);
+                      var $input = $(this);
+                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
 
-              // show current input values
-              $('select.selectized,input.selectized', $wrapper).each(function() {
-                var $container = $('<div>').addClass('value').html('Current Value: ');
-                var $value = $('<span>').appendTo($container);
-                var $input = $(this);
-                var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                      $(this).on('change', update);
+                      update();
 
-                $(this).on('change', update);
-                update();
+                      $container.insertAfter($input);
+                    });
+                });
 
-                $container.insertAfter($input);
-              });
-            });
-            </script>
+              </script>
 				
 			    </div>
+
+        	<div id="wrapper1">
+      			<div class="control-group">
+					    <label for="select-links1">Soft Skills:</label>
+					    <select id="select-links1" placeholder="CS..."></select>
+				    </div>
+                <script>
+                console.log("in");
+                $('#select-links1').selectize({
+                  plugins: ['remove_button'],
+                  theme: 'links',
+                  maxItems: null,
+                  valueField: 'title',
+                  searchField: 'title',
+                  options: [
+                    { title: 'Communication'},
+                    { title: 'Teamwork'},
+                    { title: 'Adaptability'},
+                  ],
+                  render: {
+                    option: function(data, escape) {
+                      return '<div class="option">' +
+                          '<span class="title">' + escape(data.title) + '</span>' 
+                        '</div>';
+                    },
+                    item: function(data, escape) {
+                      
+                      return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                    }
+                  },
+                  create: function(input) {
+                    return {
+                      title: input,
+                    };
+                  }
+                });
+
+                $('#select-links1').on('change', function(){
+                    var $wrapper = $('#wrapper1');
                     
+                    // show current input values
+                    $('select.selectized,input.selectized', $wrapper).each(function() {
+                      console.log("in1");
+                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $value = $('<span>').appendTo($container);
+                      var $input = $(this);
+                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+
+                      $(this).on('change', update);
+                      update();
+
+                      $container.insertAfter($input);
+                    });
+                });
+
+              </script>
+				
+			    </div>
+
+        	<div id="wrapper2">
+      			<div class="control-group">
+					    <label for="select-links2">Other:</label>
+					    <select id="select-links2" placeholder="Sports..."></select>
+				    </div>
+                <script>
+                console.log("in");
+                $('#select-links2').selectize({
+                  plugins: ['remove_button'],
+                  theme: 'links',
+                  maxItems: null,
+                  valueField: 'title',
+                  searchField: 'title',
+                  options: [
+                    { title: 'Sports'},
+                    { title: 'Music'},
+                    { title: 'Social'},
+                  ],
+                  render: {
+                    option: function(data, escape) {
+                      return '<div class="option">' +
+                          '<span class="title">' + escape(data.title) + '</span>' 
+                        '</div>';
+                    },
+                    item: function(data, escape) {
+                      
+                      return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                    }
+                  },
+                  create: function(input) {
+                    return {
+                      title: input,
+                    };
+                  }
+                });
+
+                $('#select-links2').on('change', function(){
+                    var $wrapper = $('#wrapper2');
+                    
+                    // show current input values
+                    $('select.selectized,input.selectized', $wrapper).each(function() {
+                      console.log("in1");
+                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $value = $('<span>').appendTo($container);
+                      var $input = $(this);
+                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+
+                      $(this).on('change', update);
+                      update();
+
+                      $container.insertAfter($input);
+                    });
+                });
+
+              </script>
+				
+			    </div>
+
           <div class="form-group">
             <label class="col-form-label">Deadline:</label>
             <input id="datefield" type='date' min='1899-01-01' required>
