@@ -1,6 +1,10 @@
 {% extends "recruiter/base.html" %}
 {% block title %}Apli.ai | Jobs{% endblock title %}
 {% block content %}
+{% load staticfiles%}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
+<script src="{% static 'recruiter/js/index.js' %}"></script>
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
@@ -172,11 +176,61 @@
             <textarea class="form-control" id="description" required></textarea>
           </div>
 
-          <div class="form-group">
-            <label class="col-form-label">Technical Skills:</label>
-            <textarea class="form-control" id="tskill" required></textarea>
-          </div>
-          
+        	<div id="wrapper">
+      			<div class="control-group">
+					    <label for="select-links">Tech Skills:</label>
+					    <select id="select-links" placeholder="C..."></select>
+				    </div>
+              <script>
+
+              $('#select-links').selectize({
+                theme: 'links',
+                maxItems: null,
+                valueField: 'title',
+                searchField: 'title',
+                options: [
+                  { title: 'C'},
+                  { title: 'Go'},
+                  { title: 'HTML'},
+                ],
+                render: {
+                  option: function(data, escape) {
+                    return '<div class="option">' +
+                        '<span class="title">' + escape(data.title) + '</span>' 
+                      '</div>';
+                  },
+                  item: function(data, escape) {
+                    
+                    return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                  }
+                },
+                create: function(input) {
+                  return {
+                    title: input,
+                  };
+                }
+              });
+
+            $(function() {
+              var $wrapper = $('#wrapper');
+
+              // show current input values
+              $('select.selectized,input.selectized', $wrapper).each(function() {
+                var $container = $('<div>').addClass('value').html('Current Value: ');
+                var $value = $('<span>').appendTo($container);
+                var $input = $(this);
+                var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+
+                $(this).on('change', update);
+                update();
+
+                $container.insertAfter($input);
+              });
+            });
+            </script>
+				
+			    </div>
+                    
           <div class="form-group">
             <label class="col-form-label">Deadline:</label>
             <input id="datefield" type='date' min='1899-01-01' required>
@@ -209,8 +263,7 @@
 		</div>                                                                       
 	</div>                                      
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-textext/1.3.0/jquery.textext.min.js"></script>
+
 <script>
 // For latest date
 var today = new Date();
@@ -226,19 +279,6 @@ var yyyy = today.getFullYear();
 
 today = yyyy+'-'+mm+'-'+dd;
 document.getElementById("datefield").setAttribute("min", today);
-
-// autocomplete and dropdown list
-
-    $('#tskill').textext({
-        plugins : 'tags prompt focus autocomplete ajax arrow',
-        tagsItems : [ 'Basic', 'JavaScript', 'PHP', 'Scala' ],
-        prompt : 'Add one...',
-        ajax : {
-            url : '/manual/examples/data.json',
-            dataType : 'json',
-            cacheResults : true
-        }
-    });
 
 </script>
 {% endblock content %}
