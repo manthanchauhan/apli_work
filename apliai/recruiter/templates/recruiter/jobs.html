@@ -160,23 +160,23 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Post a Job</h4>
+				<h4 class="modal-title">Post a Job | Apli.ai</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
 			</div> 
 			<div class="modal-body">
-        <form>
-          
+        <form method="POST" action="postjob">
+           {% csrf_token %}
         	<div id="wrapper4">
       			<div class="control-group">
 					    <label for="select-links4">Post:</label>
-					    <select id="select-links4" placeholder="Accountant..."></select>
+					    <select name="post" id="select-links4" placeholder="Accountant..." required></select>
 				    </div>
                 <script>
                
                 $('#select-links4').selectize({
                   plugins: ['remove_button'],
                   theme: 'links',
-                  maxItems: null,
+                  maxItems: 1,
                   valueField: 'title',
                   searchField: 'title',
                   options: [
@@ -226,13 +226,13 @@
           
           <div class="form-group">
             <label class="col-form-label">Job Description:</label>
-            <textarea class="form-control" id="description" required></textarea>
+            <textarea name="jobdesc" class="form-control" id="description" required></textarea>
           </div>
 
         	<div id="wrapper3">
       			<div class="control-group">
 					    <label for="select-links">Tech Skills:</label>
-					    <select id="select-links" placeholder="C.."></select>
+					    <select name="tskill" id="select-links" placeholder="C.."></select>
 				    </div>
                 <script>
 
@@ -290,7 +290,7 @@
         	<div id="wrapper1">
       			<div class="control-group">
 					    <label for="select-links1">Soft Skills:</label>
-					    <select id="select-links1" placeholder="CS..."></select>
+					    <select name="sskill" id="select-links1" placeholder="CS..."></select>
 				    </div>
                 <script>
                 console.log("in");
@@ -348,7 +348,7 @@
         	<div id="wrapper2">
       			<div class="control-group">
 					    <label for="select-links2">Other:</label>
-					    <select id="select-links2" placeholder="Sports..."></select>
+					    <select name="other" id="select-links2" placeholder="Sports..."></select>
 				    </div>
                 <script>
                 console.log("in");
@@ -405,12 +405,12 @@
 
           <div class="form-group">
             <label class="col-form-label">Deadline:</label>
-            <input id="datefield" type='date' min='1899-01-01' required>
+            <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
           </div>
 
           <div class="form-group">
             <label class="col-form-label">Bond:</label>
-            <select class="form-control" id="bond">
+            <select name="bond" class="form-control" id="bond">
               <option value="0">No Bond</option>
               <option value="1">Bond</option>
             </select>            
@@ -418,19 +418,20 @@
           
           <div class="form-group">
             <label class="col-form-label">Salary:</label>
-            <input type="number" class="form-control" id="salary" required>
+            <input name="salary" type="number" class="form-control" id="salary" required>
           </div>
           
           <div class="form-group">
             <label class="col-form-label">Additional Details:</label>
-            <textarea class="form-control" id="adddetail" ></textarea>
+            <textarea name="adddetail" class="form-control" id="adddetail" ></textarea>
           </div>
-        </form>
+        
 			
       </div>   
 			<div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success">Post Job</button>                             
+        <button type="submit" class="btn btn-success">Post Job</button>      
+        </form>                       
 			</div>
 		</div>                                                                       
 	</div>                                      
