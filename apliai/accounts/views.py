@@ -1,5 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+# Database init
+# Use a service account
+cred = credentials.Certificate('./serviceAccountKey.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 def reachus(request):
     if request.method == "POST":
@@ -11,7 +20,12 @@ def reachus(request):
         else:
             emp_num = request.POST.get('emp_num')
             print(emp_name,company_name,company_email,emp_num)
-
+    # doc_ref = db.collection(u'users').document(u'alovelace')
+    # doc_ref.set({
+    #     u'first': u'Ada',
+    #     u'last': u'Lovelace',
+    #     u'born': 1815
+    # })    
     return render(request,'accounts/reachus.html')
 
 def login(request):
