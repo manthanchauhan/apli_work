@@ -6,3 +6,4 @@ from django.http import HttpResponse
 def index(request):
     return render(request,'apliai/index.html')
     # return HttpResponse("Login page working !")
+

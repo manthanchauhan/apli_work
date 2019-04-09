@@ -1,12 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-# Create your views here.
 
+def reachus(request):
+    if request.method == "POST":
+        emp_name = request.POST.get('emp_name')
+        company_name = request.POST.get('company_name')
+        company_email = request.POST.get('company_email')
+        if request.POST.get('emp_num') == '':
+            print(emp_name,company_name,company_email,"None")
+        else:
+            emp_num = request.POST.get('emp_num')
+            print(emp_name,company_name,company_email,emp_num)
+
+    return render(request,'accounts/reachus.html')
 
 def login(request):
     return render(request,'accounts/login.html')
-
-    # return HttpResponse("Login page working !")
 
 def signup(request):
     return render(request,'accounts/signup.html')
