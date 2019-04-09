@@ -18,19 +18,30 @@
             <div class="card card-signin my-5">
             <div class="card-body">
                 <h5 class="card-title text-center">SignUp | Step 3/3 </h5>
-                <form class="form-signin">
-                   
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Role
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">CEO</a>
-                        <a class="dropdown-item" href="#">CTO</a>
-                        <a class="dropdown-item" href="#">HR</a>
-                    </div>
-                    
-                    <br>
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">SignUp</button>
+                <form class="form-signin" method="POST" action="step3">
+                   {% csrf_token %}
+
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="HR" checked>
+                        <label class="form-check-label" for="inlineRadio1">HR</label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="CEO">
+                        <label class="form-check-label" for="inlineRadio2">CEO</label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Manager">
+                        <label class="form-check-label" for="inlineRadio2">Manager</label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Other">
+                        <label class="form-check-label" for="inlineRadio2">Other</label>
+                        </div>
+                        <br>
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">SignUp Complete</button>
                 </form>
             </div>
             </div>
@@ -41,9 +52,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
   </body>
-</html>
-<html>
-<head>
-
-</head>
 </html>
