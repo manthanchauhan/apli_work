@@ -1,12 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
+def is_recruiter(self):
+    print('in')
+    if str(self.user_type) == 'Recruiter':
+        print('here')
+        return True
+    else:
+        return False
+rec_login_required = user_passes_test(lambda u: True if u.is_recruiter else False, login_url='/')
 
+def recruiter_login_required(view_func):
+    decorated_view_func = login_required(rec_login_required(view_func), login_url='/')
+    return decorated_view_func
+
+@recruiter_login_required    
 def dashboard(request):
     return render(request,'recruiter/dashboard.html')
-
-    # return HttpResponse("Dashboard page working !")
 
 def jobs(request):
     return render(request,'recruiter/jobs.html')

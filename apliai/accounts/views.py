@@ -10,20 +10,6 @@ cred = credentials.Certificate('./serviceAccountKey.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
-    # Post query example
-    # doc_ref = db.collection(u'users').document(u'alovelace')
-    # doc_ref.set({
-    #     u'first': u'Ada',
-    #     u'last': u'Lovelace',
-    #     u'born': 1815
-    # })    
-
-    # Get Query example
-    # users_ref = db.collection(u'users')
-    # docs = users_ref.get()
-
-    # for doc in docs:
-    #     print(u'{} => {}'.format(doc.id, doc.to_dict()))    
 
 def reachus(request):
     if request.method == "POST":
@@ -32,7 +18,7 @@ def reachus(request):
             company_name = request.POST.get('company_name')
             company_email = request.POST.get('company_email')           
             if request.POST.get('emp_num') == '':
-                print(emp_name,company_name,company_email,"None")
+                # print(emp_name,company_name,company_email,"None")
                 doc_ref = db.collection(u'reachus').document(company_email)
                 doc_ref.set({
                     u'emp_name': emp_name,
@@ -40,7 +26,7 @@ def reachus(request):
                 })                
             else:
                 emp_num = request.POST.get('emp_num')
-                print(emp_name,company_name,company_email,emp_num)
+                # print(emp_name,company_name,company_email,emp_num)
                 doc_ref = db.collection(u'reachus').document(company_email)
                 doc_ref.set({
                     u'emp_name': emp_name,
@@ -59,11 +45,10 @@ def login(request):
             password=request.POST.get('inputPassword')
             if(db.collection(u'users').document(email).get().exists):
                 # user exists
-                print(email,password)
+                # print(email,password)
                 password_check = db.collection(u'users').document(email).get().to_dict()['password']
                 if(password == password_check):
-                    messages.success(request, 'Login Successful')
-                    return render(request,'recruiter/dashboard.html')
+                    return render(request,'recruiter/dashboard.html',{'email':email,'name':db.collection(u'users').document(email).get().to_dict()['name'],'user_type':'Recruiter'})
                 else:
                     messages.error(request, 'Incorrect Password')
             else:
@@ -78,7 +63,7 @@ def signup(request):
             email=request.POST.get('inputEmail')
             password=request.POST.get('inputPassword')
             if(not db.collection(u'users').document(email).get().exists):
-                print(email,password)
+                # print(email,password)
                 request.session['email'] = email
                 request.session['password'] = password
                 return render(request,'accounts/step1.html')    
@@ -92,7 +77,7 @@ def step1(request):
     if request.method == "POST":
         try:
             name=request.POST.get('name')
-            print(name)    
+            # print(name)    
             request.session['name'] = name
             return render(request,'accounts/step2.html',{'name':name})            
         except:
@@ -103,7 +88,7 @@ def step2(request):
     if request.method == "POST":
         try:
             cname=request.POST.get('cname')
-            print(cname)    
+            # print(cname)    
             request.session['cname'] = cname
             return render(request,'accounts/step3.html',{'name':request.session['name'],'cname':cname})    
         except:
@@ -114,7 +99,7 @@ def step3(request):
     if request.method == "POST":
         try:
             role=request.POST.get('inlineRadioOptions')
-            print(role)    
+            # print(role)    
             email = request.session['email']
             password = request.session['password']
             name = request.session['name']
@@ -134,4 +119,5 @@ def step3(request):
     return render(request,'accounts/step3.html')
 
 def logout(request):
+
     return render(request,'apliai/index.html')
