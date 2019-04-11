@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
 import firebase_admin
 from firebase_admin import credentials
@@ -33,7 +33,7 @@ def reachus(request):
                     u'company_name': company_name,
                     u'emp_num':emp_num
                 })
-            messages.success(request, 'Form submitted successfully, will contact you soon.')
+            messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request,'accounts/reachus.html')
@@ -46,9 +46,15 @@ def login(request):
             if(db.collection(u'users').document(email).get().exists):
                 # user exists
                 # print(email,password)
-                password_check = db.collection(u'users').document(email).get().to_dict()['password']
+                req = db.collection(u'users').document(email).get().to_dict()
+                password_check = req['password']
                 if(password == password_check):
-                    return render(request,'recruiter/dashboard.html',{'email':email,'name':db.collection(u'users').document(email).get().to_dict()['name'],'user_type':'Recruiter'})
+                    # session start
+                    request.session['name'] = req['name']
+                    request.session['email'] = email
+                    request.session['cname'] = req['company_name']
+                    request.session['user_type'] = 'Recruiter'                  
+                    return HttpResponseRedirect('/recruiter/dashboard')
                 else:
                     messages.error(request, 'Incorrect Password')
             else:
@@ -119,5 +125,5 @@ def step3(request):
     return render(request,'accounts/step3.html')
 
 def logout(request):
-
+    request.session.flush()
     return render(request,'apliai/index.html')

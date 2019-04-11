@@ -1,50 +1,91 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from datetime import datetime
+# Database init
+# Use a service account
+
+db = firestore.client()
 # Create your views here.
 
-def is_recruiter(self):
-    print('in')
-    if str(self.user_type) == 'Recruiter':
-        print('here')
-        return True
-    else:
-        return False
-rec_login_required = user_passes_test(lambda u: True if u.is_recruiter else False, login_url='/')
+# Custom decorator need to see later
+# def recruiter_login_required(function):
+#     def _function(request,*args, **kwargs):
+#         if request.session.get('user_type') == 'Recruiter':
+#             return HttpResponseRedirect('recruiter/jobs')
+#         else:
+#             return HttpResponseRedirect('/')
+#         return function(request, *args, **kwargs)
+#     return _function
 
-def recruiter_login_required(view_func):
-    decorated_view_func = login_required(rec_login_required(view_func), login_url='/')
-    return decorated_view_func
 
-@recruiter_login_required    
 def dashboard(request):
-    return render(request,'recruiter/dashboard.html')
+    try:
+        username = request.session['name']
+        email = request.session['email']
+        company_name = request.session['cname']
+        user_type = request.session['user_type']
+        print(username,email,company_name,user_type)
+        return render(request,'recruiter/dashboard.html',{'name':username})
+    except:
+        return HttpResponseRedirect('/')
+
 
 def jobs(request):
-    return render(request,'recruiter/jobs.html')
+    try:
+        if request.session['user_type'] == 'Recruiter':
 
-def postjob(request):
-    if request.method == "POST":
-        company_name = "Apli.ai"
-        post = request.POST.get('post')
-        job_description = request.POST.get('jobdesc')
-        tskill = request.POST.get('tskill')
-        sskill = request.POST.get('sskill')
-        other = request.POST.get('other')
-        bond = request.POST.get('bond')
-        salary = request.POST.get('salary')
-        add_detail = request.POST.get('adddetail')
-    print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail)
-    return render(request,"recruiter/jobs.html")
+            if request.method == "POST":
+                try:
+                    company_name = request.session['cname']
+                    post = request.POST.get('post')
+                    job_description = request.POST.get('jobdesc')
+                    tskill = request.POST.get('tskill').split()
+                    sskill = request.POST.get('sskill').split()
+                    other = request.POST.get('other').split()
+                    bond = request.POST.get('bond')
+                    salary = request.POST.get('salary')
+                    add_detail = request.POST.get('adddetail')
+                    status = 'Opened'
+                    jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime("%H:%M:%S")
+                    print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid)
+                    # doc_ref = db.collection(u'jobs').document(jobid)
+                    # doc_ref.set({
+                    #     u'post': post,
+                    #     u'job_description': job_description,
+                    #     u'tskill':tskill,
+                    #     u'sskill':sskill,
+                    #     u'other':other,
+                    #     u'bond':bond,
+                    #     u'salary':salary,
+                    #     u'add_detail':add_detail,
+                    #     u'status':status,
+                    #     u'email':request.session['email']
+                    # })            
+                    messages.success(request, 'Job posted successfully.')
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')    
+            return render(request,'recruiter/jobs.html')            
+
+    except:
+        return HttpResponseRedirect('/')
+
 
 def candidates(request):
     return render(request,'recruiter/candidates.html')
 
+
 def team(request):
     return render(request,'recruiter/team.html')
 
+
 def question(request):
     return render(request,'recruiter/question.html')
+
 
 def feedback(request):
     return render(request,'recruiter/feedback.html')

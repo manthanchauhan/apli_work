@@ -4,7 +4,13 @@
 {% load staticfiles%}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
-
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
@@ -43,7 +49,6 @@
             </div>
           </div>
         </div>
-
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
@@ -164,9 +169,10 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
 			</div> 
 			<div class="modal-body">
-        <form method="POST" action="postjob">
+        <form method="POST" action="jobs">
            {% csrf_token %}
         	<div id="wrapper4">
+
       			<div class="control-group">
 					    <label for="select-links4">Post:</label>
 					    <select name="post" id="select-links4" placeholder="Accountant..." required></select>
@@ -243,9 +249,9 @@
                   valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'HTML'},
-                    { title: 'CSS'},
-                    { title: 'Java'},
+                    { id:0,title: 'HTML'},
+                    { id:1,title: 'CSS'},
+                    { id:2,title: 'Java'},
                   ],
                   render: {
                     option: function(data, escape) {
