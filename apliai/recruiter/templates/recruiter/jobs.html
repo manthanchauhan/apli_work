@@ -412,6 +412,63 @@
 				
 			    </div>
 
+        	<div id="wrapper5">
+      			<div class="control-group">
+					    <label for="select-links5">Other:</label>
+					    <select name="place" id="select-links5" placeholder="Mumbai..."></select>
+				    </div>
+                <script>
+                $('#select-links5').selectize({
+                  plugins: ['remove_button'],
+                  theme: 'links',
+                  maxItems: 1,
+                  valueField: 'title',
+                  searchField: 'title',
+                  options: [
+                    { title: 'Mumbai'},
+                    { title: 'Pune'},
+                    { title: 'Banglore'},
+                  ],
+                  render: {
+                    option: function(data, escape) {
+                      return '<div class="option">' +
+                          '<span class="title">' + escape(data.title) + '</span>' 
+                        '</div>';
+                    },
+                    item: function(data, escape) {
+                      
+                      return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
+                    }
+                  },
+                  create: function(input) {
+                    return {
+                      title: input,
+                    };
+                  }
+                });
+
+                $('#select-links5').on('change', function(){
+                    var $wrapper = $('#wrapper5');
+                    
+                    // show current input values
+                    $('select.selectized,input.selectized', $wrapper).each(function() {
+                      
+                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $value = $('<span>').appendTo($container);
+                      var $input = $(this);
+                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+
+                      $(this).on('change', update);
+                      update();
+
+                      $container.insertAfter($input);
+                    });
+                });
+
+              </script>
+				
+			    </div>
+
           <div class="form-group">
             <label class="col-form-label">Deadline:</label>
             <input name="deadline" id="datefield" type='date' min='1899-01-01' required>

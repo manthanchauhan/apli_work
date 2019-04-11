@@ -50,14 +50,15 @@ def jobs(request):
                     bond = request.POST.get('bond')
                     salary = request.POST.get('salary')
                     add_detail = request.POST.get('adddetail')
-                    
+                    place = request.POST.get('place')                    
                     status = 'Opened'
                     jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid)
+                    # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place)
                     doc_ref = db.collection(u'jobs').document(jobid)
                     doc_ref.set({
                         u'post': post,
                         u'job_description': job_description,
+                        u'place':place,
                         u'tskill':tskill,
                         u'sskill':sskill,
                         u'other':other,
