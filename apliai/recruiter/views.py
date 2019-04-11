@@ -38,7 +38,7 @@ def dashboard(request):
 def jobs(request):
     try:
         if request.session['user_type'] == 'Recruiter':
-
+            # From post job form
             if request.method == "POST":
                 try:
                     company_name = request.session['cname']
@@ -71,7 +71,18 @@ def jobs(request):
                     messages.success(request, 'Job posted successfully.')
                 except:
                     messages.error(request, 'Something went wrong! Try Again Later.')    
-            return render(request,'recruiter/jobs.html')            
+            
+
+            # get user data
+            docs = db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()
+            jobs = []
+            for doc in docs:
+                # print(doc.to_dict())
+                jobs.append(doc.to_dict())
+            if not jobs:
+                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name']}) 
+            else:
+                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name']})              
 
     except:
         return HttpResponseRedirect('/')

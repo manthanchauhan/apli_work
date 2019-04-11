@@ -26,7 +26,7 @@
              </button>
              </div>
           </div>
-          <div class="col-xl-4 col-sm-6 mb-4">
+          {% comment %} <div class="col-xl-4 col-sm-6 mb-4">
             <div class="card text-white bg-success o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
@@ -48,118 +48,46 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Jobs Posted</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Post</th>
-                    <th>Description</th>
-                    <th>Place of Posting</th>
-                    <th>Salary (₹)</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-
-                  </tr> 
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                   
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>10,000</td>
-                    <td>Opened</td>
-                   
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>8000</td>
-                    <td>Closed</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>2000</td>
-                    <td>Closed</td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Accountant</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy </td>
-                    <td>Edinburgh</td>
-                    <td>5000</td>
-                    <td>Closed</td>
-                    
-                  </tr>
-
-                </tbody>
-              </table>
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Jobs Posted
             </div>
-          </div>
+            {% if new_user == 'False' %}
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Post</th>
+                        <th>Description</th>
+                        <th>Place of Posting</th>
+                        <th>Salary (₹)</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                              <tr>
+                                <td>{{job.post}}</td>
+                                <td>{{job.job_description}}</td>
+                                <td>{{job.place}}</td>
+                                <td>{{job.salary}}</td>
+                                <td>{{job.status}}</td>
+                              </tr>
+                        {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          {% else %}
+            <div class="card-body">
+              <h4> No Jobs Posted </h4>
+              <h5> Try out one by clicking Post Job Button ! </h5>
+            </div>
+          {% endif %}
 {% comment %} Post job Modal {% endcomment %}
 <div class="modal fade" id="PostJobModal">
 	<div class="modal-dialog">
@@ -414,8 +342,8 @@
 
         	<div id="wrapper5">
       			<div class="control-group">
-					    <label for="select-links5">Other:</label>
-					    <select name="place" id="select-links5" placeholder="Mumbai..."></select>
+					    <label for="select-links5">Place of Posting:</label>
+					    <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
 				    </div>
                 <script>
                 $('#select-links5').selectize({
