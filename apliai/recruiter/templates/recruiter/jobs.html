@@ -238,7 +238,7 @@
         	<div id="wrapper3">
       			<div class="control-group">
 					    <label for="select-links">Tech Skills:</label>
-					    <select name="tskill" id="select-links" placeholder="C.."></select>
+					    <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
 				    </div>
                 <script>
 
@@ -246,17 +246,17 @@
                   plugins: ['remove_button'],
                   theme: 'links',
                   maxItems: null,
-                  valueField: 'title',
+                  valueField:  'title',
                   searchField: 'title',
                   options: [
-                    { id:0,title: 'HTML'},
-                    { id:1,title: 'CSS'},
-                    { id:2,title: 'Java'},
+                    { title: 'HTML'},
+                    { title: 'CSS'},
+                    { title: 'Java'},
                   ],
                   render: {
                     option: function(data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">' + escape(data.title) + '</span>' 
+                          '<span class="title">'+escape(data.title) + '</span>' 
                         '</div>';
                     },
                     item: function(data, escape) {
@@ -265,6 +265,7 @@
                     }
                   },
                   create: function(input) {
+                    console.log(input);
                     return {
                       title: input,
                     };
@@ -277,9 +278,11 @@
                     // show current input values
                     $('select.selectized,input.selectized', $wrapper).each(function() {
                       
-                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                      var $container = $('<div hidden >').addClass('value').html('Current Value: ');
                       var $value = $('<span>').appendTo($container);
                       var $input = $(this);
+                      console.log('op');
+                      console.log($input);
                       var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
 
                       $(this).on('change', update);
