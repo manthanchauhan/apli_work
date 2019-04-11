@@ -5,11 +5,12 @@ A Website to make hiring easy.
 
 1. Python3
 2. git clone https://gitlab.com/apliai.iitb/website.git
-3. cd Apli.ai
+3. cd website
 4. source env/bin/activate
 5. pip install -r requirements.txt --ignore-installed
 6. cd apliai
-7. python manage.py runserver
+7. Create a Firebase service account with db on cloudfirestore save the generated jsonkey as serviceAccountKey.json in this folder
+8. python manage.py runserver
 
 # Structure
 
