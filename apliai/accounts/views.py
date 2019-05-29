@@ -4,6 +4,8 @@ from django.contrib import messages
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from django.conf import settings
+from . import email
 # Database init
 # Use a service account
 cred = credentials.Certificate('./serviceAccountKey.json')
@@ -33,6 +35,9 @@ def reachus(request):
                     u'company_name': company_name,
                     u'emp_num':emp_num
                 })
+            email_from = settings.EMAIL_HOST_USER
+            company_mail = request.POST.get('company_email')
+            email.mail(email_from,company_mail)
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')

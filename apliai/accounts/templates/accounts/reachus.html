@@ -52,13 +52,13 @@
                         <input type="tel" name="emp_num" id="emp_num" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" autofocus>
                         <label for="emp_num">Phone Number</label>
                     </div>
-
                     <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send</button>
                 </form>
+                
                 <hr>
                 <label for="login">Have Credentials ?</label>
                 <div class="form-label-group">
-                    <a href="{% url 'login'  %}" ><button class="btn btn-lg btn-primary btn-block text-uppercase rou" >Login</button></a>
+                    <a href="{% url 'accounts:login'  %}" ><button class="btn btn-lg btn-primary btn-block text-uppercase rou" >Login</button></a>
                 </div>                                                
             </div>
             </div>
