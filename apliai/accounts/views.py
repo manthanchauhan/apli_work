@@ -36,8 +36,8 @@ def reachus(request):
                     u'emp_num':emp_num
                 })
             email_from = settings.EMAIL_HOST_USER
-            company_mail = request.POST.get('company_email')
-            email.mail(email_from,company_mail)
+            email.mail(email_from,company_email)
+            email.mail2(company_name,company_email,emp_name,str(emp_num))
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
@@ -122,8 +122,8 @@ def step3(request):
                 u'password':password,
                 u'role':role
             })
-            messages.success(request, 'Signup completed successfully.')            
-
+            messages.success(request, 'Signup completed successfully.')
+            email.mail3(email)
             return render(request,'accounts/login.html')    
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
