@@ -80,39 +80,39 @@ def jobs(request):
                 # print(doc.to_dict())
                 jobs.append(doc.to_dict())
             if not jobs:
-                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name']}) 
+                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name'],'jc':0}) 
             else:
-                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name']})              
+                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name'],'jc':len(jobs)})              
 
     except:
         return HttpResponseRedirect('/')
 
 
 def candidates(request):
-    # try:
-    if request.session['user_type'] == 'Recruiter':            
-        # get jobs data
-        docs = db.collection(u'candidates').where(u'company_name',u'==',request.session['cname']).get()
-        jobs_posted = len(list(db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()))
-        applicants = []
-        custom_dict = {}
-        for doc in docs:
-            custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
-            custom_dict['company_name'] = doc.to_dict()['company_name']
-            custom_dict['resume'] = doc.to_dict()['resume']
-            custom_dict['video_resume'] = doc.to_dict()['video_resume']
-            custom_dict['grade'] = doc.to_dict()['grade']
-            custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['place']
-            custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['post']            
-            # print(custom_dict)
-            applicants.append(custom_dict)
-        if not applicants:
-            return render(request,'recruiter/candidates.html',{'new_user':'True','name':request.session['name'],'appcount':0,'jobs_posted':0,}) 
-        else:
-            return render(request,'recruiter/candidates.html',{'new_user':'False','applicants':applicants,'name':request.session['name'],'appcount':len(applicants),'jobs_posted':jobs_posted})              
+    try:
+        if request.session['user_type'] == 'Recruiter':            
+            # get jobs data
+            docs = db.collection(u'candidates').where(u'company_name',u'==',request.session['cname']).get()
+            jobs_posted = len(list(db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()))
+            applicants = []
+            custom_dict = {}
+            for doc in docs:
+                custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
+                custom_dict['company_name'] = doc.to_dict()['company_name']
+                custom_dict['resume'] = doc.to_dict()['resume']
+                custom_dict['video_resume'] = doc.to_dict()['video_resume']
+                custom_dict['grade'] = doc.to_dict()['grade']
+                custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['place']
+                custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['post']            
+                # print(custom_dict)
+                applicants.append(custom_dict)
+            if not applicants:
+                return render(request,'recruiter/candidates.html',{'new_user':'True','name':request.session['name'],'appcount':0,'jobs_posted':0,}) 
+            else:
+                return render(request,'recruiter/candidates.html',{'new_user':'False','applicants':applicants,'name':request.session['name'],'appcount':len(applicants),'jobs_posted':jobs_posted})              
 
-    # except:
-    #     return HttpResponseRedirect('/')
+    except:
+        return HttpResponseRedirect('/')
 
 
 def team(request):

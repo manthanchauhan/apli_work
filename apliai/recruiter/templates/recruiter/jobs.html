@@ -14,11 +14,11 @@
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="ch card text-white bg-primary o-hidden h-100">
+            <div class="ch card text-white pjob o-hidden h-100">
               <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
                 <div class="card-body">
                     <div class="card-body-icon">
-                    <i class="fas fa-fw fa-tasks"></i>
+                    <i class="fas fa-file-signature"></i>
                     </div>
                     <h3>Post Job</h3>
                 </div>
@@ -26,29 +26,29 @@
              </button>
              </div>
           </div>
-          {% comment %} <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-success o-hidden h-100">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="fas fa-users"></i>
+                 <i class="fas fa-file-contract"></i>
                 </div>
-                <h3>Jobs Opened</h3>
-                <div class="mr-5">25</div>
+                <h3>Jobs Posted</h3>
+                <div class="mr-5">{{ jc }}</div>
               </div>
             </div>
           </div>
           <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="far fa-thumbs-up"></i>
+                  <i class="fas fa-fw fa-tasks"></i>
                 </div>
-                <h3>Jobs Closed</h3>
-                <div class="mr-5">5</div>
+                <h3>Jobs Opened | Closed | Draft</h3>
+                <div class="mr-5">&nbsp;&nbsp;0&nbsp; |&nbsp;&nbsp; 0&nbsp; |&nbsp;&nbsp; 0</div>
               </div>
             </div>
           </div>
-        </div> {% endcomment %}
+        </div>
         <!-- DataTables Example -->
         <div class="card mb-3">
             <div class="card-header">
@@ -84,17 +84,17 @@
               </div>
           {% else %}
             <div class="card-body">
-              <h4> No Jobs Posted </h4>
-              <h5> Try out one by clicking Post Job Button ! </h5>
+              <h3> No Jobs Posted &#128542;</h3>
+              <h5> Try out one by clicking Post Job Button above! &#128522;</h5>
             </div>
           {% endif %}
     
 {% comment %} Post job Modal {% endcomment %}
 <div class="modal fade" id="PostJobModal">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Post a Job | Apli.ai</h4>
+				<h4 class="modal-title"><b>Post a Job</b></h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
 			</div> 
 			<div class="modal-body">
@@ -103,7 +103,7 @@
         	<div id="wrapper4">
 
       			<div class="control-group">
-					    <label for="select-links4">Post:</label>
+					    <label for="select-links4"><b>Post:</b></label>
 					    <select name="post" id="select-links4" placeholder="Accountant..." required></select>
 				    </div>
                 <script>
@@ -160,13 +160,18 @@
 			    </div>
           
           <div class="form-group">
-            <label class="col-form-label">Job Description:</label>
-            <textarea name="jobdesc" class="form-control" id="description" required></textarea>
+            <label class="col-form-label"><b>Job Description:</b></label>
+            <textarea name="jobdesc" class="form-control" id="description" maxlength="500" placeholder="max 500 characters allowed" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label"><b>Key Responsibilities:</b></label>
+            <textarea name="keyresp" class="form-control" id="keyresp" maxlength="500" placeholder="max 500 characters allowed" required></textarea>
           </div>
 
         	<div id="wrapper3">
       			<div class="control-group">
-					    <label for="select-links">Tech Skills:</label>
+					    <label for="select-links"><b>Tech Skills:</b></label>
 					    <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
 				    </div>
                 <script>
@@ -227,7 +232,7 @@
 
         	<div id="wrapper1">
       			<div class="control-group">
-					    <label for="select-links1">Soft Skills:</label>
+					    <label for="select-links1"><b>Soft Skills:</b></label>
 					    <select name="sskill" id="select-links1" placeholder="CS..."></select>
 				    </div>
                 <script>
@@ -285,7 +290,7 @@
 
         	<div id="wrapper2">
       			<div class="control-group">
-					    <label for="select-links2">Other:</label>
+					    <label for="select-links2"><b>Other:</b></label>
 					    <select name="other" id="select-links2" placeholder="Sports..."></select>
 				    </div>
                 <script>
@@ -343,7 +348,7 @@
 
         	<div id="wrapper5">
       			<div class="control-group">
-					    <label for="select-links5">Place of Posting:</label>
+					    <label for="select-links5"><b>Place of Posting:</b></label>
 					    <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
 				    </div>
                 <script>
@@ -397,14 +402,17 @@
               </script>
 				
 			    </div>
-
-          <div class="form-group">
-            <label class="col-form-label">Deadline:</label>
+          
+          <div class="form-inline">
+            <label class="col-form-label"><b>Joining Date :</b>&nbsp;</label>
+            <input name="startdate" id="datefield1" type='date' min='1899-01-01' required>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="col-form-label"><b>Apply By :</b>&nbsp;</label>
             <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
           </div>
 
           <div class="form-group">
-            <label class="col-form-label">Bond:</label>
+            <label class="col-form-label"><b>Bond:</b></label>
             <select name="bond" class="form-control" id="bond">
               <option value="0">No Bond</option>
               <option value="1">Bond</option>
@@ -412,13 +420,13 @@
           </div>
           
           <div class="form-group">
-            <label class="col-form-label">Salary:</label>
-            <input name="salary" type="number" class="form-control" id="salary" required>
+            <label class="col-form-label"><b>Salary:</b></label>
+            <input name="salary" type="number" class="form-control" id="salary" placeholder="(in Rupees)" required>
           </div>
           
           <div class="form-group">
-            <label class="col-form-label">Additional Details:</label>
-            <textarea name="adddetail" class="form-control" id="adddetail" ></textarea>
+            <label class="col-form-label"><b>Additional Details:</b></label>
+            <textarea name="adddetail" class="form-control" id="adddetail" placeholder="max 500 characters" maxlength=500></textarea>
           </div>
         
 			
@@ -447,6 +455,6 @@ var yyyy = today.getFullYear();
 
 today = yyyy+'-'+mm+'-'+dd;
 document.getElementById("datefield").setAttribute("min", today);
-
+document.getElementById("datefield1").setAttribute("min", today);
 </script>
 {% endblock content %}
