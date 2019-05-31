@@ -95,7 +95,10 @@ def jobs(request):
                     doc.to_dict()['status'] = 'Closed'
                 else:
                     open_count+=1
-            jobs.append(doc.to_dict())
+            temp = doc.to_dict()
+            temp.update({'id':doc.id})
+            #print(temp['id'])
+            jobs.append(temp)
 
         close_count = len(jobs) - open_count
         if not jobs:

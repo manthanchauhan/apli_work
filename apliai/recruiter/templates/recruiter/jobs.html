@@ -66,6 +66,7 @@
                         <th>Place of Posting</th>
                         <th>Salary (₹)</th>
                         <th>Status</th>
+                        <th>Access</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -77,6 +78,7 @@
                                   <td>{{job.place}}</td>
                                   <td>{{job.salary}}</td>
                                   <td>{{job.status}}</td>
+                                  <td><a href="{{job.id}}">View</a></td>                            
                                 </tr>
                               {% else %}
                                 <tr class="error">
@@ -85,6 +87,7 @@
                                   <td>{{job.place}}</td>
                                   <td>{{job.salary}}</td>
                                   <td>{{job.status}}</td>
+                                  <td><a href="{{job.id}}">View</a></td>
                                 </tr>
                               {% endif %}
                         {% endfor %} 
