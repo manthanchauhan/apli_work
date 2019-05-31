@@ -10770,7 +10770,7 @@
 
   }
   .success {
-    color: #4F8A10;
+    color: #000;
     background-color: #DFF2BF;
 
   }
@@ -10780,7 +10780,7 @@
 
   }
   .error{
-    color: #D8000C;
+    color: #000;
     background-color: #FFBABA;
 
   }

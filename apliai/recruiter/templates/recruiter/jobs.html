@@ -43,8 +43,8 @@
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-tasks"></i>
                 </div>
-                <h3>Jobs Opened | Closed | Draft</h3>
-                <div class="mr-5">&nbsp;&nbsp;0&nbsp; |&nbsp;&nbsp; 0&nbsp; |&nbsp;&nbsp; 0</div>
+                <h3>Jobs Opened | Closed </h3>
+                <div class="mr-5">&nbsp;&nbsp;{{oc}}&nbsp; |&nbsp;&nbsp;{{cc}}</div>
               </div>
             </div>
           </div>
@@ -70,13 +70,23 @@
                     </thead>
                     <tbody>
                         {% for job in jobs %}
-                              <tr>
-                                <td>{{job.post}}</td>
-                                <td>{{job.job_description}}</td>
-                                <td>{{job.place}}</td>
-                                <td>{{job.salary}}</td>
-                                <td>{{job.status}}</td>
-                              </tr>
+                              {% if job.status == 'Opened' %}
+                                <tr class="success">
+                                  <td>{{job.post}}</td>
+                                  <td>{{job.job_description}}</td>
+                                  <td>{{job.place}}</td>
+                                  <td>{{job.salary}}</td>
+                                  <td>{{job.status}}</td>
+                                </tr>
+                              {% else %}
+                                <tr class="error">
+                                  <td>{{job.post}}</td>
+                                  <td>{{job.job_description}}</td>
+                                  <td>{{job.place}}</td>
+                                  <td>{{job.salary}}</td>
+                                  <td>{{job.status}}</td>
+                                </tr>
+                              {% endif %}
                         {% endfor %} 
                     </tbody>
                   </table>
