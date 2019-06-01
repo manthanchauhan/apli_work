@@ -6,5 +6,6 @@ urlpatterns = [
     path('candidates', views.candidates , name="candidates"),
     path('team', views.team , name="team"),
     path('feedback', views.feedback , name="feedback"),
-    path('question', views.question , name="question"),        
+    path('question', views.question , name="question"),
+
 ]

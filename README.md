@@ -24,7 +24,7 @@ A Website to make hiring easy.
 <h3> Frontend </h4>
 1. simplify templates to base,header,footer ie django style <br>
 2. improve pages,styling and basic codes.<br>
-3. Home page redesign as per need.
+3. Home page redesign as per need
 
 <h3> Backend </h3>
 
