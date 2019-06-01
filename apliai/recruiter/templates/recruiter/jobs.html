@@ -451,7 +451,7 @@
       </div>   
 			<div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Post Job</button>      
+        <button type="submit" class="btn btn-success" id="submit">Post Job</button>      
         </form>                       
 			</div>
 		</div>                                                                       
@@ -459,6 +459,11 @@
 </div>
 
 <script>
+//refresh logic
+
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 // For latest date
 var today = new Date();
 var dd = today.getDate();
