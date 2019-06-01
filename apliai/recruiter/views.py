@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 import firebase_admin
@@ -36,79 +36,98 @@ def dashboard(request):
 
 
 def jobs(request):
-    # try:
-    if request.session['user_type'] == 'Recruiter':
-        # From post job form
-        if request.method == "POST":
-            try:
-                company_name = request.session['cname']
-                post = request.POST.get('post')
-                job_description = request.POST.get('jobdesc')
-                key_responsibility = request.POST.get('keyresp')
-                tskill = request.POST.getlist('tskill')
-                sskill = request.POST.getlist('sskill')
-                other = request.POST.getlist('other')
-                bond = request.POST.get('bond')
-                salary = request.POST.get('salary')
-                add_detail = request.POST.get('adddetail')
-                place = request.POST.get('place')
-                joining_date = request.POST.get('startdate')
-                deadline = request.POST.get('deadline')                    
-                status = 'Opened'
-                jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                #print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
-                doc_ref = db.collection(u'jobs').document(jobid)
-                doc_ref.set({
-                    u'post': post,
-                    u'job_description': job_description,
-                    u'key_responsibility':key_responsibility,
-                    u'place':place,
-                    u'tskill':tskill,
-                    u'sskill':sskill,
-                    u'other':other,
-                    u'start_date':joining_date,
-                    u'deadline':deadline,
-                    u'bond':bond,
-                    u'salary':salary,
-                    u'add_detail':add_detail,
-                    u'status':status,
-                    u'email':request.session['email']
-                })            
-                messages.success(request, 'Job posted successfully.')
-            except:
-                messages.error(request, 'Something went wrong! Try Again Later.')    
-        
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    company_name = request.session['cname']
+                    post = request.POST.get('post')
+                    job_description = request.POST.get('jobdesc')
+                    key_responsibility = request.POST.get('keyresp')
+                    tskill = request.POST.getlist('tskill')
+                    sskill = request.POST.getlist('sskill')
+                    other = request.POST.getlist('other')
+                    bond = request.POST.get('bond')
+                    salary = request.POST.get('salary')
+                    add_detail = request.POST.get('adddetail')
+                    place = request.POST.get('place')
+                    joining_date = request.POST.get('startdate')
+                    deadline = request.POST.get('deadline')                    
+                    status = 'Opened'
+                    jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    #print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
+                    doc_ref = db.collection(u'jobs').document(jobid)
+                    doc_ref.set({
+                        u'post': post,
+                        u'job_description': job_description,
+                        u'key_responsibility':key_responsibility,
+                        u'place':place,
+                        u'tskill':tskill,
+                        u'sskill':sskill,
+                        u'other':other,
+                        u'start_date':joining_date,
+                        u'deadline':deadline,
+                        u'bond':bond,
+                        u'salary':salary,
+                        u'add_detail':add_detail,
+                        u'status':status,
+                        u'email':request.session['email']
+                    })            
+                    messages.success(request, 'Job posted successfully.')
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')    
+            
 
-        # get jobs data
-        docs = db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()
-        jobs = []
-        open_count = 0
-        close_count = 0
-        for doc in docs:
-            #print(doc.to_dict())
-            #print(doc.id)
-            stat = doc.to_dict()['status']
-            deadline = doc.to_dict()['deadline']
-            if stat == 'Opened':
-                if datetime.strptime(deadline,'%Y-%m-%d') < datetime.today():
-                    db.collection(u'jobs').document(doc.id).set({u'status':'Closed'},merge=True)
-                    doc.to_dict()['status'] = 'Closed'
-                else:
-                    open_count+=1
-            temp = doc.to_dict()
-            temp.update({'id':doc.id})
-            #print(temp['id'])
-            jobs.append(temp)
+            # get jobs data
+            docs = db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()
+            jobs = []
+            open_count = 0
+            close_count = 0
+            for doc in docs:
+                #print(doc.to_dict())
+                #print(doc.id)
+                stat = doc.to_dict()['status']
+                deadline = doc.to_dict()['deadline']
+                if stat == 'Opened':
+                    if datetime.strptime(deadline,'%Y-%m-%d') < datetime.today():
+                        db.collection(u'jobs').document(doc.id).set({u'status':'Closed'},merge=True)
+                        doc.to_dict()['status'] = 'Closed'
+                    else:
+                        open_count+=1
+                temp = doc.to_dict()
+                temp.update({'id':doc.id})
+                #print(temp['id'])
+                jobs.append(temp)
 
-        close_count = len(jobs) - open_count
-        if not jobs:
-            return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name'],'jc':0}) 
-        else:
-            return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name'],'jc':len(jobs),'oc':open_count,'cc':close_count})              
+            close_count = len(jobs) - open_count
+            if not jobs:
+                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name'],'jc':0}) 
+            else:
+                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name'],'jc':len(jobs),'oc':open_count,'cc':close_count})              
 
-    # except:
-    #     return HttpResponseRedirect('/')
+    except:
+        return HttpResponseRedirect('/')
 
+def deletepost(request):
+    try:
+
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    id = request.POST.get('id')
+                    db.collection(u'jobs').document(id).delete()
+                    messages.success(request, 'Post deleted successfully.')
+                    return JsonResponse({"success":"true"})
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')
+                    return JsonResponse({"success":"false"})
+    
+    except:
+        return HttpResponseRedirect('/')
+
+                        
 
 def candidates(request):
     try:
