@@ -78,7 +78,8 @@
                                   <td>{{job.place}}</td>
                                   <td>{{job.salary}}</td>
                                   <td>{{job.status}}</td>
-                                  <td><a href="{{job.id}}">View</a></td>                            
+                                  {% comment %} <td><a onClick="view('{{job.id}}')" href="#">View</a></td>  {% endcomment %}
+                                  <td><button type="button" class="bt-none1" data-target="#ViewJobModal" data-toggle="modal" onClick="view('{{job.id}}')">View</td>
                                 </tr>
                               {% else %}
                                 <tr class="error">
@@ -87,7 +88,8 @@
                                   <td>{{job.place}}</td>
                                   <td>{{job.salary}}</td>
                                   <td>{{job.status}}</td>
-                                  <td><a href="{{job.id}}">View</a></td>
+                                  {% comment %} <td><a onClick="view('{{job.id}}')" href="#">View</a></td> {% endcomment %}
+                                  <td><button type="button" class="bt-none1" data-target="#ViewJobModal" data-toggle="modal" onClick="view('{{job.id}}')">View</td>                                  
                                 </tr>
                               {% endif %}
                         {% endfor %} 
@@ -469,5 +471,115 @@ var yyyy = today.getFullYear();
 today = yyyy+'-'+mm+'-'+dd;
 document.getElementById("datefield").setAttribute("min", today);
 document.getElementById("datefield1").setAttribute("min", today);
+</script>
+
+<div class="modal fade" id="ViewJobModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title"><b>Post</b></h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>      
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                
+                <form  role="form">
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Post:</b></label>
+                    <input name="post1" type="text" class="form-control" id="post1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Job Description:</b></label>
+                    <textarea name="desc1" class="form-control" id="desc1"  maxlength=500 readonly></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Key Responsibilities:</b></label>
+                    <textarea name="keyresp1" class="form-control" id="keyresp1"  maxlength=500 readonly></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Tech Skills:</b></label>
+                    <input name="tech1" type="text" class="form-control" id="tech1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Soft Skills:</b></label>
+                    <input name="ss1" type="text" class="form-control" id="ss1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Other:</b></label>
+                    <input name="oth1" type="text" class="form-control" id="oth1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Place of Posting:</b></label>
+                    <input name="place1" type="text" class="form-control" id="place1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Joining Date:</b></label>
+                    <input name="jd1" type="text" class="form-control" id="jd1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Apply By:</b></label>
+                    <input name="dd1" type="text" class="form-control" id="dd1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Bond:</b></label>
+                    <input name="bond1" type="text" class="form-control" id="bond1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Salary:</b></label>
+                    <input name="sal1" type="text" class="form-control" id="sal1" readonly>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-form-label"><b>Additional Details:</b></label>
+                    <textarea name="add1" class="form-control" id="add1"  maxlength=500 readonly></textarea>
+                  </div>
+                </form>
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function view(j_id){
+  {% for job in jobs %}
+      if(j_id == '{{job.id}}'){
+        document.getElementById("post1").value = '{{job.post}}';
+        document.getElementById("desc1").value = '{{job.job_description}}';
+        document.getElementById("keyresp1").value = '{{job.key_responsibility}}';        
+        document.getElementById("tech1").value = '{{job.tskill}}';
+        document.getElementById("ss1").value = '{{job.sskill}}';
+        document.getElementById("oth1").value = '{{job.other}}';
+        document.getElementById("place1").value = '{{job.place}}';
+        document.getElementById("jd1").value = '{{job.start_date}}';
+        document.getElementById("dd1").value = '{{job.deadline}}';
+        document.getElementById("bond1").value = '{{job.bond}}';
+        document.getElementById("sal1").value = '{{job.salary}}';
+        document.getElementById("add1").value = '{{job.add_detail}}';                
+      }
+  {% endfor %}
+}
 </script>
 {% endblock content %}

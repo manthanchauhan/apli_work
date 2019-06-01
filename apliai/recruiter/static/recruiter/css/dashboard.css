@@ -10726,7 +10726,12 @@
     outline:inherit !important;
     color: white !important;
   }
-
+  .bt-none1{
+    background:none !important;
+    border:none !important;
+    outline:inherit !important;
+    color: blue !important;
+  }
   .pjob{
     /* background: linear-gradient(to right, #23074d, #cc5333) !important; */
     background-color: rgb(4, 63, 122) !important;
