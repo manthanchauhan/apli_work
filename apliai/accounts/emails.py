@@ -223,8 +223,8 @@ table[class=hide], img[class=hide], td[class=hide] {
                 
                 <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0; border-left:1px solid #e8e7e5; border-right:1px solid #e8e7e5; border-bottom:1px solid #e8e7e5; border-top:1px solid #e8e7e5" bgcolor="#FFFFFF">
                   <tr>
-                    <td align="left" style="padding:50px 50px 50px 50px"><p style="color:#262626; font-size:24px; text-align:left; font-family: Verdana, Geneva, sans-serif"><strong>Thank You,</strong>,</p>
-                      <p style="color:#000000; font-size:16px; text-align:left; font-family: Verdana, Geneva, sans-serif; line-height:22px ">Our Team will respond back to you in 24 hours. Thank You for reaching out to us. <br />
+                    <td align="left" style="padding:50px 50px 50px 50px"><p style="color:#262626; font-size:24px; text-align:left; font-family: Verdana, Geneva, sans-serif"><strong>Thank You</strong> &#128522;,</p>
+                      <p style="color:#000000; font-size:16px; text-align:left; font-family: Verdana, Geneva, sans-serif; line-height:22px ">Thanks for contacting us!.<br/> We will be in touch with you shortly.<br />
                         <br />
                         <br />
                       </p>
@@ -276,9 +276,7 @@ table[class=hide], img[class=hide], td[class=hide] {
                                 <tr>
                                   <td width="32%" align="center" valign="top" style="padding-top:10px"><table width="150" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
-                                      <td width="33" align="center"><a href="#" target="_blank"><img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/87d1ec7d-041a-4cd2-99c4-6e76b358e9d6.jpg" alt="facebook" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"/></a></td>
-                                      <td width="34" align="center"><a href="#" target="_blank"><img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/036c2fa3-4460-4a3f-ac1e-d3ebc24f3b71.jpg" alt="twitter" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"/></a></td>
-                                      <td width="33" align="center"><a href="#" target="_blank"><img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/8eaae33a-c54c-4537-9823-1bc52d85b3f8.jpg" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"/></a></td>
+                                      <td width="33" align="center"><a href="https://www.linkedin.com/company/apli-ai/about/" target="_blank"><img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/8eaae33a-c54c-4537-9823-1bc52d85b3f8.jpg" alt="linkedin" width="36" height="36" border="0" style="border-width:0; max-width:36px;height:auto; display:block; max-height:36px"/></a></td>
                                     </tr>
                                   </table></td>
                                 </tr>
@@ -306,15 +304,16 @@ table[class=hide], img[class=hide], td[class=hide] {
     send_mail(subject, message,s, recipient_list,fail_silently=False,html_message=html_message)
 
 def mail2(cn,ce,en,eno):
-    subject = 'Reagarding Contacting the Company'
-    message="Company Name: "+" "+cn+"\n"+"CompanyEmail: "+" "+ce+"\n"+"Employee Name: "+" "+en+"Employee Number: "+ " "+eno
+    subject = 'Contacted Company via Website'
+    message="Company Name: "+" "+cn+"\n"+"CompanyEmail: "+" "+ce+"\n"+"Employee Name: "+" "+en+"\nEmployee Number: "+ " "+eno
     recipient_list = ['aplidotaiintern@gmail.com',]
     send_mail(subject, message,'aplidotaiintern@gmail.com', recipient_list,fail_silently=False,)
+
 def mail3(r):
-    subject = 'Thank You For Registering With Us'
+    subject = 'Welcome to Apli.ai'
     message=""
     html_message = """
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -459,6 +458,13 @@ table[class=hide], img[class=hide], td[class=hide] {
 .contents1 {
 	width: 100%;
 }
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 20px
+  width: 20px;
+}
 </style>
 <!--[if (gte mso 9)|(IE)]>
 	<style type="text/css">
@@ -495,7 +501,7 @@ table[class=hide], img[class=hide], td[class=hide] {
                                               <div class="column" style="width:100%;max-width:80px;display:inline-block;vertical-align:top;">
                                                 <table class="contents" style="border-spacing:0; width:100%"  >
                                                   <tr>
-                                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:5px;" align="left"><a href="#" target="_blank"><img src="https://apli-ai.herokuapp.com/static/apliai/img/apli-blue.png" alt="" width="60" height="60" style="border-width:0; max-width:60px;height:auto; display:block" align="left"/></a></td>
+                                                    <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:5px;" align="left"><a href="https://apli-ai.herokuapp.com/" target="_blank"><img src="https://apli-ai.herokuapp.com/static/apliai/img/apli-blue.png" alt="" width="60" height="60" style="border-width:0; max-width:60px;height:auto; display:block" align="left"/></a></td>
                                                   </tr>
                                                 </table>
                                               </div>
@@ -534,8 +540,8 @@ table[class=hide], img[class=hide], td[class=hide] {
                 
                 <table class="one-column" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0; border-left:1px solid #e8e7e5; border-right:1px solid #e8e7e5; border-bottom:1px solid #e8e7e5; border-top:1px solid #e8e7e5" bgcolor="#FFFFFF">
                   <tr>
-                    <td align="left" style="padding:50px 50px 50px 50px"><p style="color:#262626; font-size:24px; text-align:left; font-family: Verdana, Geneva, sans-serif"><strong>Thank You,</strong>,</p>
-                      <p style="color:#000000; font-size:16px; text-align:left; font-family: Verdana, Geneva, sans-serif; line-height:22px ">You have been successfullly registered with Apli.ai.Hope to get you best recruitments.  <br />
+                    <td align="left" style="padding:50px 50px 50px 50px"><p style="color:#262626; font-size:24px; text-align:left; font-family: Verdana, Geneva, sans-serif"><strong>Registration Complete</strong><img src="https://png.pngtree.com/element_our/sm/20180515/sm_5afb099d307d3.jpg" alt="Paris" class="center" align="middle" height=100 width=100></p>
+                      <p style="color:#000000; font-size:16px; text-align:left; font-family: Verdana, Geneva, sans-serif; line-height:22px "><b>Welcome to Apli.ai! We are glad to have you here with us!</b><br>You can start recruiting by using our recruitment platform. Please, proceed to the login page<br />
                         <br />
                         <br />
                       </p>
@@ -544,7 +550,7 @@ table[class=hide], img[class=hide], td[class=hide] {
                           <tr>
                             <td align="center"><table border="0" cellpadding="0" cellspacing="0" style="Margin:0 auto;">
                                 <tr>
-                                  <td width="250" height="60" align="center" bgcolor="#752873" style="-moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px;"><a href="https://apli-ai.herokuapp.com" style="width:250; display:block; text-decoration:none; border:0; text-align:center; font-weight:bold;font-size:18px; font-family: Arial, sans-serif; color: #ffffff" class="button_link">Back to Apli.Ai<img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/ac08f159-2260-46e0-a7f0-d196c81eb6cc.jpg" width="32" height="17" style="padding-top:5px" alt="" border="0"/></a></td>
+                                  <td width="250" height="60" align="center" bgcolor="#752873" style="-moz-border-radius: 30px; -webkit-border-radius: 30px; border-radius: 30px;"><a href="https://apli-ai.herokuapp.com/accounts/login" style="width:250; display:block; text-decoration:none; border:0; text-align:center; font-weight:bold;font-size:18px; font-family: Arial, sans-serif; color: #ffffff" class="button_link">Log Me In<img src="https://gallery.mailchimp.com/fdcaf86ecc5056741eb5cbc18/images/ac08f159-2260-46e0-a7f0-d196c81eb6cc.jpg" width="32" height="17" style="padding-top:5px" alt="" border="0"/></a></td>
                                 </tr>
                               </table></td>
                           </tr>
@@ -574,7 +580,7 @@ table[class=hide], img[class=hide], td[class=hide] {
                         <table class="contents" style="border-spacing:0; width:100%">
                           <tr>
                             <td width="39%" align="right" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"><a href="#" target="_blank"><img src="https://apli-ai.herokuapp.com/static/apliai/img/apli-blue.png" alt="" width="59" height="59" style="border-width:0; max-width:59px;height:auto; display:block; padding-right:20px" /></a></td>
-                            <td width="61%" align="left" valign="middle" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"><p style="color:#787777; font-size:13px; text-align:left; font-family: Verdana, Geneva, sans-serif"> Apli.ai &copy; 2018<br />
+                            <td width="61%" align="left" valign="middle" style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;"><p style="color:#787777; font-size:13px; text-align:left; font-family: Verdana, Geneva, sans-serif"> Apli.ai &copy; 2019<br />
                                 </p></td>
                           </tr>
                         </table>
