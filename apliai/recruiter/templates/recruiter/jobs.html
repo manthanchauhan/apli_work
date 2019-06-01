@@ -4,110 +4,111 @@
 {% load staticfiles%}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        <!-- Icon Cards-->
-        <div class="row">
-          <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="ch card text-white bg-primary o-hidden h-100">
-              <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
-                <div class="card-body">
-                    <div class="card-body-icon">
-                    <i class="fas fa-fw fa-tasks"></i>
-                    </div>
-                    <h3>Post Job</h3>
-                </div>
-                
-             </button>
-             </div>
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+<!-- Icon Cards-->
+<div class="row">
+  <div class="col-xl-4 col-sm-6 mb-4">
+    <div class="ch card text-white bg-primary o-hidden h-100">
+      <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
+        <div class="card-body">
+          <div class="card-body-icon">
+            <i class="fas fa-fw fa-tasks"></i>
           </div>
-          {% comment %} <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-users"></i>
-                </div>
-                <h3>Jobs Opened</h3>
-                <div class="mr-5">25</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="far fa-thumbs-up"></i>
-                </div>
-                <h3>Jobs Closed</h3>
-                <div class="mr-5">5</div>
-              </div>
-            </div>
-          </div>
-        </div> {% endcomment %}
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-table"></i>
-              Jobs Posted
-            </div>
-            {% if new_user == 'False' %}
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>Post</th>
-                        <th>Description</th>
-                        <th>Place of Posting</th>
-                        <th>Salary (₹)</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for job in jobs %}
-                              <tr>
-                                <td>{{job.post}}</td>
-                                <td>{{job.job_description}}</td>
-                                <td>{{job.place}}</td>
-                                <td>{{job.salary}}</td>
-                                <td>{{job.status}}</td>
-                              </tr>
-                        {% endfor %} 
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-          {% else %}
-            <div class="card-body">
-              <h4> No Jobs Posted </h4>
-              <h5> Try out one by clicking Post Job Button ! </h5>
-            </div>
-          {% endif %}
-    
-{% comment %} Post job Modal {% endcomment %}
-<div class="modal fade" id="PostJobModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Post a Job | Apli.ai</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
-			</div> 
-			<div class="modal-body">
-        <form method="POST" action="jobs">
-           {% csrf_token %}
-        	<div id="wrapper4">
+          <h3>Post Job</h3>
+        </div>
 
-      			<div class="control-group">
-					    <label for="select-links4">Post:</label>
-					    <select name="post" id="select-links4" placeholder="Accountant..." required></select>
-				    </div>
-                <script>
-               
+      </button>
+    </div>
+  </div>
+  {% comment %}
+  <div class="col-xl-4 col-sm-6 mb-4">
+    <div class="card text-white bg-success o-hidden h-100">
+      <div class="card-body">
+        <div class="card-body-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>Jobs Opened</h3>
+        <div class="mr-5">25</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-sm-6 mb-4">
+    <div class="card text-white bg-danger o-hidden h-100">
+      <div class="card-body">
+        <div class="card-body-icon">
+          <i class="far fa-thumbs-up"></i>
+        </div>
+        <h3>Jobs Closed</h3>
+        <div class="mr-5">5</div>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+<!-- DataTables Example -->
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Jobs Posted
+  </div>
+  {% if new_user == 'False' %}
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Post</th>
+            <th>Description</th>
+            <th>Place of Posting</th>
+            <th>Salary (₹)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in jobs %}
+          <tr>
+            <td>{{job.post}}</td>
+            <td>{{job.job_description}}</td>
+            <td>{{job.place}}</td>
+            <td>{{job.salary}}</td>
+            <td>{{job.status}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="card-body">
+    <h4> No Jobs Posted </h4>
+    <h5> Try out one by clicking Post Job Button ! </h5>
+  </div>
+  {% endif %}
+
+  {% comment %} Post job Modal {% endcomment %}
+  <div class="modal fade" id="PostJobModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Post a Job | Apli.ai</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="jobs">
+            {% csrf_token %}
+            <div id="wrapper4">
+
+              <div class="control-group">
+                <label for="select-links4">Post:</label>
+                <select name="post" id="select-links4" placeholder="Accountant..." required></select>
+              </div>
+              <script>
+
                 $('#select-links4').selectize({
                   plugins: ['remove_button'],
                   theme: 'links',
@@ -115,85 +116,86 @@
                   valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'Accountant'},
-                    { title: 'Software Developer'},
-                    { title: 'Manager'},
+                    { title: 'Accountant' },
+                    { title: 'Software Developer' },
+                    { title: 'Manager' },
                   ],
                   render: {
-                    option: function(data, escape) {
+                    option: function (data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">' + escape(data.title) + '</span>' 
-                        '</div>';
+                        '<span class="title">' + escape(data.title) + '</span>'
+                      '</div>';
                     },
-                    item: function(data, escape) {
-                      
+                    item: function (data, escape) {
+
                       return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
                     }
                   },
-                  create: function(input) {
+                  create: function (input) {
                     return {
                       title: input,
                     };
                   }
                 });
 
-                $('#select-links4').on('change', function(){
-                    var $wrapper = $('#wrapper4');
-                    
-                    // show current input values
-                    $('select.selectized,input.selectized', $wrapper).each(function() {
-                      
-                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
-                      var $value = $('<span>').appendTo($container);
-                      var $input = $(this);
-                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                $('#select-links4').on('change', function () {
+                  var $wrapper = $('#wrapper4');
 
-                      $(this).on('change', update);
-                      update();
+                  // show current input values
+                  $('select.selectized,input.selectized', $wrapper).each(function () {
 
-                      $container.insertAfter($input);
-                    });
+                    var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                    var $value = $('<span>').appendTo($container);
+                    var $input = $(this);
+                    var update = function (e) { $value.text(JSON.stringify($input.val())); console.log($input.val()); }
+
+                    $(this).on('change', update);
+                    update();
+
+                    $container.insertAfter($input);
+                  });
                 });
 
-              </script>
-				
-			    </div>
-          
-          <div class="form-group">
-            <label class="col-form-label">Job Description:</label>
-            <textarea name="jobdesc" class="form-control" id="description" required></textarea>
-          </div>
 
-        	<div id="wrapper3">
-      			<div class="control-group">
-					    <label for="select-links">Tech Skills:</label>
-					    <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
-				    </div>
-                <script>
+              </script>
+
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">Job Description:</label>
+              <textarea name="jobdesc" class="form-control" id="description" required></textarea>
+            </div>
+
+            <div id="wrapper3">
+              <div class="control-group">
+                <label for="select-links">Tech Skills:</label>
+                <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
+              </div>
+              <script>
 
                 $('#select-links').selectize({
                   plugins: ['remove_button'],
                   theme: 'links',
                   maxItems: null,
-                  valueField:  'title',
+                  valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'HTML'},
-                    { title: 'CSS'},
-                    { title: 'Java'},
+                    { title: 'HTML' },
+                    { title: 'CSS' },
+                    { title: 'Java' },
                   ],
                   render: {
-                    option: function(data, escape) {
+                    option: function (data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">'+escape(data.title) + '</span>' 
-                        '</div>';
+                        '<span class="title">' + escape(data.title) + '</span>'
+                      '</div>';
                     },
-                    item: function(data, escape) {
-                      
+                    item: function (data, escape) {
+
                       return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
                     }
                   },
-                  create: function(input) {
+                  create: function (input) {
                     console.log(input);
                     return {
                       title: input,
@@ -201,36 +203,37 @@
                   }
                 });
 
-                $('#select-links').on('change', function(){
-                    var $wrapper = $('#wrapper3');
-                    
-                    // show current input values
-                    $('select.selectized,input.selectized', $wrapper).each(function() {
-                      
-                      var $container = $('<div hidden >').addClass('value').html('Current Value: ');
-                      var $value = $('<span>').appendTo($container);
-                      var $input = $(this);
-                      console.log('op');
-                      console.log($input);
-                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                $('#select-links').on('change', function () {
+                  var $wrapper = $('#wrapper3');
 
-                      $(this).on('change', update);
-                      update();
+                  // show current input values
+                  $('select.selectized,input.selectized', $wrapper).each(function () {
 
-                      $container.insertAfter($input);
-                    });
+                    var $container = $('<div hidden >').addClass('value').html('Current Value: ');
+                    var $value = $('<span>').appendTo($container);
+                    var $input = $(this);
+                    console.log('op');
+                    console.log($input);
+                    var update = function (e) { $value.text(JSON.stringify($input.val())); console.log($input.val()); }
+
+                    $(this).on('change', update);
+                    update();
+
+                    $container.insertAfter($input);
+                  });
                 });
 
-              </script>
-				
-			    </div>
 
-        	<div id="wrapper1">
-      			<div class="control-group">
-					    <label for="select-links1">Soft Skills:</label>
-					    <select name="sskill" id="select-links1" placeholder="CS..."></select>
-				    </div>
-                <script>
+              </script>
+
+            </div>
+
+            <div id="wrapper1">
+              <div class="control-group">
+                <label for="select-links1">Soft Skills:</label>
+                <select name="sskill" id="select-links1" placeholder="CS..."></select>
+              </div>
+              <script>
                 console.log("in");
                 $('#select-links1').selectize({
                   plugins: ['remove_button'],
@@ -239,56 +242,57 @@
                   valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'Communication'},
-                    { title: 'Teamwork'},
-                    { title: 'Adaptability'},
+                    { title: 'Communication' },
+                    { title: 'Teamwork' },
+                    { title: 'Adaptability' },
                   ],
                   render: {
-                    option: function(data, escape) {
+                    option: function (data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">' + escape(data.title) + '</span>' 
-                        '</div>';
+                        '<span class="title">' + escape(data.title) + '</span>'
+                      '</div>';
                     },
-                    item: function(data, escape) {
-                      
+                    item: function (data, escape) {
+
                       return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
                     }
                   },
-                  create: function(input) {
+                  create: function (input) {
                     return {
                       title: input,
                     };
                   }
                 });
 
-                $('#select-links1').on('change', function(){
-                    var $wrapper = $('#wrapper1');
-                    
-                    // show current input values
-                    $('select.selectized,input.selectized', $wrapper).each(function() {
-                      console.log("in1");
-                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
-                      var $value = $('<span>').appendTo($container);
-                      var $input = $(this);
-                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                $('#select-links1').on('change', function () {
+                  var $wrapper = $('#wrapper1');
 
-                      $(this).on('change', update);
-                      update();
+                  // show current input values
+                  $('select.selectized,input.selectized', $wrapper).each(function () {
+                    console.log("in1");
+                    var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                    var $value = $('<span>').appendTo($container);
+                    var $input = $(this);
+                    var update = function (e) { $value.text(JSON.stringify($input.val())); console.log($input.val()); }
 
-                      $container.insertAfter($input);
-                    });
+                    $(this).on('change', update);
+                    update();
+
+                    $container.insertAfter($input);
+                  });
                 });
 
-              </script>
-				
-			    </div>
 
-        	<div id="wrapper2">
-      			<div class="control-group">
-					    <label for="select-links2">Other:</label>
-					    <select name="other" id="select-links2" placeholder="Sports..."></select>
-				    </div>
-                <script>
+              </script>
+
+            </div>
+
+            <div id="wrapper2">
+              <div class="control-group">
+                <label for="select-links2">Other:</label>
+                <select name="other" id="select-links2" placeholder="Sports..."></select>
+              </div>
+              <script>
                 console.log("in");
                 $('#select-links2').selectize({
                   plugins: ['remove_button'],
@@ -297,56 +301,57 @@
                   valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'Sports'},
-                    { title: 'Music'},
-                    { title: 'Social'},
+                    { title: 'Sports' },
+                    { title: 'Music' },
+                    { title: 'Social' },
                   ],
                   render: {
-                    option: function(data, escape) {
+                    option: function (data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">' + escape(data.title) + '</span>' 
-                        '</div>';
+                        '<span class="title">' + escape(data.title) + '</span>'
+                      '</div>';
                     },
-                    item: function(data, escape) {
-                      
+                    item: function (data, escape) {
+
                       return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
                     }
                   },
-                  create: function(input) {
+                  create: function (input) {
                     return {
                       title: input,
                     };
                   }
                 });
 
-                $('#select-links2').on('change', function(){
-                    var $wrapper = $('#wrapper2');
-                    
-                    // show current input values
-                    $('select.selectized,input.selectized', $wrapper).each(function() {
-                      console.log("in1");
-                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
-                      var $value = $('<span>').appendTo($container);
-                      var $input = $(this);
-                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                $('#select-links2').on('change', function () {
+                  var $wrapper = $('#wrapper2');
 
-                      $(this).on('change', update);
-                      update();
+                  // show current input values
+                  $('select.selectized,input.selectized', $wrapper).each(function () {
+                    console.log("in1");
+                    var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                    var $value = $('<span>').appendTo($container);
+                    var $input = $(this);
+                    var update = function (e) { $value.text(JSON.stringify($input.val())); console.log($input.val()); }
 
-                      $container.insertAfter($input);
-                    });
+                    $(this).on('change', update);
+                    update();
+
+                    $container.insertAfter($input);
+                  });
                 });
 
-              </script>
-				
-			    </div>
 
-        	<div id="wrapper5">
-      			<div class="control-group">
-					    <label for="select-links5">Place of Posting:</label>
-					    <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
-				    </div>
-                <script>
+              </script>
+
+            </div>
+
+            <div id="wrapper5">
+              <div class="control-group">
+                <label for="select-links5">Place of Posting:</label>
+                <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
+              </div>
+              <script>
                 $('#select-links5').selectize({
                   plugins: ['remove_button'],
                   theme: 'links',
@@ -354,99 +359,101 @@
                   valueField: 'title',
                   searchField: 'title',
                   options: [
-                    { title: 'Mumbai'},
-                    { title: 'Pune'},
-                    { title: 'Banglore'},
+                    { title: 'Mumbai' },
+                    { title: 'Pune' },
+                    { title: 'Banglore' },
                   ],
                   render: {
-                    option: function(data, escape) {
+                    option: function (data, escape) {
                       return '<div class="option">' +
-                          '<span class="title">' + escape(data.title) + '</span>' 
-                        '</div>';
+                        '<span class="title">' + escape(data.title) + '</span>'
+                      '</div>';
                     },
-                    item: function(data, escape) {
-                      
+                    item: function (data, escape) {
+
                       return '<div class="item"><a href="#">' + escape(data.title) + '</a></div>';
                     }
                   },
-                  create: function(input) {
+                  create: function (input) {
                     return {
                       title: input,
                     };
                   }
                 });
 
-                $('#select-links5').on('change', function(){
-                    var $wrapper = $('#wrapper5');
-                    
-                    // show current input values
-                    $('select.selectized,input.selectized', $wrapper).each(function() {
-                      
-                      var $container = $('<div hidden>').addClass('value').html('Current Value: ');
-                      var $value = $('<span>').appendTo($container);
-                      var $input = $(this);
-                      var update = function(e) { $value.text(JSON.stringify($input.val()));console.log($input.val()); }
+                $('#select-links5').on('change', function () {
+                  var $wrapper = $('#wrapper5');
 
-                      $(this).on('change', update);
-                      update();
+                  // show current input values
+                  $('select.selectized,input.selectized', $wrapper).each(function () {
 
-                      $container.insertAfter($input);
-                    });
+                    var $container = $('<div hidden>').addClass('value').html('Current Value: ');
+                    var $value = $('<span>').appendTo($container);
+                    var $input = $(this);
+                    var update = function (e) { $value.text(JSON.stringify($input.val())); console.log($input.val()); }
+
+                    $(this).on('change', update);
+                    update();
+
+                    $container.insertAfter($input);
+                  });
                 });
 
+
               </script>
-				
-			    </div>
 
-          <div class="form-group">
-            <label class="col-form-label">Deadline:</label>
-            <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
-          </div>
+            </div>
 
-          <div class="form-group">
-            <label class="col-form-label">Bond:</label>
-            <select name="bond" class="form-control" id="bond">
-              <option value="0">No Bond</option>
-              <option value="1">Bond</option>
-            </select>            
-          </div>
-          
-          <div class="form-group">
-            <label class="col-form-label">Salary:</label>
-            <input name="salary" type="number" class="form-control" id="salary" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-form-label">Additional Details:</label>
-            <textarea name="adddetail" class="form-control" id="adddetail" ></textarea>
-          </div>
-        
-			
-      </div>   
-			<div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Post Job</button>      
-        </form>                       
-			</div>
-		</div>                                                                       
-	</div>                                      
-</div>
+            <div class="form-group">
+              <label class="col-form-label">Deadline:</label>
+              <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
+            </div>
 
-<script>
-// For latest date
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
-var yyyy = today.getFullYear();
- if(dd<10){
-        dd='0'+dd
-    } 
-    if(mm<10){
-        mm='0'+mm
-    } 
+            <div class="form-group">
+              <label class="col-form-label">Bond:</label>
+              <select name="bond" class="form-control" id="bond">
+                <option value="0">No Bond</option>
+                <option value="1">Bond</option>
+              </select>
+            </div>
 
-today = yyyy+'-'+mm+'-'+dd;
-document.getElementById("datefield").setAttribute("min", today);
+            <div class="form-group">
+              <label class="col-form-label">Salary:</label>
+              <input name="salary" type="number" class="form-control" id="salary" required>
+            </div>
 
-</script>
-{% endblock content %}
+            <div class="form-group">
+              <label class="col-form-label">Additional Details:</label>
+              <textarea name="adddetail" class="form-control" id="adddetail"></textarea>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Post Job</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // For latest date
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("datefield").setAttribute("min", today);
+
+
+  </script>
+  {% endblock content %}
