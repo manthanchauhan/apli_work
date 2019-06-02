@@ -4,6 +4,8 @@ from django.contrib import messages
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from django.conf import settings
+from . import emails
 # Database init
 # Use a service account
 cred = credentials.Certificate('./serviceAccountKey.json')
@@ -33,6 +35,9 @@ def reachus(request):
                     u'company_name': company_name,
                     u'emp_num':emp_num
                 })
+            email_from = settings.EMAIL_HOST_USER
+            emails.mail(email_from,company_email)
+            emails.mail2(company_name,company_email,emp_name,str(emp_num))
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
@@ -117,8 +122,8 @@ def step3(request):
                 u'password':password,
                 u'role':role
             })
-            messages.success(request, 'Signup completed successfully.')            
-
+            messages.success(request, 'Signup completed successfully.')
+            emails.mail3(email)
             return render(request,'accounts/login.html')    
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
