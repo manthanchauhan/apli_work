@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 import firebase_admin
@@ -134,27 +134,15 @@ def question(request):
     try:
         if request.session['user_type'] == 'Recruiter':
 
-            # From post job form
-            if request.method == "POST":
-                try:
-                    question_string = request.POST.get('question')
-                    package = request.POST.get('type')
-                    doc_ref = db.collection(u'users').document(request.session['email']).collection(
-                        u'questions').document()
-                    db.collection(u'users').document(request.session['email']).collection(
-                        u'questions').add({
-                        u'question': question_string,
-                        u'id': doc_ref.id,
-                        u'package': package
-                    })
-                    print('submitted suscess')
-                    print('id => ', doc_ref.id)
-                    messages.success(request, 'Question added successfully.')
-                except:
-                    print('not submitted')
-                    messages.error(request, 'Something went wrong! Try Again Later.')
+            user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
+                u'packages').get()
+            user_packages = []
+            for doc in user_packages_docs:
+                print(doc.id)
+                user_packages.append(doc.id)
 
             user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
+                u'packages').document('sample').collection(
                 u'questions').get()
             user_questions = []
             for doc in user_questions_docs:
@@ -169,14 +157,117 @@ def question(request):
                 built_in_questions.append(doc.to_dict())
 
             return render(request, 'recruiter/question.html',
-                          {'user_questions': user_questions, 'built_in_questions': built_in_questions})
+                          {'user_questions': user_questions, 'built_in_questions': built_in_questions,
+                           'user_packages': user_packages})
 
     except:
         return HttpResponseRedirect('/')
 
 
-def add_package(request):
-    pass
+def addpackage(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    print('request for adding package')
+                    packageName = request.POST.get('packageName')
+                    question = request.POST.get('question')
+                    questionType = request.POST.get('questionType')
+                    db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).set({u'id': packageName})
+                    doc_ref = db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').document()
+                    db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').document(doc_ref.id).set({
+                        u'id': doc_ref.id,
+                        u'question': question,
+                        u'type': questionType,
+                    })
+                    return JsonResponse({"success": "true"})
+                except:
+                    return JsonResponse({"success": "false"})
+
+    except:
+        return HttpResponseRedirect('/')
+
+
+def changepackage(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    packageName = request.POST.get('packageName')
+                    print('request for change package', packageName)
+
+                    user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').get()
+                    user_questions = []
+                    for doc in user_questions_docs:
+                        # print(doc.to_dict())
+                        user_questions.append(doc.to_dict())
+
+                    return JsonResponse({"user_questions": user_questions})
+                except:
+                    return JsonResponse({"success": "false"})
+
+    except:
+        pass
+
+
+def addquestion(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    print('request for adding question')
+                    packageName = request.POST.get('packageName')
+                    question = request.POST.get('question')
+                    questionType = request.POST.get('questionType')
+
+                    doc_ref = db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').document()
+                    db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').document(doc_ref.id).set({
+                        u'id': doc_ref.id,
+                        u'question': question,
+                        u'type': questionType,
+                    })
+                    return JsonResponse({"success": "true"})
+                except:
+                    return JsonResponse({"success": "false"})
+
+    except:
+        return HttpResponseRedirect('/')
+
+
+def deletequestion(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    id = request.POST.get('id')
+                    packageName = request.POST.get('packageName')
+                    print('deleting question with id=>', id, ' and package =>', packageName)
+
+                    db.collection(u'users').document(request.session['email']).collection(
+                        u'packages').document(packageName).collection(
+                        u'questions').document(id).delete()
+                    return JsonResponse({"success": "true"})
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')
+                    return JsonResponse({"success": "false"})
+
+    except:
+        return HttpResponseRedirect('/')
 
 
 def feedback(request):
