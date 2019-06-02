@@ -25,7 +25,8 @@ def reachus(request):
                 doc_ref.set({
                     u'emp_name': emp_name,
                     u'company_name': company_name,
-                })                
+                })
+                emp_num = '-'                
             else:
                 emp_num = request.POST.get('emp_num')
                 # print(emp_name,company_name,company_email,emp_num)
