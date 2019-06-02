@@ -55,7 +55,7 @@
     line-height: 1.5;
     color: #212529;
     text-align: left;
-    background-color: #fff;
+    background-color: #EDF5E1;
   }
   
   [tabindex="-1"]:focus {
@@ -4330,14 +4330,20 @@
     margin-bottom: 0;
     list-style: none;
   }
-  
+
+  .navbarcolor{
+    background-color:#05386B;
+  }
+
   .nav-link {
     display: block;
     padding: 0.5rem 1rem;
+    color: whitesmoke;
   }
   
   .nav-link:hover, .nav-link:focus {
     text-decoration: none;
+    color: white;
   }
   
   .nav-link.disabled {
@@ -4456,10 +4462,12 @@
     font-size: 1.25rem;
     line-height: inherit;
     white-space: nowrap;
+    color: white;
   }
   
   .navbar-brand:hover, .navbar-brand:focus {
     text-decoration: none;
+    color: #EDF5E1;
   }
   
   .navbar-nav {
@@ -6065,6 +6073,7 @@
   .modal-title {
     margin-bottom: 0;
     line-height: 1.5;
+
   }
   
   .modal-body {
@@ -10475,7 +10484,7 @@
   
   .sidebar {
     width: 90px !important;
-    background-color: #212529;
+    background-color: rgb(7, 84, 160);
     min-height: calc(100vh - 56px);
   }
   
@@ -10582,12 +10591,12 @@
   .card-body-icon {
     position: absolute;
     z-index: 0;
-    top: -1.25rem;
-    right: -1rem;
+    top: -1rem;
+    right: -0.5rem;
     opacity: 0.4;
     font-size: 5rem;
-    -webkit-transform: rotate(15deg);
-    transform: rotate(15deg);
+    -webkit-transform: rotate(5deg);
+    transform: rotate(5deg);
   }
   
   @media (min-width: 576px) {
@@ -10715,7 +10724,20 @@
     background:none !important;
     border:none !important;
     outline:inherit !important;
+    color: white !important;
   }
+  .bt-none1{
+    background:none !important;
+    border:none !important;
+    outline:inherit !important;
+    color: blue !important;
+  }
+  .pjob{
+    /* background: linear-gradient(to right, #23074d, #cc5333) !important; */
+    background-color: rgb(4, 63, 122) !important;
+    text-align: center;
+  }
+
 
   .ch:hover {
     top: -10px;
@@ -10753,7 +10775,7 @@
 
   }
   .success {
-    color: #4F8A10;
+    color: #000;
     background-color: #DFF2BF;
 
   }
@@ -10763,7 +10785,7 @@
 
   }
   .error{
-    color: #D8000C;
+    color: #000;
     background-color: #FFBABA;
 
   }

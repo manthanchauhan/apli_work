@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 import firebase_admin
@@ -44,24 +44,30 @@ def jobs(request):
                     company_name = request.session['cname']
                     post = request.POST.get('post')
                     job_description = request.POST.get('jobdesc')
+                    key_responsibility = request.POST.get('keyresp')
                     tskill = request.POST.getlist('tskill')
                     sskill = request.POST.getlist('sskill')
                     other = request.POST.getlist('other')
                     bond = request.POST.get('bond')
                     salary = request.POST.get('salary')
                     add_detail = request.POST.get('adddetail')
-                    place = request.POST.get('place')                    
+                    place = request.POST.get('place')
+                    joining_date = request.POST.get('startdate')
+                    deadline = request.POST.get('deadline')                    
                     status = 'Opened'
                     jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place)
+                    #print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
                     doc_ref = db.collection(u'jobs').document(jobid)
                     doc_ref.set({
                         u'post': post,
                         u'job_description': job_description,
+                        u'key_responsibility':key_responsibility,
                         u'place':place,
                         u'tskill':tskill,
                         u'sskill':sskill,
                         u'other':other,
+                        u'start_date':joining_date,
+                        u'deadline':deadline,
                         u'bond':bond,
                         u'salary':salary,
                         u'add_detail':add_detail,
@@ -76,43 +82,78 @@ def jobs(request):
             # get jobs data
             docs = db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()
             jobs = []
+            open_count = 0
+            close_count = 0
             for doc in docs:
-                # print(doc.to_dict())
-                jobs.append(doc.to_dict())
+                #print(doc.to_dict())
+                #print(doc.id)
+                stat = doc.to_dict()['status']
+                deadline = doc.to_dict()['deadline']
+                if stat == 'Opened':
+                    if datetime.strptime(deadline,'%Y-%m-%d') < datetime.today():
+                        db.collection(u'jobs').document(doc.id).set({u'status':'Closed'},merge=True)
+                        doc.to_dict()['status'] = 'Closed'
+                    else:
+                        open_count+=1
+                temp = doc.to_dict()
+                temp.update({'id':doc.id})
+                #print(temp['id'])
+                jobs.append(temp)
+
+            close_count = len(jobs) - open_count
             if not jobs:
-                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name']}) 
+                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name'],'jc':0}) 
             else:
-                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name']})              
+                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name'],'jc':len(jobs),'oc':open_count,'cc':close_count})              
 
     except:
         return HttpResponseRedirect('/')
 
+def deletepost(request):
+    try:
+
+        if request.session['user_type'] == 'Recruiter':
+            # From post job form
+            if request.method == "POST":
+                try:
+                    id = request.POST.get('id')
+                    db.collection(u'jobs').document(id).delete()
+                    messages.success(request, 'Post deleted successfully.')
+                    return JsonResponse({"success":"true"})
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')
+                    return JsonResponse({"success":"false"})
+    
+    except:
+        return HttpResponseRedirect('/')
+
+                        
 
 def candidates(request):
-    # try:
-    if request.session['user_type'] == 'Recruiter':            
-        # get jobs data
-        docs = db.collection(u'candidates').where(u'company_name',u'==',request.session['cname']).get()
-        jobs_posted = len(list(db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()))
-        applicants = []
-        custom_dict = {}
-        for doc in docs:
-            custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
-            custom_dict['company_name'] = doc.to_dict()['company_name']
-            custom_dict['resume'] = doc.to_dict()['resume']
-            custom_dict['video_resume'] = doc.to_dict()['video_resume']
-            custom_dict['grade'] = doc.to_dict()['grade']
-            custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['place']
-            custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['post']            
-            # print(custom_dict)
-            applicants.append(custom_dict)
-        if not applicants:
-            return render(request,'recruiter/candidates.html',{'new_user':'True','name':request.session['name'],'appcount':0,'jobs_posted':0,}) 
-        else:
-            return render(request,'recruiter/candidates.html',{'new_user':'False','applicants':applicants,'name':request.session['name'],'appcount':len(applicants),'jobs_posted':jobs_posted})              
+    try:
+        if request.session['user_type'] == 'Recruiter':            
+            # get jobs data
+            docs = db.collection(u'candidates').where(u'company_name',u'==',request.session['cname']).get()
+            jobs_posted = len(list(db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()))
+            applicants = []
+            custom_dict = {}
+            for doc in docs:
+                custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
+                custom_dict['company_name'] = doc.to_dict()['company_name']
+                custom_dict['resume'] = doc.to_dict()['resume']
+                custom_dict['video_resume'] = doc.to_dict()['video_resume']
+                custom_dict['grade'] = doc.to_dict()['grade']
+                custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['place']
+                custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['job_id'].id).get().to_dict()['post']            
+                # print(custom_dict)
+                applicants.append(custom_dict)
+            if not applicants:
+                return render(request,'recruiter/candidates.html',{'new_user':'True','name':request.session['name'],'appcount':0,'jobs_posted':0,}) 
+            else:
+                return render(request,'recruiter/candidates.html',{'new_user':'False','applicants':applicants,'name':request.session['name'],'appcount':len(applicants),'jobs_posted':jobs_posted})              
 
-    # except:
-    #     return HttpResponseRedirect('/')
+    except:
+        return HttpResponseRedirect('/')
 
 
 def team(request):
