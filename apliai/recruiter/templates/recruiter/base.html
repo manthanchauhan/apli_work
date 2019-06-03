@@ -52,7 +52,7 @@
 
 <body id="page-top">
 
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+  <nav class="navbar navbar-expand navbarcolor static-top">
 
     <a class="navbar-brand mr-1" href="{% url 'dashboard'  %}">Apli.ai</a>
 
@@ -102,13 +102,13 @@
       <li class="nav-item {% if request.resolver_match.url_name == 'jobs' %}active{% endif %}">
         <a class="nav-link" href="{% url 'jobs'  %}">
           <i class="fas fa-fw fa-tasks"></i>
-          <span>Jobs</span></a>
+          <span>Post Job</span></a>
       </li>
 
       <li class="nav-item {% if request.resolver_match.url_name == 'candidates' %}active{% endif %}">
         <a class="nav-link" href="{% url 'candidates'  %}">
           <i class="fas fa-fw fa-user"></i>
-          <span>Candidates</span></a>
+          <span>Candidates Applied</span></a>
       </li>
 
       <li class="nav-item {% if request.resolver_match.url_name == 'team' %}active{% endif %}">
@@ -120,7 +120,7 @@
       <li class="nav-item {% if request.resolver_match.url_name == 'question' %}active{% endif %}">
         <a class="nav-link" href="{% url 'question'  %}">
           <i class="fas fa-fw fa-atlas"></i>
-          <span>Questions</span></a>
+          <span>Library</span></a>
       </li>
 
       <li class="nav-item {% if request.resolver_match.url_name == 'feedback' %}active{% endif %}">
