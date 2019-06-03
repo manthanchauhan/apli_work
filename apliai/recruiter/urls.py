@@ -1,12 +1,20 @@
-from django.urls import path,include,re_path
+from django.urls import path
 from . import views
-app_name='recruiter'
+
+
 urlpatterns = [
-    path('dashboard', views.dashboard , name="dashboard"),
-    path('jobs', views.jobs , name="jobs"),
-    path('candidates', views.candidates , name="candidates"),
-    path('team', views.team , name="team"),
-    path('feedback', views.feedback , name="feedback"),
-    path('question', views.question , name="question"),        
-    re_path(r'^deletepost', views.deletepost , name="deletepost"),            
+    path('dashboard', views.dashboard, name="dashboard"),
+    path('jobs', views.jobs, name="jobs"),
+    path('candidates', views.candidates, name="candidates"),
+    path('team', views.team, name="team"),
+    path('feedback', views.feedback, name="feedback"),
+    path('question', views.question, name="question"),
+    path('deletepost',views.deletepost,name="deletepost"),
+    path('addpackage', views.addpackage, name="addpackage"),
+    path('loadquestions', views.loadquestions, name="loadquestions"),
+    path('addquestion', views.addquestion, name="addquestion"),
+    path('deletequestion', views.deletequestion, name="deletequestion"),
+    path('getPackages', views.getPackages, name="getPackages"),
+    path('changepackage', views.changepackage, name="changepackage"),
+
 ]

@@ -3,19 +3,8 @@
 {% block content %}
         <!-- Icon Cards-->
         <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-tasks"></i>
-                </div>
-                <h3>Jobs Posted</h3>
-                <div class="mr-5">{{jobs_posted}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-list"></i>
@@ -25,8 +14,8 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="fas fa-users"></i>
@@ -36,8 +25,8 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="far fa-thumbs-up"></i>
@@ -48,8 +37,9 @@
             </div>
           </div>
         </div>
-
+      </div>
         <!-- DataTables Example -->
+
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
@@ -62,23 +52,25 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Post</th>
-                      <th>Place</th>
-                      <th>Resume</th>
-                      <th>Video Resume</th>
+                      <th>Profile</th>
+                      <th>Skills</th>
+                      <th>Resume | Score</th>
+                      <th>Video-Resume | Score</th>
+                      <th>Post | Place</th>
                       <th>Grade</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                   {% for applicant in applicants %}
                     <tr>
                       <td>{{applicant.candidate_name}}</td>
-                      <td>{{applicant.post}}</td>
-                      <td>{{applicant.place}}</td>
-                      <td><a href="{{applicant.resume}}">View</a></td>
-                      <td><a href="{{applicant.video_resume}}">View</a></td>
+                      <td>Skills chart</td>
+                      <td>Resume link | 4/5</td>
+                      <td>Video-Resume link | 4/5</td>                      
+                      <td>{{applicant.post}} | {{applicant.place}}</td>
                       <td>{{applicant.grade}} / 5.0</td>
+                      <td>Applied</td>
                     </tr> 
                   {% endfor %} 
                   </tbody>
@@ -86,8 +78,12 @@
               </div>
           {% else %}
           <div class="card-body">
-            <h4> No Jobs Posted </h4>
-            <h5> Try out one by clicking Post Job Button ! </h5>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <h4> No Applications yet &#128528;</h4>
+                  <h5> Try out posting a job if not placed yet &#128526;! </h5>
+                </table>
+              </div>
           </div>
           {% endif %}
           
