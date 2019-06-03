@@ -9,8 +9,10 @@ urlpatterns = [
     path('feedback', views.feedback, name="feedback"),
     path('question', views.question, name="question"),
     re_path(r'^addpackage', views.addpackage, name="addpackage"),
+    re_path(r'^loadquestions', views.loadquestions, name="loadquestions"),
     re_path(r'^addquestion', views.addquestion, name="addquestion"),
     re_path(r'^deletequestion', views.deletequestion, name="deletequestion"),
+    re_path(r'^getPackages', views.getPackages, name="getPackages"),
     re_path(r'^changepackage', views.changepackage, name="changepackage"),
 
 ]

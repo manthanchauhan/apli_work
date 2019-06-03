@@ -1,18 +1,26 @@
 <script>
+
+function packageOnClickListener() {
     $('#dropdownMenuLinkselect.dropdown-menu a').on('click', function () {
         console.log($(this)[0].innerText);
         changePackage($(this)[0].innerText);
         $('#dropdownMenuLink').html($(this).html());
 
-    })
+    });
+}
+  packageOnClickListener();
 
+    $('#builtInQuestions').on('change', function () {
+        let questionType = this.value;
+        loadQuestions(questionType);
+    });
     $("#addPackageBtn").click(function () {
         let packageName = $("#package1").val();
         let questionType = $("#questionType1").val();
         let question = $("#question1").val();
         $('#exampleModalCenter1').modal('hide')
         addPackage(packageName, questionType, question);
-
+        $('#dropdownMenuLink').text(packageName);
         console.log('add package data => ', packageName, questionType, question)
     });
 
@@ -29,8 +37,11 @@
     function addClickListener() {
         $(".delete-btn").click(function () {
             let packageName = $("#dropdownMenuLink")[0].innerText;
+
             deleteQuestion(this.id, packageName);
             console.log('delete-btn clicked id => ', this.id, packageName);
+
+
         });
     }
 
@@ -96,7 +107,9 @@
             data: data,
             success: function (data) {
                 console.log(data);
-                window.location.reload();
+                //window.location.reload();
+                changePackage(packageName);
+                getPackages();
             }
 
         });
@@ -138,7 +151,7 @@
 
 
     // function for sending request to add package
-    function deleteQuestion(qid,packageName) {
+    function deleteQuestion(qid, packageName) {
 
         $.ajaxSetup({
             beforeSend: function (xhr, settings) {
@@ -192,6 +205,7 @@
             success: function (data) {
                 console.log(data.user_questions);
                 $('#sortable').empty(); // empty the div before fetching and adding new data
+                $("#rightLoader").show();
 
                 data.user_questions.forEach((item, index) => {
                     console.log(item);
@@ -208,12 +222,143 @@
                 );
 
                 addClickListener();
+                $("#rightLoader").hide();
+
 
             }
 
         });
     }
 
+    // function for sending request to fetch buitin questions by category
+    function loadQuestions(questionType) {
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        data = {
+            'questionType': questionType,
+        }
+        $.ajax({
+            url: 'loadquestions',
+            type: 'POST',
+            dataType: "json",
+            data: data,
+            success: function (data) {
+                console.log(data.built_in_questions);
+
+                $('#builtInQuestionsArea').empty(); // empty the div before fetching and adding new data
+
+                data.built_in_questions.forEach((item, index) => {
+                    console.log(item);
+                    $("#builtInQuestionsArea").append(
+                        `<div id='${item.id}'  name ='${item.type}' draggable="true" class=" fill shadow p-2 mb-2 bg-white rounded">
+                        ${item.question}   
+                        </div>`
+                    );
+                }
+
+                );
+
+                setDragEventListener();
+
+            }
+
+        });
+    }
+    // function for sending request to fetch buitin questions by category
+    function getPackages() {
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $.ajax({
+            url: 'getPackages',
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                console.log(data.user_packages);
+                $('#dropdownMenuLinkselect').empty(); // empty the div before fetching and adding new data
+
+                data.user_packages.forEach((item, index) => {
+                    console.log(item);
+                    $("#dropdownMenuLinkselect").append(
+                        `
+                        <a class="dropdown-item" href="#">${item}</a>
+
+                        `
+                    );
+                }
+
+                );
+                packageOnClickListener();
+
+            }
+
+        });
+    }
+    // function for sending request to fetch buitin questions by category
+    function loadQuestions(questionType) {
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        data = {
+            'questionType': questionType,
+        }
+        $.ajax({
+            url: 'loadquestions',
+            type: 'POST',
+            dataType: "json",
+            data: data,
+            success: function (data) {
+                console.log(data.built_in_questions);
+
+                $('#builtInQuestionsArea').empty(); // empty the div before fetching and adding new data
+
+                data.built_in_questions.forEach((item, index) => {
+                    console.log(item);
+                    $("#builtInQuestionsArea").append(
+                        `<div id='${item.id}'  name ='${item.type}' draggable="true" class=" fill shadow p-2 mb-2 bg-white rounded">
+                ${item.question}   
+                </div>`
+                    );
+                }
+
+                );
+
+                setDragEventListener();
+
+            }
+
+        });
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -223,13 +368,18 @@
 
     }
 
-    const fills = document.querySelectorAll('.fill');
     const empties = document.querySelectorAll('.empty');
-    for (const fill of fills) {
-        // Fill listeners
-        fill.addEventListener('dragstart', dragStart);
-        fill.addEventListener('dragend', dragEnd);
-    }
+    function setDragEventListener() {
+        let fills = document.querySelectorAll('.fill');
+
+        for (const fill of fills) {
+            // Fill listeners
+            fill.addEventListener('dragstart', dragStart);
+            fill.addEventListener('dragend', dragEnd);
+        }
+    };
+    setDragEventListener();
+
     // Loop through empty boxes and add listeners
     for (const empty of empties) {
         empty.addEventListener('dragover', dragOver);
@@ -285,11 +435,16 @@
         let packageName = $("#dropdownMenuLink")[0].innerText;
         let question = appendnode.innerText.trim();
         let questionType = appendnode.getAttribute("name");
+        $("#rightLoader").show();
+
         addQuestion(packageName, questionType, question);
+
         console.log('drag drop question data => ', packageName, questionType, question)
 
         console.log(appendnode.innerText);
         this.appendChild(appendnode);
+        $("#rightLoader").hide();
+
 
 
     }
