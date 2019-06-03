@@ -8,17 +8,18 @@
             <ul class="messages">
                 {% for message in messages %}
                 <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+               
                 {% endfor %}
             </ul>
             {% endif %}
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="ch card text-white bg-primary o-hidden h-100">
+            <div class="ch card text-white pjob o-hidden h-100">
               <button type="button" class="bt-none" data-target="#PostJobModal" data-toggle="modal">
                 <div class="card-body">
                     <div class="card-body-icon">
-                    <i class="fas fa-fw fa-tasks"></i>
+                    <i class="fas fa-file-signature"></i>
                     </div>
                     <h3>Post Job</h3>
                 </div>
@@ -26,29 +27,29 @@
              </button>
              </div>
           </div>
-          {% comment %} <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-success o-hidden h-100">
+          <div class="col-xl-4 col-sm-6 mb-4">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="fas fa-users"></i>
+                 <i class="fas fa-file-contract"></i>
                 </div>
-                <h3>Jobs Opened</h3>
-                <div class="mr-5">25</div>
+                <h3>Jobs Posted</h3>
+                <div class="mr-5">{{ jc }}</div>
               </div>
             </div>
           </div>
           <div class="col-xl-4 col-sm-6 mb-4">
-            <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card text-white pjob o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="far fa-thumbs-up"></i>
+                  <i class="fas fa-fw fa-tasks"></i>
                 </div>
-                <h3>Jobs Closed</h3>
-                <div class="mr-5">5</div>
+                <h3>Jobs Opened | Closed </h3>
+                <div class="mr-5">&nbsp;&nbsp;{{oc}}&nbsp; |&nbsp;&nbsp;{{cc}}</div>
               </div>
             </div>
           </div>
-        </div> {% endcomment %}
+        </div>
         <!-- DataTables Example -->
         <div class="card mb-3">
             <div class="card-header">
@@ -66,17 +67,34 @@
                         <th>Place of Posting</th>
                         <th>Salary (₹)</th>
                         <th>Status</th>
+                        <th>Access</th>
                       </tr>
                     </thead>
                     <tbody>
                         {% for job in jobs %}
-                              <tr>
-                                <td>{{job.post}}</td>
-                                <td>{{job.job_description}}</td>
-                                <td>{{job.place}}</td>
-                                <td>{{job.salary}}</td>
-                                <td>{{job.status}}</td>
-                              </tr>
+                              {% if job.status == 'Opened' %}
+                                <tr class="success">
+                                  <td>{{job.post}}</td>
+                                  <td>{{job.job_description}}</td>
+                                  <td>{{job.place}}</td>
+                                  <td>{{job.salary}}</td>
+                                  <td>{{job.status}}</td>
+                                  {% comment %} <td><a onClick="view('{{job.id}}')" href="#">View</a></td>  {% endcomment %}
+                                  <td><button type="button" class="bt-none1" data-target="#ViewJobModal" data-toggle="modal" onClick="view('{{job.id}}')">View &nbsp;&nbsp;
+                                  <button type="button" class="bt-none1"  onClick="delete1('{{job.id}}')">Delete</td>                                  
+                                </tr>
+                              {% else %}
+                                <tr class="error">
+                                  <td>{{job.post}}</td>
+                                  <td>{{job.job_description}}</td>
+                                  <td>{{job.place}}</td>
+                                  <td>{{job.salary}}</td>
+                                  <td>{{job.status}}</td>
+                                  {% comment %} <td><a onClick="view('{{job.id}}')" href="#">View</a></td> {% endcomment %}
+                                  <td><button type="button" class="bt-none1" data-target="#ViewJobModal" data-toggle="modal" onClick="view('{{job.id}}')">View &nbsp;&nbsp;
+                                  <button type="button" class="bt-none1"  onClick="delete1('{{job.id}}')">Delete</td>
+                                </tr>
+                              {% endif %}
                         {% endfor %} 
                     </tbody>
                   </table>
@@ -84,17 +102,17 @@
               </div>
           {% else %}
             <div class="card-body">
-              <h4> No Jobs Posted </h4>
-              <h5> Try out one by clicking Post Job Button ! </h5>
+              <h3> No Jobs Posted &#128542;</h3>
+              <h5> Try out one by clicking Post Job Button above! &#128522;</h5>
             </div>
           {% endif %}
     
 {% comment %} Post job Modal {% endcomment %}
 <div class="modal fade" id="PostJobModal">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Post a Job | Apli.ai</h4>
+				<h4 class="modal-title"><b>Post a Job</b></h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>                                                              
 			</div> 
 			<div class="modal-body">
@@ -103,7 +121,7 @@
         	<div id="wrapper4">
 
       			<div class="control-group">
-					    <label for="select-links4">Post:</label>
+					    <label for="select-links4"><b>Post:</b></label>
 					    <select name="post" id="select-links4" placeholder="Accountant..." required></select>
 				    </div>
                 <script>
@@ -160,13 +178,18 @@
 			    </div>
           
           <div class="form-group">
-            <label class="col-form-label">Job Description:</label>
-            <textarea name="jobdesc" class="form-control" id="description" required></textarea>
+            <label class="col-form-label"><b>Job Description:</b></label>
+            <textarea name="jobdesc" class="form-control" id="description" maxlength="500" placeholder="max 500 characters allowed" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="col-form-label"><b>Key Responsibilities:</b></label>
+            <textarea name="keyresp" class="form-control" id="keyresp" maxlength="500" placeholder="max 500 characters allowed" required></textarea>
           </div>
 
         	<div id="wrapper3">
       			<div class="control-group">
-					    <label for="select-links">Tech Skills:</label>
+					    <label for="select-links"><b>Tech Skills:</b></label>
 					    <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
 				    </div>
                 <script>
@@ -227,7 +250,7 @@
 
         	<div id="wrapper1">
       			<div class="control-group">
-					    <label for="select-links1">Soft Skills:</label>
+					    <label for="select-links1"><b>Soft Skills:</b></label>
 					    <select name="sskill" id="select-links1" placeholder="CS..."></select>
 				    </div>
                 <script>
@@ -285,7 +308,7 @@
 
         	<div id="wrapper2">
       			<div class="control-group">
-					    <label for="select-links2">Other:</label>
+					    <label for="select-links2"><b>Other:</b></label>
 					    <select name="other" id="select-links2" placeholder="Sports..."></select>
 				    </div>
                 <script>
@@ -343,7 +366,7 @@
 
         	<div id="wrapper5">
       			<div class="control-group">
-					    <label for="select-links5">Place of Posting:</label>
+					    <label for="select-links5"><b>Place of Posting:</b></label>
 					    <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
 				    </div>
                 <script>
@@ -397,14 +420,17 @@
               </script>
 				
 			    </div>
-
-          <div class="form-group">
-            <label class="col-form-label">Deadline:</label>
+          
+          <div class="form-inline">
+            <label class="col-form-label"><b>Joining Date :</b>&nbsp;</label>
+            <input name="startdate" id="datefield1" type='date' min='1899-01-01' required>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="col-form-label"><b>Apply By :</b>&nbsp;</label>
             <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
           </div>
 
           <div class="form-group">
-            <label class="col-form-label">Bond:</label>
+            <label class="col-form-label"><b>Bond:</b></label>
             <select name="bond" class="form-control" id="bond">
               <option value="0">No Bond</option>
               <option value="1">Bond</option>
@@ -412,20 +438,20 @@
           </div>
           
           <div class="form-group">
-            <label class="col-form-label">Salary:</label>
-            <input name="salary" type="number" class="form-control" id="salary" required>
+            <label class="col-form-label"><b>Salary:</b></label>
+            <input name="salary" type="number" class="form-control" id="salary" placeholder="(in Rupees)" required>
           </div>
           
           <div class="form-group">
-            <label class="col-form-label">Additional Details:</label>
-            <textarea name="adddetail" class="form-control" id="adddetail" ></textarea>
+            <label class="col-form-label"><b>Additional Details:</b></label>
+            <textarea name="adddetail" class="form-control" id="adddetail" placeholder="max 500 characters" maxlength=500></textarea>
           </div>
         
 			
       </div>   
 			<div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Post Job</button>      
+        <button type="submit" class="btn btn-success" id="submit">Post Job</button>      
         </form>                       
 			</div>
 		</div>                                                                       
@@ -433,6 +459,11 @@
 </div>
 
 <script>
+//refresh logic
+
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 // For latest date
 var today = new Date();
 var dd = today.getDate();
@@ -447,6 +478,194 @@ var yyyy = today.getFullYear();
 
 today = yyyy+'-'+mm+'-'+dd;
 document.getElementById("datefield").setAttribute("min", today);
+document.getElementById("datefield1").setAttribute("min", today);
+</script>
 
+  <div class="modal fade" id="ViewJobModal" tabindex="-1" role="dialog" 
+      aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title"><b><p id='tt'>Post</p></b></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>      
+              </div>
+              
+              <!-- Modal Body -->
+              <div class="modal-body">
+                  
+                  <form  role="form">
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Post:</b></label>
+                      <input name="post1" type="text" class="form-control" id="post1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Job Description:</b></label>
+                      <textarea name="desc1" class="form-control" id="desc1"  maxlength=500 readonly></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Key Responsibilities:</b></label>
+                      <textarea name="keyresp1" class="form-control" id="keyresp1"  maxlength=500 readonly></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Tech Skills:</b></label>
+                      <input name="tech1" type="text" class="form-control" id="tech1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Soft Skills:</b></label>
+                      <input name="ss1" type="text" class="form-control" id="ss1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Other:</b></label>
+                      <input name="oth1" type="text" class="form-control" id="oth1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Place of Posting:</b></label>
+                      <input name="place1" type="text" class="form-control" id="place1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Joining Date:</b></label>
+                      <input name="jd1" type="text" class="form-control" id="jd1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Apply By:</b></label>
+                      <input name="dd1" type="text" class="form-control" id="dd1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Bond:</b></label>
+                      <input name="bond1" type="text" class="form-control" id="bond1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Salary:</b></label>
+                      <input name="sal1" type="text" class="form-control" id="sal1" readonly>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Additional Details:</b></label>
+                      <textarea name="add1" class="form-control" id="add1"  maxlength=500 readonly></textarea>
+                    </div>
+                  </form>
+                  
+              </div>
+              
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default"
+                          data-dismiss="modal">
+                              Close
+                  </button>
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+<script>
+function view(j_id){
+  {% for job in jobs %}
+      if(j_id == '{{job.id}}'){
+        document.getElementById('tt').innerHTML = '{{job.post}}';
+        document.getElementById("post1").value = '{{job.post}}';        
+        document.getElementById("desc1").value = '{{job.job_description}}';
+        document.getElementById("keyresp1").value = '{{job.key_responsibility}}';        
+        document.getElementById("tech1").value = '{{job.tskill}}'.replace(/&#39;/g, "'");
+        document.getElementById("ss1").value = '{{job.sskill}}'.replace(/&#39;/g, "'");;
+        document.getElementById("oth1").value = '{{job.other}}'.replace(/&#39;/g, "'");;
+        document.getElementById("place1").value = '{{job.place}}'.replace(/&#39;/g, "'");;
+        document.getElementById("jd1").value = '{{job.start_date}}'.replace(/&#39;/g, "'");;
+        document.getElementById("dd1").value = '{{job.deadline}}';
+        document.getElementById("bond1").value = ('{{job.bond}}'=='1' ? 'Bond' : 'No Bond');
+        document.getElementById("sal1").value = '{{job.salary}}';
+        document.getElementById("add1").value = '{{job.add_detail}}';                
+/*       document.getElementById("select-links4").value = '{{job.post}}';
+        document.getElementById("description").value = '{{job.job_description}}';
+        document.getElementById("keyresp").value = '{{job.key_responsibility}}';        
+        document.getElementById("select-links").value = '{{job.tskill}}';
+        document.getElementById("select-links1").value = '{{job.sskill}}';
+        document.getElementById("select-links2").value = '{{job.other}}';
+        document.getElementById("select-links5").value = '{{job.place}}';
+        document.getElementById("datefield1").value = '{{job.start_date}}';
+        document.getElementById("datefield").value = '{{job.deadline}}';
+        document.getElementById("bond").value = '{{job.bond}}';
+        document.getElementById("salary").value = '{{job.salary}}';
+        document.getElementById("adddetail").value = '{{job.add_detail}}';             */
+      }
+  {% endfor %}
+}
+
+</script>
+<script>
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		function sameOrigin(url) {
+			// test that a given url is a same-origin URL
+			// url could be relative or scheme relative or absolute
+			var host = document.location.host; // host + port
+			var protocol = document.location.protocol;
+			var sr_origin = '//' + host;
+			var origin = protocol + sr_origin;
+			// Allow absolute or scheme relative URLs to same origin
+			return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+				(url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+				// or any other URL that isn't scheme relative or absolute i.e relative.
+				!(/^(\/\/|http:|https:).*/.test(url));
+		}
+function delete1(j_id){
+
+    $.ajaxSetup({
+          beforeSend: function (xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                  // Send the token to same-origin, relative URLs only.
+                  // Send the token only if the method warrants CSRF protection
+                  // Using the CSRFToken value acquired earlier
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+          }
+      });
+    data = {
+        'id':j_id,
+    }
+     $.ajax({
+            url: 'deletepost',
+            type: 'POST',
+            dataType: "json",
+            data: data,
+            success: function (data) {
+         		  console.log(data);
+              window.location.reload();
+            }
+            
+        });
+}
 </script>
 {% endblock content %}
