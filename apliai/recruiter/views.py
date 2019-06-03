@@ -27,15 +27,15 @@ db = firestore.client()
 
 
 def dashboard(request):
-    try:
-        username = request.session['name']
-        email = request.session['email']
-        company_name = request.session['cname']
-        user_type = request.session['user_type']
-        print(username, email, company_name, user_type)
-        return render(request, 'recruiter/dashboard.html', {'name': username})
-    except:
-        return HttpResponseRedirect('/')
+    # try:
+    username = request.session['name']
+    email = request.session['email']
+    company_name = request.session['cname']
+    user_type = request.session['user_type']
+    #print(username, email, company_name, user_type)
+    return render(request, 'recruiter/dashboard.html', {'name': username})
+    # except:
+    #     return HttpResponseRedirect('/')
 
 
 def jobs(request):

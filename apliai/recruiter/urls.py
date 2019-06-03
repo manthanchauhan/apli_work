@@ -1,6 +1,6 @@
-from django.urls import path, include, re_path
+from django.urls import path
 from . import views
-app_name='recruiter'
+
 
 urlpatterns = [
     path('dashboard', views.dashboard, name="dashboard"),
@@ -9,11 +9,12 @@ urlpatterns = [
     path('team', views.team, name="team"),
     path('feedback', views.feedback, name="feedback"),
     path('question', views.question, name="question"),
-    re_path(r'^addpackage', views.addpackage, name="addpackage"),
-    re_path(r'^loadquestions', views.loadquestions, name="loadquestions"),
-    re_path(r'^addquestion', views.addquestion, name="addquestion"),
-    re_path(r'^deletequestion', views.deletequestion, name="deletequestion"),
-    re_path(r'^getPackages', views.getPackages, name="getPackages"),
-    re_path(r'^changepackage', views.changepackage, name="changepackage"),
+    path('deletepost',views.deletepost,name="deletepost"),
+    path('addpackage', views.addpackage, name="addpackage"),
+    path('loadquestions', views.loadquestions, name="loadquestions"),
+    path('addquestion', views.addquestion, name="addquestion"),
+    path('deletequestion', views.deletequestion, name="deletequestion"),
+    path('getPackages', views.getPackages, name="getPackages"),
+    path('changepackage', views.changepackage, name="changepackage"),
 
 ]
