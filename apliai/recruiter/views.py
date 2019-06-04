@@ -32,7 +32,7 @@ def dashboard(request):
         email = request.session['email']
         company_name = request.session['cname']
         user_type = request.session['user_type']
-        #print(username, email, company_name, user_type)
+        # print(username, email, company_name, user_type)
         return render(request, 'recruiter/dashboard.html', {'name': username})
     except:
         return HttpResponseRedirect('/')
@@ -45,6 +45,7 @@ def jobs(request):
             if request.method == "POST":
                 try:
                     company_name = request.session['cname']
+                    packageId = request.POST.get('userPackages')
                     post = request.POST.get('post')
                     job_description = request.POST.get('jobdesc')
                     key_responsibility = request.POST.get('keyresp')
@@ -56,62 +57,71 @@ def jobs(request):
                     add_detail = request.POST.get('adddetail')
                     place = request.POST.get('place')
                     joining_date = request.POST.get('startdate')
-                    deadline = request.POST.get('deadline')                    
+                    deadline = request.POST.get('deadline')
                     status = 'Opened'
-                    jobid = request.session['email']+'$'+post+'$'+datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    #print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
+                    jobid = request.session['email'] + '$' + post + '$' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
                     doc_ref = db.collection(u'jobs').document(jobid)
                     doc_ref.set({
                         u'post': post,
                         u'job_description': job_description,
-                        u'key_responsibility':key_responsibility,
-                        u'place':place,
-                        u'tskill':tskill,
-                        u'sskill':sskill,
-                        u'other':other,
-                        u'start_date':joining_date,
-                        u'deadline':deadline,
-                        u'bond':bond,
-                        u'salary':salary,
-                        u'add_detail':add_detail,
-                        u'status':status,
-                        u'email':request.session['email']
-                    })            
+                        u'key_responsibility': key_responsibility,
+                        u'place': place,
+                        u'tskill': tskill,
+                        u'sskill': sskill,
+                        u'other': other,
+                        u'start_date': joining_date,
+                        u'deadline': deadline,
+                        u'bond': bond,
+                        u'salary': salary,
+                        u'add_detail': add_detail,
+                        u'status': status,
+                        u'email': request.session['email'],
+                        u'packageId': packageId
+                    })
                     messages.success(request, 'Job posted successfully.')
                 except:
-                    messages.error(request, 'Something went wrong! Try Again Later.')    
-            
+                    messages.error(request, 'Something went wrong! Try Again Later.')
 
-            # get jobs data
-            docs = db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()
+                    # get jobs data
+            docs = db.collection(u'jobs').where(u'email', u'==', request.session['email']).get()
             jobs = []
             open_count = 0
             close_count = 0
             for doc in docs:
-                #print(doc.to_dict())
-                #print(doc.id)
+                # print(doc.to_dict())
+                # print(doc.id)
                 stat = doc.to_dict()['status']
                 deadline = doc.to_dict()['deadline']
                 if stat == 'Opened':
-                    if datetime.strptime(deadline,'%Y-%m-%d') < datetime.today():
-                        db.collection(u'jobs').document(doc.id).set({u'status':'Closed'},merge=True)
+                    if datetime.strptime(deadline, '%Y-%m-%d') < datetime.today():
+                        db.collection(u'jobs').document(doc.id).set({u'status': 'Closed'}, merge=True)
                         doc.to_dict()['status'] = 'Closed'
                     else:
-                        open_count+=1
+                        open_count += 1
                 temp = doc.to_dict()
-                temp.update({'id':doc.id})
-                #print(temp['id'])
+                temp.update({'id': doc.id})
+                # print(temp['id'])
                 jobs.append(temp)
+
+            user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
+                u'packages').get()
+            user_packages = []
+            for doc in user_packages_docs:
+                # print(doc.id)
+                user_packages.append(doc.id)
 
             close_count = len(jobs) - open_count
             if not jobs:
-                return render(request,'recruiter/jobs.html',{'new_user':'True','name':request.session['name'],'jc':0,'oc':0,'cc':0}) 
+                return render(request, 'recruiter/jobs.html',
+                              {'new_user': 'True', 'name': request.session['name'], 'jc': 0, 'oc': 0, 'cc': 0})
             else:
-                return render(request,'recruiter/jobs.html',{'new_user':'False','jobs':jobs,'name':request.session['name'],'jc':len(jobs),'oc':open_count,'cc':close_count})              
+                return render(request, 'recruiter/jobs.html',
+                              {'new_user': 'False', 'jobs': jobs, 'name': request.session['name'], 'jc': len(jobs),
+                               'oc': open_count, 'cc': close_count,'user_packages':user_packages})
 
     except:
         return HttpResponseRedirect('/')
-
 
 
 def deletepost(request):
@@ -135,10 +145,10 @@ def deletepost(request):
 
 def candidates(request):
     try:
-        if request.session['user_type'] == 'Recruiter':            
+        if request.session['user_type'] == 'Recruiter':
             # get jobs data
-            docs = db.collection(u'candidates').where(u'company_name',u'==',request.session['cname']).get()
-            jobs_posted = len(list(db.collection(u'jobs').where(u'email',u'==',request.session['email']).get()))
+            docs = db.collection(u'candidates').where(u'company_name', u'==', request.session['cname']).get()
+            jobs_posted = len(list(db.collection(u'jobs').where(u'email', u'==', request.session['email']).get()))
             applicants = []
             custom_dict = {}
             for doc in docs:
@@ -147,18 +157,21 @@ def candidates(request):
                 custom_dict['resume'] = doc.to_dict()['resume']
                 custom_dict['video_resume'] = doc.to_dict()['video_resume']
                 custom_dict['grade'] = doc.to_dict()['grade']
-                custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()['place']
-                custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()['post']            
+                custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()[
+                    'place']
+                custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()['post']
                 # print(custom_dict)
                 applicants.append(custom_dict)
             if not applicants:
-                return render(request,'recruiter/candidates.html',{'new_user':'True','name':request.session['name'],'appcount':0,'jobs_posted':0,}) 
+                return render(request, 'recruiter/candidates.html',
+                              {'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
             else:
-                return render(request,'recruiter/candidates.html',{'new_user':'False','applicants':applicants,'name':request.session['name'],'appcount':len(applicants),'jobs_posted':jobs_posted})              
+                return render(request, 'recruiter/candidates.html',
+                              {'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
+                               'appcount': len(applicants), 'jobs_posted': jobs_posted})
 
     except:
         return HttpResponseRedirect('/')
-
 
 
 def team(request):
@@ -178,7 +191,7 @@ def question(request):
                 u'packages').get()
             user_packages = []
             for doc in user_packages_docs:
-                #print(doc.id)
+                # print(doc.id)
                 user_packages.append(doc.id)
 
             user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
@@ -198,7 +211,7 @@ def question(request):
 
             return render(request, 'recruiter/question.html',
                           {'user_questions': user_questions, 'built_in_questions': built_in_questions,
-                           'user_packages': user_packages,'name': request.session['name']})
+                           'user_packages': user_packages, 'name': request.session['name']})
 
     except:
         return HttpResponseRedirect('/')
@@ -210,7 +223,7 @@ def addpackage(request):
             # From post job form
             if request.method == "POST":
                 try:
-                    #print('request for adding package')
+                    # print('request for adding package')
                     packageName = request.POST.get('packageName')
                     question = request.POST.get('question')
                     questionType = request.POST.get('questionType')
@@ -241,7 +254,7 @@ def changepackage(request):
             if request.method == "POST":
                 try:
                     packageName = request.POST.get('packageName')
-                    #print('request for change package', packageName)
+                    # print('request for change package', packageName)
 
                     user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
                         u'packages').document(packageName).collection(
@@ -289,7 +302,7 @@ def addquestion(request):
             # From post job form
             if request.method == "POST":
                 try:
-                    #print('request for adding question')
+                    # print('request for adding question')
                     packageName = request.POST.get('packageName')
                     question = request.POST.get('question')
                     questionType = request.POST.get('questionType')
@@ -318,12 +331,12 @@ def getPackages(request):
             # From post job form
             if request.method == "GET":
                 try:
-                    #print('request for get user packages')
+                    # print('request for get user packages')
                     user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
                         u'packages').get()
                     user_packages = []
                     for doc in user_packages_docs:
-                        #print(doc.id)
+                        # print(doc.id)
                         user_packages.append(doc.id)
                     return JsonResponse({"user_packages": user_packages})
                 except:
@@ -341,7 +354,7 @@ def deletequestion(request):
                 try:
                     id = request.POST.get('id')
                     packageName = request.POST.get('packageName')
-                    #print('deleting question with id=>', id, ' and package =>', packageName)
+                    # print('deleting question with id=>', id, ' and package =>', packageName)
 
                     db.collection(u'users').document(request.session['email']).collection(
                         u'packages').document(packageName).collection(
