@@ -1,4 +1,5 @@
 from django.core.mail import send_mail
+from string import ascii_lowercase,ascii_uppercase
 def mail(s,r):
     subject = 'Thank You For Contacting Us'
     message=""
@@ -621,4 +622,20 @@ table[class=hide], img[class=hide], td[class=hide] {
             """
     recipient_list = [r,]
     send_mail(subject, message,'aplidotaiintern@gmail.com', recipient_list,fail_silently=False,html_message=html_message)
-
+def fmail(umail):
+    subject = 'Password Reset Request'
+    pass_phrase = 'APLIAI'
+    used = {' ', '\n'}
+    key = []
+    for c in pass_phrase.lower() + ascii_lowercase:
+        if c not in used:
+              key.append(c)
+              used.add(c)
+    key = ''.join(key)
+    encode = {u: v for u, v in zip(ascii_lowercase, key)}
+    encmail=''.join([encode.get(c, c) for c in umail.lower()])
+    print('encoded email: '+encmail)
+    message="http://127.0.0.1:8000/accounts/reset_confirm/"+encmail
+    print(message)
+    recipient_list = [umail,]
+    send_mail(subject, message,'aplidotaiintern@gmail.com', recipient_list,fail_silently=False,)
