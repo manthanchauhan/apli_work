@@ -57,6 +57,7 @@
     <i class="fas fa-table"></i>
     Jobs Posted
   </div>
+  <button type="button" class="btn btn-primary btn-circle btn-xl" data-target="#PostJobModal" data-toggle="modal"><i class="fas fa-file-signature"></i></button>  
   {% if new_user == 'False' %}
   <div class="card-body">
     <div class="table-responsive">
@@ -103,11 +104,14 @@
       </table>
     </div>
   </div>
+
   {% else %}
   <div class="card-body">
     <h3> No Jobs Posted &#128542;</h3>
-    <h5> Try out one by clicking Post Job Button above! &#128522;</h5>
+    <h5> Try out one by clicking Post Job Button! &#128522;</h5>
+    <button type="button" class="btn btn-primary btn-circle btn-xl" data-target="#PostJobModal" data-toggle="modal"><i class="fas fa-file-signature"></i></button>
   </div>
+
   {% endif %}
 
   {% comment %} Post job Modal {% endcomment %}
@@ -125,10 +129,6 @@
 
               <div class="control-group">
                 <label for="select-links4"><b>Post:</b>
-                  <div class="mytooltip">
-                      <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                      <span class="tooltiptext">Tooltip text</span>
-                    </div>
                 </label>
                 <select name="post" id="select-links4" placeholder="Accountant..." required></select>
               </div>
@@ -187,10 +187,6 @@
 
             <div class="form-group">
               <label class="col-form-label"><b>Job Description:</b>
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <textarea name="jobdesc" class="form-control" id="description" maxlength="500"
                 placeholder="max 500 characters allowed" required></textarea>
@@ -198,10 +194,6 @@
 
             <div class="form-group">
               <label class="col-form-label"><b>Key Responsibilities:</b>
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <textarea name="keyresp" class="form-control" id="keyresp" maxlength="500"
                 placeholder="max 500 characters allowed" required></textarea>
@@ -210,10 +202,6 @@
             <div id="wrapper3">
               <div class="control-group">
                 <label for="select-links"><b>Tech Skills:</b>
-                  <div class="mytooltip">
-                      <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                      <span class="tooltiptext">Tooltip text</span>
-                    </div>
                 </label>
                 <select name="tskill" id="select-links" multiple="multiple" placeholder="C.."></select>
               </div>
@@ -276,10 +264,6 @@
             <div id="wrapper1">
               <div class="control-group">
                 <label for="select-links1"><b>Soft Skills:</b>
-                  <div class="mytooltip">
-                      <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                      <span class="tooltiptext">Tooltip text</span>
-                    </div>
                 </label>
                 <select name="sskill" id="select-links1" placeholder="CS..."></select>
               </div>
@@ -339,10 +323,6 @@
             <div id="wrapper2">
               <div class="control-group">
                 <label for="select-links2"><b>Other:</b>
-                  <div class="mytooltip">
-                      <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                      <span class="tooltiptext">Tooltip text</span>
-                    </div>
                 </label>
                 <select name="other" id="select-links2" placeholder="Sports..."></select>
               </div>
@@ -402,10 +382,6 @@
             <div id="wrapper5">
               <div class="control-group">
                 <label for="select-links5"><b>Place of Posting:</b>
-                  <div class="mytooltip">
-                      <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                      <span class="tooltiptext">Tooltip text</span>
-                    </div>
                 </label>
                 <select name="place" id="select-links5" placeholder="Mumbai..." required></select>
               </div>
@@ -462,28 +438,17 @@
             </div>
 
             <div class="form-inline">
-              <label class="col-form-label"><b>Joining Date :</b>  <div class="mytooltip">
-                  <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                  <span class="tooltiptext">Tooltip text</span>
-                </div> 
+              <label class="col-form-label"><b>Joining Date :</b> 
                 &nbsp;</label>
               <input name="startdate" id="datefield1" type='date' min='1899-01-01' required>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <label class="col-form-label"><b>Apply By :</b>&nbsp;
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <input name="deadline" id="datefield" type='date' min='1899-01-01' required>
             </div>
 
             <div class="form-group">
               <label class="col-form-label"><b>Bond:</b>
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <select name="bond" class="form-control" id="bond">
                 <option value="0">No Bond</option>
@@ -493,10 +458,6 @@
 
             <div class="form-group">
               <label class="col-form-label"><b>Salary:</b>
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <input name="salary" type="number" class="form-control" id="salary" placeholder="(in Rupees)" required>
             </div>
@@ -505,7 +466,7 @@
                   :</b>
                 <div class="mytooltip">
                   <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                  <span class="tooltiptext">Tooltip text</span>
+                  <span class="tooltiptext">&nbsp;Select a Question set.You can create question set in Library section.</span>
                 </div>
               </label>
               <div class="input-group">
@@ -522,10 +483,6 @@
             </div>
             <div class="form-group">
               <label class="col-form-label"><b>Additional Details:</b>
-                <div class="mytooltip">
-                    <button type="button" class="btn"><i class="fa fa-question-circle"></i></button>
-                    <span class="tooltiptext">Tooltip text</span>
-                  </div>
               </label>
               <textarea name="adddetail" class="form-control" id="adddetail" placeholder="max 500 characters"
                 maxlength=500></textarea>
