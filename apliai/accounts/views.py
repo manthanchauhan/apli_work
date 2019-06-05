@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from django.conf import settings
 from . import emails
+from string import ascii_lowercase,ascii_uppercase
 # Database init
 # Use a service account
 cred = credentials.Certificate('./serviceAccountKey.json')
@@ -133,3 +134,44 @@ def step3(request):
 def logout(request):
     request.session.flush()
     return render(request,'apliai/index.html')
+def forgot_password(request):
+    return render(request,'accounts/forgot_password.html')
+def mail_sent(request):
+    if request.method=="POST":
+        umail=request.POST.get('usermail')
+        if(db.collection(u'users').document(umail).get().exists):
+            emails.fmail(umail)
+            return render(request,'accounts/sent_mail.html')
+        else:
+            return render(request,'accounts/mail_does_not_exist.html')
+def reset_confirm(request,umail):
+    # print("inresetconfirm")
+    # print(umail)
+    usermail="{}".format(umail)
+    # print('usermail in reset_confirm: '+usermail)
+    pass_phrase = 'APLIAI'
+    used = {' ', '\n'}
+    key = []
+    for c in pass_phrase.lower() + ascii_lowercase:
+        if c not in used:
+              key.append(c)
+              used.add(c)
+    key = ''.join(key)
+    decode = {v: u for u, v in zip(ascii_lowercase, key)}
+    decmail=''.join([decode.get(c, c) for c in usermail.lower()])
+    # print('decoded mail'+" "+decmail)
+    global strmail
+    strmail=decmail
+    return render(request,'accounts/reset_confirm_form.html')
+def reset_password_successful(request):
+    print('strmail '+strmail)
+    if request.method=="POST":
+        password=request.POST.get('password')
+        print('password received post  '+password)
+        req = db.collection(u'users').document(strmail).get().to_dict()
+        print(req)
+        doc_ref = db.collection(u'users').document(strmail)
+        doc_ref.set({
+                u'password':password,
+            })
+        return render(request,'accounts/reset_password_successful.html')

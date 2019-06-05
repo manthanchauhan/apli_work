@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Apli.ai|ForgotPassword</title>
+    <style>
+    div{
+      text-align:center;
+    }
+    .alert alert-warning{
+        display:inline-block;
+    }
+    </style>
+  </head>
+  <body>
+  <div class = "container">
+<div class="alert alert-warning" role="alert">
+  <h4 class="alert-heading">Oops ! Something went wrong.</h4>
+  <p>There is no account associated with the email address you entered.Please check the email address you entered and try again.<br>
+  Thank You<br>
+  Team Apli.ai<br>
+  </p>
+  <hr>
+  <p class="mb-0"><a href="{% url 'accounts:reachus' %}">Contact Us for more information</p>
+  <p class="mb-0"><a href="{% url 'index' %}">Go back to the Home Page</p>
+</div>
+</div>
+  </body>
+  </html>
