@@ -172,6 +172,9 @@ def reset_password_successful(request):
         print(req)
         doc_ref = db.collection(u'users').document(strmail)
         doc_ref.set({
+                u'name': req['name'],
+                u'company_name': req['company_name'],
                 u'password':password,
+                u'role':req['role']
             })
         return render(request,'accounts/reset_password_successful.html')
