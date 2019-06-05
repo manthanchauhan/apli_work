@@ -135,15 +135,18 @@ def logout(request):
     request.session.flush()
     return render(request,'apliai/index.html')
 def forgot_password(request):
-    return render(request,'accounts/forgot_password.html')
-def mail_sent(request):
     if request.method=="POST":
-        umail=request.POST.get('usermail')
-        if(db.collection(u'users').document(umail).get().exists):
-            emails.fmail(umail)
-            return render(request,'accounts/sent_mail.html')
-        else:
-            return render(request,'accounts/mail_does_not_exist.html')
+        try:
+            umail=request.POST.get('usermail')
+            if(db.collection(u'users').document(umail).get().exists):
+                emails.fmail(umail)
+                messages.success(request,'An email with the password reset link has been sent to the email address specified.Please click on the reset link to reset your password.')
+                return render(request,'accounts/forgot_password.html')
+            else:
+                messages.error(request, 'There is no account associated with that email address.')
+        except:
+            messages.error(request, 'Something went wrong! Try Again Later.')
+    return render(request,'accounts/forgot_password.html')
 def reset_confirm(request,umail):
     # print("inresetconfirm")
     # print(umail)
@@ -172,9 +175,6 @@ def reset_password_successful(request):
         print(req)
         doc_ref = db.collection(u'users').document(strmail)
         doc_ref.set({
-                u'name': req['name'],
-                u'company_name': req['company_name'],
                 u'password':password,
-                u'role':req['role']
-            })
+            },merge=True)
         return render(request,'accounts/reset_password_successful.html')
