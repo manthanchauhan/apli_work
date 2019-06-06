@@ -131,6 +131,10 @@ def step3(request):
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request,'accounts/step3.html')
 
+def teamsignup(request):
+    
+    return render(request,'accounts/member_signup.html')
+
 def logout(request):
     request.session.flush()
     return render(request,'apliai/index.html')
