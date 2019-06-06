@@ -11,224 +11,164 @@
     <!-- link for local css -->
     <link rel="stylesheet" href="../../static/apliai/css/index.css">
 
-    <script>
-        function openTab(evt, tabName) {
-            
-
-            var tabs = document.getElementsByClassName("info-tab");
-            for(var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = "none";
-            }
-
-            var links = document.getElementsByClassName("tab");
-            for(var i = 0; i < links.length; i++) {
-                links[i].className = links[i].className.replace(" is-active", "");
-            }
-
-            document.getElementById(tabName).style.display = "flex";
-            evt.currentTarget.className += " is-active"
-        }
-
-    </script>
+    <!-- link for jquery 3 minified -->
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 
 </head>
 <body class="has-navbar-fixed-top">
-   <nav id="top-nav" class="navbar is-fixed-top">
-        <div class="navbar-brand">
-            <a href="#" class="navbar-item">
-                <img src="../../static/apliai/img/apli-blue.png" alt="apli-logo" width="120" height="50">
-            </a>
-        </div>
-
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <a href="#">About Us</a>
-                </div>
-                <div class="navbar-item">
-                    <a href="/accounts/reachus">Recruiters</a>
-                </div>
-                <div class="navbar-item">
-                    <a href="#">Students</a>
-                </div>
-                <div class="navbar-item">
-                    <a href="#">Blog</a>
-                </div>
-                <div class="navbar-item">
-                    <a href="#">Careers</a>
-                </div>
-            </div>
-        </div>
-   </nav>
-
-    <section id="landing" class="hero is-fullheight-with-navbar">
-        <div class="hero-body">
-            <div class="columns is-mobile is-vcentered">
-                <div class="column">
-                    <img src="../../static/apliai/img/hero-gif1.gif" alt="hero-gif">
-                </div>
-                <div class="column">
-                    <div class="title is-1">
-                        <h1>Video Interview and Soft Skills Training Platform</h1>
-                    </div>
-                    <div class="subtitle is-3">
-                        <h3>Connect + Access = Transform</h3>
-                    </div>
-                </div>
-            </div>       
-        </div>
-
-
-    </section>
-
     
+            <nav id="top-nav" class="navbar is-fixed-top">
+                    <div class="navbar-brand">
+                        <a href="#" class="navbar-item">
+                            <img src="../../static/apliai/img/Mask_Group_1_A1_Group_31_pattern.png" alt="apli-logo" width="120" height="50">
+                        </a>
+                    </div>
+            
+                    <div class="navbar-menu">
+                        <div class="navbar-end">
+                            <div class="navbar-item">
+                                <a href="#">Blog</a>
+                            </div>
+                            <div class="navbar-item">
+                                <a href="/accounts/reachus">Request a Demo</a>
+                            </div>
+                        </div>
+                    </div>
+               </nav>
+            
+                <section id="landing" class="hero is-fullheight-with-navbar">
+                    <div class="hero-body">
+                        <div class="columns is-mobile is-vcentered">
+                            <div class="column">
+                                <div class="title is-1">
+                                    <h1>Video Interview & Soft Skills Training Platform with AI</h1>
+                                </div>
+                                <div class="subtitle is-4">
+                                    <h3>Connect + Access = Transform</h3>
+                                </div>
+                            </div>
+                            <div class="column" style="margin-left: -20px;">
+                                <img src="../../static/apliai/img/hero.png" alt="hero-gif">
+                            </div>
+                        </div>       
+                    </div>
+            
+            
+                </section>
+    
+   
 
-    <section id="hero" class="hero is-mobile is-medium">
-        <div class="hero-body">
-            <div class="title">
-                <h3 class="has-text-centered">Meet Apli</h3>
-            </div>
 
-            <div class="subtitle">
-                <h4 class="has-text-centered">Shortlist and hire quality candidates faster.</h4>
-            </div>
-        </div>
-    </section>
-
-    <div class="ocean">
-            <div class="wave"></div>
-            <div class="wave"></div>
-          </div>
-
-    <section id="tabs">
+    <section class="section" id="info-hero">
         <div class="section">
-            <div id="tab-links" class="tabs is-centered is-medium">
-                <ul>
-                    <li class="tab" onclick="openTab(event, 'students-tab')">
-                        <a>
-                            Students
-                        </a>
-                    </li>   
-                    <li class="tab is-active" onclick="openTab(event, 'companies-tab')">
-                        <a>
-                            Companies
-                        </a>
-                    </li>
-                    <li class="tab" onclick="openTab(event, 'institutions-tab')"> 
-                        <a>
-                            Institutions
-                        </a>
-                    </li>
-                </ul>
+            <h3 class="title has-text-centered">Meet Apli</h3>
+        </div>
+
+        <div class="container">
+
+            <div class="columns is-mobile is-vcentered is-multiline">
+                <div class="column is-full column-heading has-text-centered">Apli for Students</div>
+
+                <div class="column">
+                        <img src="../../static/apliai/img/apli-for-students.png" alt="">
+                </div>
+                <div class="column">
+                    <p class="column-subheading">Increase your hiring chances</p>
+                    <ul class="column-list">
+                        <div class="list-container">
+                                <li><span class="heading">Profile</span>: Standardised CV and video profile to stand out</li>
+
+                        </div>
+                        <div class="list-container">
+                                <li><span class="heading">Personality Test</span>: Feedback from mentors to improve interview skills</li>
+
+                        </div>
+                        <div class="list-container">
+                                <li><span class="heading">Application</span>: Apply to jobs, internship and international</li>
+
+                        </div>
+                    </ul>
+                </div>
             </div>
 
-            <div class="info-tabs level">
-    
-                <div id="students-tab" class="level-item columns is-centered info-tab">
-                    <div class="column is-two-fifths">
-                        <figure class="image is-3by2">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                        </figure>
-                    </div>
-    
-                    <div class="column is-6">
-                        <div class="columns">
-                            <div class="column">
-                                <h4 class="heading has-text-centered">Increase chances of selection by 70%</h4>
-                            </div>
-                        </div>
-                        
-                        <div class="columns is-centered small-font">
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-user-friends"></i></span>
-                                <span>Mock Interview</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="far fa-user-circle"></i></span>
-                                <span>Profile</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="far fa-file-alt"></i></span>
-                                <span>Accessment</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-suitcase"></i>
-                                </span>
-                                <span>Jobs, Internships, Conferences</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="columns is-mobile is-vcentered is-multiline">
+                <div class="column is-full column-heading has-text-centered">Apli for Companies</div>
+                
+                <div class="column">
+                    <p class="column-subheading">Get Insights on Candidates</p>
+                    <ul class="column-list">
+                        <div class="list-container">
+                                <li><span class="heading">Automated Screening</span>: Organised resume's with inbuilt Algorithm</li>
 
-                <div id="companies-tab" class="level-item columns is-centered info-tab">
-                    <div class="column is-two-fifths">
-                        <figure class="image is-3by2">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                        </figure>
-                    </div>
-    
-                    <div class="column is-6">
-                        <div class="columns">
-                            <div class="column">
-                                <h4 class="heading has-text-centered">Hire quality candidates</h4>
-                            </div>
                         </div>
-                        
-                        <div class="columns is-centered small-font">
-                            <div class="column has-text-centered">
-                                <span><i class="far fa-clock"></i></span>
-                                <span>Reduce time and costs</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-shield-alt"></i></span>
-                                <span>Secure</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-sliders-h"></i></span>
-                                <span>Customizable</span>
-                            </div>
+                        <div class="list-container">
+                                <li><span class="heading">Deep Insights</span>: Reports with benchmark scores and more accuracy than traditional one's</li>
+
                         </div>
-                    </div>
+                    </ul>
                 </div>
-    
-    
-                <div id="institutions-tab" class="level-item columns is-centered info-tab">
-                    <div class="column is-two-fifths">
-                        <figure class="image is-3by2  ">
-                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                        </figure>
+                <div class="column">
+                    <img src=".../../static/apliai/img/apli-for-companies.png" alt="">
+
                     </div>
-    
-                    <div class="column is-6">
-                        <div class="columns">
-                            <div class="column">
-                                <h4 class="heading has-text-centered">Easy, Efficient, Campus Recruitement Process</h4>
-                            </div>
-                        </div>
-                        
-                        <div class="columns is-centered small-font">
-                            
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-suitcase"></i></span>
-                                <span>Placements</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="fab fa-accessible-icon"></i></span>
-                                <span>Accessible</span>
-                            </div>
-                            <div class="column has-text-centered">
-                                <span><i class="fas fa-shield-alt"></i></span>
-                                <span>Secure</span>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+
+            <div class="columns is-mobile is-vcentered is-multiline">
+                <div class="column is-full column-heading has-text-centered">Apli for Institutions</div>
+
+                <div class="column">
+                    <img src="../../static/apliai/img/apli-for-institutions.png" alt="">
                 </div>
+                <div class="column">
+                    <p class="column-subheading">Improve your T&P Activities</p>
+                    <ul class="column-list">
+                        <div class="list-container">
+                                <li><span class="heading">Placement Management</span>: Reduce your work with Data Analytics</li>
+
+                        </div>
+                        <div class="list-container">
+                                <li><span class="heading">Training</span>: Improving on student interview skills with mock interviews and practicing</li>
+
+                        </div>
+                        <div class="list-container">
+                                <li><span class="heading">Companies</span>: Improve your on boardinng experience by showcasing student profile</li>
+
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container"> 
+            <div class="columns is-mobile is-vcentered">
+                    <div class="column has-text-centered">
+                            <img src="../../static/apliai/img/life_insurance_A1_Rectangle_5_pattern.png" alt="">
+                            <h3>Security</h3>
+                        </div>
+                        <div class="column has-text-centered">
+                            <img src="../../static/apliai/img/insurance_1__A1_Rectangle_7_pattern.png" alt="">
+                            <h3>Multiple Stake Holders</h3>
+                        </div>
+                        <div class="column has-text-centered">
+                            <img src="../../static/apliai/img/insurance_A1_Rectangle_9_pattern.png" alt="">
+                            <h3>Personalized Insights</h3>
+                        </div>            
+                        <div class="column has-text-centered">
+                            <img src="../../static/apliai/img/user_A1_Rectangle_3_pattern.png" alt="">
+                            <h3>Placement Management</h3>
+                        </div>
             </div>
             
         </div>
     </section>
 
-    <div class="section">
+    <!--
+<div class="section">
             <section class="hero is-mobile">
                     <div class="hero-body">
                         <div class="title">
@@ -240,6 +180,20 @@
                     </div>
                 </section>
     </div>
+    -->
+
+    <section class="section" id="demo">
+        <div class="columns is-mobile is-vcentered is-multiline">
+            <div class="column is-full">
+                <h3>Need to use it first before buying?</h3>
+                <p>Request for a free demo, and we will get in touch with you.</p>
+            </div>
+            <div class="column is-3 is-offset-9">
+                <button class="button">Request for free demo</button>
+            </div>
+        </div>
+    </section>
+    
     
 
     <footer class="footer">
@@ -273,7 +227,14 @@
                </nav>
     </footer>
 
-
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#top-nav");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            })
+        })
+    </script>
     
     
 
