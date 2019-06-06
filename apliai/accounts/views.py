@@ -134,6 +134,7 @@ def step3(request):
 def logout(request):
     request.session.flush()
     return render(request,'apliai/index.html')
+
 def forgot_password(request):
     if request.method=="POST":
         try:
@@ -149,12 +150,10 @@ def forgot_password(request):
             traceback.print_exc()
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request,'accounts/forgot_password.html')
+
 def reset_confirm(request,umail):
-    # print("inresetconfirm")
-    # print(umail)
     usermail="{}".format(umail)
-    # print('usermail in reset_confirm: '+usermail)
-    pass_phrase = 'APLIAI'
+    pass_phrase = 'E7r9t8@Q#h%Hy+MPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:
@@ -164,16 +163,14 @@ def reset_confirm(request,umail):
     key = ''.join(key)
     decode = {v: u for u, v in zip(ascii_lowercase, key)}
     decmail=''.join([decode.get(c, c) for c in usermail.lower()])
-    # print('decoded mail'+" "+decmail)
     global strmail
     strmail=decmail
     return render(request,'accounts/reset_confirm_form.html')
+
 def reset_password_successful(request):
     try:
-        print('strmail '+strmail)
         if request.method=="POST":
             password=request.POST.get('password')
-            print('password received post  '+password)
             req = db.collection(u'users').document(strmail).get().to_dict()
             print(req)
             doc_ref = db.collection(u'users').document(strmail)

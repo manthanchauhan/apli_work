@@ -623,9 +623,10 @@ table[class=hide], img[class=hide], td[class=hide] {
             """
     recipient_list = [r,]
     send_mail(subject, message,'aplidotaiintern@gmail.com', recipient_list,fail_silently=False,html_message=html_message)
+
 def fmail(umail):
     subject = 'Password Reset Request'
-    pass_phrase = 'APLIAI'
+    pass_phrase = 'E7r9t8@Q#h%Hy+MPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:
@@ -635,9 +636,7 @@ def fmail(umail):
     key = ''.join(key)
     encode = {u: v for u, v in zip(ascii_lowercase, key)}
     encmail=''.join([encode.get(c, c) for c in umail.lower()])
-    print('encoded email: '+encmail)
     message="http://127.0.0.1:8000/accounts/reset_confirm/"+encmail
-    print(message)
     html_message1="""
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

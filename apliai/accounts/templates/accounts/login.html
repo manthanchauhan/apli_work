@@ -49,13 +49,14 @@
                         <input type="checkbox" class="custom-control-input" id="customCheck1">
                         <label class="custom-control-label" for="customCheck1">Remember password</label>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" style="font-size:19px;" type="submit">Login</button>
+                    <button class="btn btn-md btn-primary btn-block text-uppercase txt" type="submit">Login</button>
                     <div style="margin: 0 auto;" id="fp">
                     <br>
+                    <hr>
                     <a href="{% url 'accounts:forgot_password' %}" style:"left:20px; right:20px;font-size:18px;>Forgot Password?</a>
                     </div>
                 </form>
-                <hr>
+                
                 {% comment %} <a href="{% url 'signup'  %}" ><button class="btn btn-lg btn-primary btn-block text-uppercase rou" >Sign Up</button></a> {% endcomment %}
             </div>
             </div>
