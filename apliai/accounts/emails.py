@@ -626,7 +626,7 @@ table[class=hide], img[class=hide], td[class=hide] {
 
 def fmail(umail):
     subject = 'Password Reset Request'
-    pass_phrase = 'E7r9t8@Q#h%Hy+MPriyam'
+    pass_phrase = 'E7rtQhHyMPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:

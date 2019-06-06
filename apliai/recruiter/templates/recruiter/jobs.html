@@ -56,8 +56,7 @@
   <div class="card-header">
     <i class="fas fa-table"></i>
     Jobs Posted
-  </div>
-  <button type="button" class="btn btn-primary btn-circle btn-xl" data-target="#PostJobModal" data-toggle="modal"><i class="fas fa-file-signature"></i></button>  
+  </div> 
   {% if new_user == 'False' %}
   <div class="card-body">
     <div class="table-responsive">
@@ -109,7 +108,7 @@
   <div class="card-body">
     <h3> No Jobs Posted &#128542;</h3>
     <h5> Try out one by clicking Post Job Button! &#128522;</h5>
-    <button type="button" class="btn btn-primary btn-circle btn-xl" data-target="#PostJobModal" data-toggle="modal"><i class="fas fa-file-signature"></i></button>
+    <button type="button" class="btn btn-primary btn-circle btn-xl" data-target="#PostJobModal" data-toggle="modal"><i class="fas fa-file-signature"></i></button> 
   </div>
 
   {% endif %}
@@ -594,6 +593,11 @@
             </div>
 
             <div class="form-group">
+              <label class="col-form-label"><b>Pre Screening Test:</b></label>
+              <input name="pst1" type="text" class="form-control" id="pst1" readonly>
+            </div>
+
+            <div class="form-group">
               <label class="col-form-label"><b>Additional Details:</b></label>
               <textarea name="add1" class="form-control" id="add1" maxlength=500 readonly></textarea>
             </div>
@@ -639,6 +643,7 @@
         document.getElementById("dd1").value = '{{job.deadline}}';
         document.getElementById("bond1").value = ('{{job.bond}}' == '1' ? 'Bond' : 'No Bond');
         document.getElementById("sal1").value = '{{job.salary}}';
+        document.getElementById("pst1").value = '{{job.packageId}}';
         document.getElementById("add1").value = '{{job.add_detail}}';
         /*       document.getElementById("select-links4").value = '{{job.post}}';
                 document.getElementById("description").value = '{{job.job_description}}';

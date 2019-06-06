@@ -157,7 +157,7 @@ def forgot_password(request):
 
 def reset_confirm(request,umail):
     usermail="{}".format(umail)
-    pass_phrase = 'E7r9t8@Q#h%Hy+MPriyam'
+    pass_phrase = 'E7rtQhHyMPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:
@@ -176,7 +176,7 @@ def reset_password_successful(request):
         if request.method=="POST":
             password=request.POST.get('password')
             req = db.collection(u'users').document(strmail).get().to_dict()
-            print(req)
+            #print(req)
             doc_ref = db.collection(u'users').document(strmail)
             doc_ref.set({
                     u'password':password,

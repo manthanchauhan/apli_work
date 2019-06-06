@@ -37,7 +37,7 @@
           <input type="password" class="form-control" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
           <label for="confirm_password"> Confirm Password *</label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block text-uppercase txt rou" type="submit"><b>Reset</b></button>
+      <button class="btn btn-lg btn-primary btn-block text-uppercase txt rou" id="reset" type="submit" disabled='true'><b>Reset</b></button>
     </form>
   <hr>
     <h6><b>Note:</b>Password must contain 8 or more characters that are of at least one number, and one uppercase and lowercase letter.</h6>
@@ -46,55 +46,16 @@
       </div>
     </div>
 </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-   $(document).ready(function(){
-  var $submitBtn = $("#form input[type='submit']");
-  var $passwordBox = $("#password");
-  var $confirmBox = $("#confirm_password");
-  var $errorMsg =  $('<span id="error_msg">Passwords do not match.</span>');
+      $('#password, #confirm_password').on('keyup', function () {
+        if ($('#password').val() == $('#confirm_password').val()) {
+          $('#reset').removeAttr("disabled");
+        } else 
+          $('#reset').attr("disabled", true);
+      }); 
 
-  // This is incase the user hits refresh - some 
-  //browsers will maintain the disabled state of the button.
-$submitBtn.removeAttr("enabled");
-
-function checkMatchingPasswords(){
-  if($confirmBox.val() != "" && $passwordBox.val != ""){
-                if( $confirmBox.val() != $passwordBox.val() ){
-                    $submitBtn.attr("disabled", "disabled");
-                    $errorMsg.insertAfter($confirmBox);
-                }
-            }
-        }
-
-        function resetPasswordError(){
-            $submitBtn.removeAttr("disabled");
-            var $errorCont = $("#error_msg");
-            if($errorCont.length > 0){
-                $errorCont.remove();
-            }  
-        }
-
-
-        $("#confirm_password, #password")
-             .on("keydown", function(e){
-                /* only check when the tab or enter keys are pressed
-                 * to prevent the method from being called needlessly  */
-                if(e.keyCode == 13 || e.keyCode == 9) {
-                    checkMatchingPasswords();
-                }
-             })
-             .on("blur", function(){                    
-                // also check when the element looses focus (clicks somewhere else)
-                checkMatchingPasswords();
-            })
-            .on("focus", function(){
-                // reset the error message when they go to make a change
-                resetPasswordError();
-            })
-
-    });
-</script>
+    </script>
   </body>
 </html>
