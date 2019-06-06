@@ -145,6 +145,8 @@ def forgot_password(request):
             else:
                 messages.error(request, 'There is no account associated with that email address.')
         except:
+            import traceback
+            traceback.print_exc()
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request,'accounts/forgot_password.html')
 def reset_confirm(request,umail):
@@ -167,14 +169,18 @@ def reset_confirm(request,umail):
     strmail=decmail
     return render(request,'accounts/reset_confirm_form.html')
 def reset_password_successful(request):
-    print('strmail '+strmail)
-    if request.method=="POST":
-        password=request.POST.get('password')
-        print('password received post  '+password)
-        req = db.collection(u'users').document(strmail).get().to_dict()
-        print(req)
-        doc_ref = db.collection(u'users').document(strmail)
-        doc_ref.set({
-                u'password':password,
-            },merge=True)
-        return render(request,'accounts/reset_password_successful.html')
+    try:
+        print('strmail '+strmail)
+        if request.method=="POST":
+            password=request.POST.get('password')
+            print('password received post  '+password)
+            req = db.collection(u'users').document(strmail).get().to_dict()
+            print(req)
+            doc_ref = db.collection(u'users').document(strmail)
+            doc_ref.set({
+                    u'password':password,
+                },merge=True)
+        messages.success(request,"Password Reset Successfully")
+        return render(request,'accounts/login.html')
+    except:
+        messages.error(request,"Oops! Something Went Wrong. Please Try again later!")
