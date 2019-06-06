@@ -46,22 +46,22 @@
           </div>
         </div>
         <div class="row mb-2">
-            <div class="col-sm-2 col-lg-12 col-xl-4" style="font-size: 14px;">
-                <strong>Staff</strong>
-              </div>
-              <div class="col-sm-2 col-lg-12 col-xl-8" style="font-size: 13px;">
-              Allow access to post job,library only
-    
-              </div>
+          <div class="col-sm-2 col-lg-12 col-xl-4" style="font-size: 14px;">
+            <strong>Staff</strong>
           </div>
-          <div class="row mb-2">
-              <div class="col-sm-2 col-lg-12 col-xl-4" style="font-size: 14px;">
-                  <strong>Librarian</strong>
-                </div>
-                <div class="col-sm-2 col-lg-12 col-xl-8" style="font-size: 13px;">
-                    Allow access to Library only
-                </div>
-            </div>
+          <div class="col-sm-2 col-lg-12 col-xl-8" style="font-size: 13px;">
+            Allow access to post job,library only
+
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-sm-2 col-lg-12 col-xl-4" style="font-size: 14px;">
+            <strong>Librarian</strong>
+          </div>
+          <div class="col-sm-2 col-lg-12 col-xl-8" style="font-size: 13px;">
+            Allow access to Library only
+          </div>
+        </div>
         <!-- <div class="media">
           <div class="mr-3">Interviewer</div>
           <div class="media-body" style="font-size: 13px;">
@@ -127,8 +127,9 @@
   $("#sendInviteBtn").click(function () {
     let role = $("#role").val();
     let email = $("#inviteEmail").val();
-  inviteTeamUser(role,email);
-    console.log('invite user btn => ', role,email);
+    inviteTeamUser(role, email);
+    $('#addUserModal').modal('hide')
+    console.log('invite user btn => ', role, email);
   });
   function getCookie(name) {
     var cookieValue = null;
@@ -191,34 +192,34 @@
     });
   }
 
-  function inviteTeamUser(email,role) {
+  function inviteTeamUser(email, role) {
 
-$.ajaxSetup({
-  beforeSend: function (xhr, settings) {
-    if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-      // Send the token to same-origin, relative URLs only.
-      // Send the token only if the method warrants CSRF protection
-      // Using the CSRFToken value acquired earlier
-      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    $.ajaxSetup({
+      beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+          // Send the token to same-origin, relative URLs only.
+          // Send the token only if the method warrants CSRF protection
+          // Using the CSRFToken value acquired earlier
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+    data = {
+      'email': email,
+      'role': role
     }
-  }
-});
-data = {
-  'email': email,
-  'role': role
-}
-$.ajax({
-  url: 'inviteteamuser',
-  type: 'POST',
-  dataType: "json",
-  data: data,
-  success: function (data) {
-    console.log(data);
-   // window.location.reload();
-  }
+    $.ajax({
+      url: 'inviteteamuser',
+      type: 'POST',
+      dataType: "json",
+      data: data,
+      success: function (data) {
+        console.log(data);
+        // window.location.reload();
+      }
 
-});
-}
+    });
+  }
 
 </script>
 
