@@ -144,3 +144,9 @@
     background-color: #FFCCBA;
     background-image: url('https://i.imgur.com/GnyDvKN.png');
   }
+  .txt{
+    font-size: 1rem !important;
+  }
+  .rou{
+    border-radius : 25rem !important;
+}
