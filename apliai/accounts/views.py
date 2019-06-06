@@ -43,6 +43,7 @@ def reachus(request):
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
+    docs = db.collection(u'users').get()
     return render(request,'accounts/reachus.html')
 
 def login(request):
@@ -111,7 +112,7 @@ def step2(request):
 def step3(request):
     if request.method == "POST":
         try:
-            role=request.POST.get('inlineRadioOptions')
+            position=request.POST.get('inlineRadioOptions')
             # print(role)    
             email = request.session['email']
             password = request.session['password']
@@ -122,7 +123,7 @@ def step3(request):
                 u'name': name,
                 u'company_name': cname,
                 u'password':password,
-                u'role':role
+                u'position':position
             })
             messages.success(request, 'Signup completed successfully.')
             emails.mail3(email)
