@@ -8,6 +8,6 @@ urlpatterns = [
     re_path(r'^step1', views.step1 , name='step1'),
     re_path(r'^step2', views.step2 , name='step2'),
     re_path(r'^step3', views.step3 , name='step3'),
-    re_path(r'^teamsignup', views.teamsignup , name='teamsignup'),        
+    path('teamsignup/<encodeddata>/', views.teamsignup , name='teamsignup'),        
     re_path(r'^logout', views.logout , name='logout'),
 ]

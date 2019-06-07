@@ -6,6 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from datetime import datetime
+from .import emails
 
 # Database init
 # Use a service account
@@ -210,12 +211,18 @@ def inviteteamuser(request):
         if request.session['user_type'] == 'Recruiter':
             if request.method == "POST":
                 try:
-                    role = request.POST.get('role')
-                    email = request.POST.get('email')
-
-                    print('request for invite user => ', role, ' => ', email)
+                    email = request.POST.get('role')
+                    role = request.POST.get('email')
+                    recmail=request.session['email']
+                    rname=request.session['name']
+                    print("inviteteamuser")
+                    print("invmail: "+email)
+                    print("rname: "+rname)
+                    print("role: "+role)
+                    print("recmail: "+recmail)
+                    print('request for invite user => ', email, ' => ', role)
                     # write logic for send invite email here
-
+                    emails.inmail(email,role,recmail,rname)
                     return JsonResponse({"success": "true"})
                 except:
                     return JsonResponse({"success": "false"})

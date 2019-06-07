@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from django.conf import settings
 from . import emails
+from string import ascii_lowercase,ascii_uppercase
 # Database init
 # Use a service account
 cred = credentials.Certificate('./serviceAccountKey.json')
@@ -130,9 +131,30 @@ def step3(request):
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request,'accounts/step3.html')
 
-def teamsignup(request):
-    
-    return render(request,'accounts/member_signup.html')
+def teamsignup(request,encodeddata):
+    if request.method=="POST":
+        email=request.POST.get('inputEmail')
+        password=request.POST.get('inputPassword')
+        name=request.POST.get('name')
+        position =request.POST.get('inlineRadioOptions')
+    #all data is fetched and decoded here.you can proceed as you want in case of any query feel free to contact me    
+    encodeddatareceived="{}".format(encodeddata)
+    pass_phrase = 'APLIAI'
+    used = {' ', '\n'}
+    key = []
+    for c in pass_phrase.lower() + ascii_lowercase:
+        if c not in used:
+              key.append(c)
+              used.add(c)
+    key = ''.join(key)
+    decode = {v: u for u, v in zip(ascii_lowercase, key)}
+    list=encodeddatareceived.split('$')
+    print(list)
+    decodedrecmail=''.join([decode.get(c, c) for c in list[1].lower()])
+    decodedrole=''.join([decode.get(c, c) for c in list[2].lower()])
+    decodedinvmail=''.join([decode.get(c, c) for c in list[3].lower()])
+    params={'recmail':decodedrecmail,'role':decodedrole,'invmail':decodedinvmail}
+    return render(request,'accounts/member_signup.html',params)
 
 def logout(request):
     request.session.flush()
