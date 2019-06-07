@@ -45,7 +45,6 @@ def reachus(request):
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
-    docs = db.collection(u'users').get()
     return render(request, 'accounts/reachus.html')
 
 
@@ -59,12 +58,20 @@ def login(request):
                 # print(email,password)
                 req = db.collection(u'users').document(email).get().to_dict()
                 password_check = req['password']
+                role = req['role']
                 if (password == password_check):
                     # session start
                     request.session['name'] = req['name']
                     request.session['email'] = email
                     request.session['cname'] = req['company_name']
-                    request.session['user_type'] = 'Recruiter'
+                    if role == 'Recruiter':
+                        request.session['role'] = 'Recruiter'
+                    if role == 'Interviewer':
+                        request.session['role'] = 'Interviewer'
+                    if role == 'Librarian':
+                        request.session['role'] = 'Librarian'
+                    if role == 'Staff':
+                        request.session['role'] = 'Staff'
                     return HttpResponseRedirect('/recruiter/dashboard')
                 else:
                     messages.error(request, 'Incorrect Password')
@@ -130,7 +137,8 @@ def step3(request):
                 u'name': name,
                 u'company_name': cname,
                 u'password': password,
-                u'position': position
+                u'position': position,
+                u'role':'Recruiter'
             })
             messages.success(request, 'Signup completed successfully.')
             emails.mail3(email)
@@ -141,7 +149,6 @@ def step3(request):
 
 
 def teamsignup(request, encodeddata):
-    # all data is fetched and decoded here.you can proceed as you want in case of any query feel free to contact me
     encodeddatareceived = "{}".format(encodeddata)
     pass_phrase = 'APLIAI'
     used = {' ', '\n'}
@@ -175,6 +182,7 @@ def teamsignupcomplete(request):
                 name = request.POST.get('name')
                 position = request.POST.get('position')
                 member_info = db.collection(u'users').document(invimail).get().to_dict()
+                company_name = db.collection(u'users').document(recrmail).get().to_dict()['company_name']
                 print(password, name, position, invimail, member_info)
                 if member_info['status'] == 'inactive':
                     print('inactive status')
@@ -183,12 +191,11 @@ def teamsignupcomplete(request):
                         'position' : position,
                         'name' : name,
                         'password' : password,
-
+                        'company_name' : company_name
                     })
-                    return JsonResponse({"success": "true"})
+                    return render(request, 'accounts/login.html')
 
                 if member_info['status'] == 'active':
-                    print('already active')
                     return JsonResponse({"success": "false"})
         except:
             return JsonResponse({"success": "false"})

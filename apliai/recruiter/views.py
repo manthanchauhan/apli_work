@@ -19,7 +19,7 @@ db = firestore.client()
 # Custom decorator need to see later
 # def recruiter_login_required(function):
 #     def _function(request,*args, **kwargs):
-#         if request.session.get('user_type') == 'Recruiter':
+#         if request.session.get('role') == 'Recruiter':
 #             return HttpResponseRedirect('recruiter/jobs')
 #         else:
 #             return HttpResponseRedirect('/')
@@ -32,8 +32,8 @@ def dashboard(request):
         username = request.session['name']
         email = request.session['email']
         company_name = request.session['cname']
-        user_type = request.session['user_type']
-        # print(username, email, company_name, user_type)
+        role = request.session['role']
+        print(username, email, company_name, role)
         return render(request, 'recruiter/dashboard.html', {'name': username})
     except:
         return HttpResponseRedirect('/')
@@ -41,7 +41,7 @@ def dashboard(request):
 
 def jobs(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -128,7 +128,7 @@ def jobs(request):
 def deletepost(request):
     try:
 
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -146,7 +146,7 @@ def deletepost(request):
 
 def candidates(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # get jobs data
             docs = db.collection(u'candidates').where(u'company_name', u'==', request.session['cname']).get()
             jobs_posted = len(list(db.collection(u'jobs').where(u'email', u'==', request.session['email']).get()))
@@ -177,13 +177,13 @@ def candidates(request):
 
 def team(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             team_docs = db.collection(u'users').where(u'parent', u'==', request.session['email']).get()
             teams = []
             for doc in team_docs:
                 # print(doc.id)
                 teams.append(doc.to_dict())
-            return render(request, 'recruiter/team.html', {'teams': teams})
+            return render(request, 'recruiter/team.html', {'teams': teams,'name': request.session['name']})
 
     except:
         return HttpResponseRedirect('/')
@@ -191,7 +191,7 @@ def team(request):
 
 def deleteteamuser(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             if request.method == "POST":
                 try:
                     uid = request.POST.get('uid')
@@ -208,7 +208,7 @@ def deleteteamuser(request):
 
 def inviteteamuser(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             if request.method == "POST":
                 try:
                     email = request.POST.get('email')
@@ -239,7 +239,7 @@ def inviteteamuser(request):
 
 def question(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
 
             user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
                 u'packages').get()
@@ -273,7 +273,7 @@ def question(request):
 
 def addpackage(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -303,7 +303,7 @@ def addpackage(request):
 
 def changepackage(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -328,7 +328,7 @@ def changepackage(request):
 
 def loadquestions(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -352,7 +352,7 @@ def loadquestions(request):
 
 def addquestion(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -381,7 +381,7 @@ def addquestion(request):
 
 def getPackages(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "GET":
                 try:
@@ -402,7 +402,7 @@ def getPackages(request):
 
 def deletequestion(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             # From post job form
             if request.method == "POST":
                 try:
@@ -424,7 +424,7 @@ def deletequestion(request):
 
 def feedback(request):
     try:
-        if request.session['user_type'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter':
             return render(request, 'recruiter/feedback.html')
 
     except:
