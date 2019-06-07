@@ -157,6 +157,12 @@
           <i class="fas fa-fw fa-comments"></i>
           <span>Feedback</span></a>
       </li>
+
+      <li class="nav-item {% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'accounts:logout'  %}">
+          <i class="fas fa fa-power-off"></i>
+          <span>Logout</span></a>
+      </li>
     </ul>
 
     <div id="content-wrapper">
