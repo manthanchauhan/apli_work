@@ -127,7 +127,7 @@
   $("#sendInviteBtn").click(function () {
     let role = $("#role").val();
     let email = $("#inviteEmail").val();
-    inviteTeamUser(role, email);
+    inviteTeamUser(email, role);
     $('#addUserModal').modal('hide')
     console.log('invite user btn => ', role, email);
   });

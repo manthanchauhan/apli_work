@@ -211,8 +211,8 @@ def inviteteamuser(request):
         if request.session['user_type'] == 'Recruiter':
             if request.method == "POST":
                 try:
-                    email = request.POST.get('role')
-                    role = request.POST.get('email')
+                    email = request.POST.get('email')
+                    role = request.POST.get('role')
                     recmail=request.session['email']
                     rname=request.session['name']
                     print("inviteteamuser")
@@ -221,6 +221,12 @@ def inviteteamuser(request):
                     print("role: "+role)
                     print("recmail: "+recmail)
                     print('request for invite user => ', email, ' => ', role)
+                    db.collection(u'users').document(email).set({
+                        'parent': recmail,
+                        'role' : role,
+                        'status' : 'inactive',
+                        'email' : email
+                    })
                     # write logic for send invite email here
                     emails.inmail(email,role,recmail,rname)
                     return JsonResponse({"success": "true"})

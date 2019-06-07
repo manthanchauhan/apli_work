@@ -18,5 +18,4 @@ urlpatterns = [
     path('deletequestion', views.deletequestion, name="deletequestion"),
     path('getPackages', views.getPackages, name="getPackages"),
     path('changepackage', views.changepackage, name="changepackage"),
-
 ]
