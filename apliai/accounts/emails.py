@@ -518,7 +518,7 @@ table[class=hide], img[class=hide], td[class=hide] {
                                                   </tr>
                                                 </table>
                                               </div>
-											</td>
+											                      </td>
                                           </tr>
                                           <tr>
                                             <td>&nbsp;</td>

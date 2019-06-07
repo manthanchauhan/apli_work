@@ -6,6 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from datetime import datetime
+from .import emails
 
 # Database init
 # Use a service account
@@ -118,7 +119,7 @@ def jobs(request):
             else:
                 return render(request, 'recruiter/jobs.html',
                               {'new_user': 'False', 'jobs': jobs, 'name': request.session['name'], 'jc': len(jobs),
-                               'oc': open_count, 'cc': close_count,'user_packages':user_packages})
+                               'oc': open_count, 'cc': close_count, 'user_packages': user_packages})
 
     except:
         return HttpResponseRedirect('/')
@@ -177,7 +178,60 @@ def candidates(request):
 def team(request):
     try:
         if request.session['user_type'] == 'Recruiter':
-            return render(request, 'recruiter/team.html')
+            team_docs = db.collection(u'users').where(u'parent', u'==', request.session['email']).get()
+            teams = []
+            for doc in team_docs:
+                # print(doc.id)
+                teams.append(doc.to_dict())
+            return render(request, 'recruiter/team.html', {'teams': teams})
+
+    except:
+        return HttpResponseRedirect('/')
+
+
+def deleteteamuser(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            if request.method == "POST":
+                try:
+                    uid = request.POST.get('uid')
+                    print('request for deleteing field of id=> ', uid)
+
+                    db.collection(u'users').document(uid).delete()
+                    return JsonResponse({"success": "true"})
+                except:
+                    return JsonResponse({"success": "false"})
+
+    except:
+        return HttpResponseRedirect('/')
+
+
+def inviteteamuser(request):
+    try:
+        if request.session['user_type'] == 'Recruiter':
+            if request.method == "POST":
+                try:
+                    email = request.POST.get('email')
+                    role = request.POST.get('role')
+                    recmail=request.session['email']
+                    rname=request.session['name']
+                    print("inviteteamuser")
+                    print("invmail: "+email)
+                    print("rname: "+rname)
+                    print("role: "+role)
+                    print("recmail: "+recmail)
+                    print('request for invite user => ', email, ' => ', role)
+                    db.collection(u'users').document(email).set({
+                        'parent': recmail,
+                        'role' : role,
+                        'status' : 'inactive',
+                        'email' : email
+                    })
+                    # write logic for send invite email here
+                    emails.inmail(email,role,recmail,rname)
+                    return JsonResponse({"success": "true"})
+                except:
+                    return JsonResponse({"success": "false"})
 
     except:
         return HttpResponseRedirect('/')
