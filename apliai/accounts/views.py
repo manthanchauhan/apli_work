@@ -133,11 +133,6 @@ def step3(request):
     return render(request,'accounts/step3.html')
 
 def teamsignup(request,encodeddata):
-    if request.method=="POST":
-        email=request.POST.get('inputEmail')
-        password=request.POST.get('inputPassword')
-        name=request.POST.get('name')
-        position =request.POST.get('inlineRadioOptions')
     #all data is fetched and decoded here.you can proceed as you want in case of any query feel free to contact me    
     encodeddatareceived="{}".format(encodeddata)
     pass_phrase = 'APLIAI'
@@ -154,8 +149,25 @@ def teamsignup(request,encodeddata):
     decodedrecmail=''.join([decode.get(c, c) for c in list[1].lower()])
     decodedrole=''.join([decode.get(c, c) for c in list[2].lower()])
     decodedinvmail=''.join([decode.get(c, c) for c in list[3].lower()])
+    global recrmail
+    recrmail=decodedrecmail
+    global invrole
+    invrole=decodedrole
+    global invimail
+    invimail=decodedinvmail
     params={'recmail':decodedrecmail,'role':decodedrole,'invmail':decodedinvmail}
     return render(request,'accounts/member_signup.html',params)
+
+def teamsignupcomplete(request):
+    if request.method=="POST":
+        email=request.POST.get('inputEmail')
+        password=request.POST.get('inputPassword')
+        name=request.POST.get('name')
+        position =request.POST.get('inlineRadioOptions')
+        recruiteremail=recrmail
+        invitedemail=invimail
+        invitedrole=invrole
+        return HttpResponse("data feteched successfully . you can do your action from here.")
 
 def logout(request):
     request.session.flush()
