@@ -43,6 +43,7 @@ def reachus(request):
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
+    docs = db.collection(u'users').get()
     return render(request,'accounts/reachus.html')
 
 def login(request):
@@ -111,7 +112,7 @@ def step2(request):
 def step3(request):
     if request.method == "POST":
         try:
-            role=request.POST.get('inlineRadioOptions')
+            position=request.POST.get('inlineRadioOptions')
             # print(role)    
             email = request.session['email']
             password = request.session['password']
@@ -122,7 +123,7 @@ def step3(request):
                 u'name': name,
                 u'company_name': cname,
                 u'password':password,
-                u'role':role
+                u'position':position
             })
             messages.success(request, 'Signup completed successfully.')
             emails.mail3(email)
@@ -159,3 +160,50 @@ def teamsignup(request,encodeddata):
 def logout(request):
     request.session.flush()
     return render(request,'apliai/index.html')
+
+def forgot_password(request):
+    if request.method=="POST":
+        try:
+            umail=request.POST.get('usermail')
+            if(db.collection(u'users').document(umail).get().exists):
+                emails.fmail(umail)
+                messages.success(request,'An email with the password reset link has been sent to the email address specified.Please click on the reset link to reset your password.')
+                return render(request,'accounts/forgot_password.html')
+            else:
+                messages.error(request, 'There is no account associated with that email address.')
+        except:
+            import traceback
+            traceback.print_exc()
+            messages.error(request, 'Something went wrong! Try Again Later.')
+    return render(request,'accounts/forgot_password.html')
+
+def reset_confirm(request,umail):
+    usermail="{}".format(umail)
+    pass_phrase = 'E7rtQhHyMPriyam'
+    used = {' ', '\n'}
+    key = []
+    for c in pass_phrase.lower() + ascii_lowercase:
+        if c not in used:
+              key.append(c)
+              used.add(c)
+    key = ''.join(key)
+    decode = {v: u for u, v in zip(ascii_lowercase, key)}
+    decmail=''.join([decode.get(c, c) for c in usermail.lower()])
+    global strmail
+    strmail=decmail
+    return render(request,'accounts/reset_confirm_form.html')
+
+def reset_password_successful(request):
+    try:
+        if request.method=="POST":
+            password=request.POST.get('password')
+            req = db.collection(u'users').document(strmail).get().to_dict()
+            #print(req)
+            doc_ref = db.collection(u'users').document(strmail)
+            doc_ref.set({
+                    u'password':password,
+                },merge=True)
+        messages.success(request,"Password Reset Successfully")
+        return render(request,'accounts/login.html')
+    except:
+        messages.error(request,"Oops! Something Went Wrong. Please Try again later!")
