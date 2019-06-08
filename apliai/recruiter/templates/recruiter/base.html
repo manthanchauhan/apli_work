@@ -133,7 +133,7 @@
                 <span>Dashboard</span>
             </a>
         </li>
-        {% if role == "Recruiter" %}
+        {% if role == "Recruiter" or role == "Staff" %}
 
         <li class="nav-item {% if request.resolver_match.url_name == 'jobs' %}active{% endif %}">
             <a class="nav-link" href="{% url 'jobs'  %}">
@@ -141,7 +141,7 @@
                 <span>Post Job</span></a>
         </li>
         {% endif %}
-        {% if role == "Recruiter" %}
+        {% if role == "Recruiter" or role == "Interviewer" %}
 
         <li class="nav-item {% if request.resolver_match.url_name == 'candidates' %}active{% endif %}">
             <a class="nav-link" href="{% url 'candidates'  %}">
@@ -159,7 +159,7 @@
         </li>
         {% endif %}
 
-        {% if role == "Recruiter" or role == "Librarian" %}
+        {% if role == "Recruiter" or role == "Librarian" or role == "Staff"  %}
 
         <li class="nav-item {% if request.resolver_match.url_name == 'question' %}active{% endif %}">
             <a class="nav-link" href="{% url 'question'  %}">
@@ -168,7 +168,7 @@
         </li>
         {% endif %}
 
-        {% if role == "Recruiter" %}
+        {% if role == "Recruiter" or role == "Librarian" or role == "Interviewer" or role == "Staff"  %}
 
         <li class="nav-item {% if request.resolver_match.url_name == 'feedback' %}active{% endif %}">
             <a class="nav-link" href="{% url 'feedback'  %}">
