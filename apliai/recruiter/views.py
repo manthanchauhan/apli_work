@@ -486,7 +486,7 @@ def feedback(request):
     try:
         if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian' or request.session[
             'role'] == 'Interviewer' or request.session['role'] == 'Staff':
-            return render(request, 'recruiter/feedback.html', {'role': request.session['role']})
+            return render(request, 'recruiter/feedback.html', {'role': request.session['role'], 'name': request.session['name']})
 
     except:
         return HttpResponseRedirect('/')
