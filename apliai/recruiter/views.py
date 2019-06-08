@@ -6,7 +6,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from datetime import datetime
-from .import emails
+from . import emails
 
 # Database init
 # Use a service account
@@ -29,12 +29,18 @@ db = firestore.client()
 
 def dashboard(request):
     try:
-        username = request.session['name']
-        email = request.session['email']
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
         company_name = request.session['cname']
+        username = request.session['name']
+        email = main_email
         role = request.session['role']
         print(username, email, company_name, role)
-        return render(request, 'recruiter/dashboard.html', {'name': username})
+        return render(request, 'recruiter/dashboard.html', {'name': username, 'role': role})
     except:
         return HttpResponseRedirect('/')
 
@@ -115,10 +121,10 @@ def jobs(request):
             close_count = len(jobs) - open_count
             if not jobs:
                 return render(request, 'recruiter/jobs.html',
-                              {'new_user': 'True', 'name': request.session['name'], 'jc': 0, 'oc': 0, 'cc': 0})
+                              {'role': request.session['role'],'new_user': 'True', 'name': request.session['name'], 'jc': 0, 'oc': 0, 'cc': 0})
             else:
                 return render(request, 'recruiter/jobs.html',
-                              {'new_user': 'False', 'jobs': jobs, 'name': request.session['name'], 'jc': len(jobs),
+                              {'role': request.session['role'],'new_user': 'False', 'jobs': jobs, 'name': request.session['name'], 'jc': len(jobs),
                                'oc': open_count, 'cc': close_count, 'user_packages': user_packages})
 
     except:
@@ -165,10 +171,10 @@ def candidates(request):
                 applicants.append(custom_dict)
             if not applicants:
                 return render(request, 'recruiter/candidates.html',
-                              {'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
+                              {'role': request.session['role'],'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
             else:
                 return render(request, 'recruiter/candidates.html',
-                              {'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
+                              {'role': request.session['role'],'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
                                'appcount': len(applicants), 'jobs_posted': jobs_posted})
 
     except:
@@ -183,7 +189,7 @@ def team(request):
             for doc in team_docs:
                 # print(doc.id)
                 teams.append(doc.to_dict())
-            return render(request, 'recruiter/team.html', {'teams': teams,'name': request.session['name']})
+            return render(request, 'recruiter/team.html', {'role': request.session['role'],'teams': teams, 'name': request.session['name']})
 
     except:
         return HttpResponseRedirect('/')
@@ -213,22 +219,22 @@ def inviteteamuser(request):
                 try:
                     email = request.POST.get('email')
                     role = request.POST.get('role')
-                    recmail=request.session['email']
-                    rname=request.session['name']
+                    recmail = request.session['email']
+                    rname = request.session['name']
                     print("inviteteamuser")
-                    print("invmail: "+email)
-                    print("rname: "+rname)
-                    print("role: "+role)
-                    print("recmail: "+recmail)
+                    print("invmail: " + email)
+                    print("rname: " + rname)
+                    print("role: " + role)
+                    print("recmail: " + recmail)
                     print('request for invite user => ', email, ' => ', role)
                     db.collection(u'users').document(email).set({
                         'parent': recmail,
-                        'role' : role,
-                        'status' : 'inactive',
-                        'email' : email
+                        'role': role,
+                        'status': 'inactive',
+                        'email': email
                     })
                     # write logic for send invite email here
-                    emails.inmail(email,role,recmail,rname)
+                    emails.inmail(email, role, recmail, rname)
                     return JsonResponse({"success": "true"})
                 except:
                     return JsonResponse({"success": "false"})
@@ -239,16 +245,20 @@ def inviteteamuser(request):
 
 def question(request):
     try:
-        if request.session['role'] == 'Recruiter':
-
-            user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+            user_packages_docs = db.collection(u'users').document(main_email).collection(
                 u'packages').get()
             user_packages = []
             for doc in user_packages_docs:
                 # print(doc.id)
                 user_packages.append(doc.id)
 
-            user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
+            user_questions_docs = db.collection(u'users').document(main_email).collection(
                 u'packages').document('sample').collection(
                 u'questions').get()
             user_questions = []
@@ -264,7 +274,8 @@ def question(request):
                 built_in_questions.append(doc.to_dict())
 
             return render(request, 'recruiter/question.html',
-                          {'user_questions': user_questions, 'built_in_questions': built_in_questions,
+                          {'role': request.session['role'], 'user_questions': user_questions,
+                           'built_in_questions': built_in_questions,
                            'user_packages': user_packages, 'name': request.session['name']})
 
     except:
@@ -273,7 +284,12 @@ def question(request):
 
 def addpackage(request):
     try:
-        if request.session['role'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
             # From post job form
             if request.method == "POST":
                 try:
@@ -281,12 +297,12 @@ def addpackage(request):
                     packageName = request.POST.get('packageName')
                     question = request.POST.get('question')
                     questionType = request.POST.get('questionType')
-                    db.collection(u'users').document(request.session['email']).collection(
+                    db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).set({u'id': packageName})
-                    doc_ref = db.collection(u'users').document(request.session['email']).collection(
+                    doc_ref = db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').document()
-                    db.collection(u'users').document(request.session['email']).collection(
+                    db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').document(doc_ref.id).set({
                         u'id': doc_ref.id,
@@ -303,14 +319,18 @@ def addpackage(request):
 
 def changepackage(request):
     try:
-        if request.session['role'] == 'Recruiter':
-            # From post job form
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']  # From post job form
             if request.method == "POST":
                 try:
                     packageName = request.POST.get('packageName')
                     # print('request for change package', packageName)
 
-                    user_questions_docs = db.collection(u'users').document(request.session['email']).collection(
+                    user_questions_docs = db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').get()
                     user_questions = []
@@ -328,8 +348,13 @@ def changepackage(request):
 
 def loadquestions(request):
     try:
-        if request.session['role'] == 'Recruiter':
-            # From post job form
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+                # From post job form
             if request.method == "POST":
                 try:
                     questionType = request.POST.get('questionType')
@@ -352,8 +377,13 @@ def loadquestions(request):
 
 def addquestion(request):
     try:
-        if request.session['role'] == 'Recruiter':
-            # From post job form
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+                # From post job form
             if request.method == "POST":
                 try:
                     # print('request for adding question')
@@ -361,10 +391,10 @@ def addquestion(request):
                     question = request.POST.get('question')
                     questionType = request.POST.get('questionType')
 
-                    doc_ref = db.collection(u'users').document(request.session['email']).collection(
+                    doc_ref = db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').document()
-                    db.collection(u'users').document(request.session['email']).collection(
+                    db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').document(doc_ref.id).set({
                         u'id': doc_ref.id,
@@ -381,12 +411,17 @@ def addquestion(request):
 
 def getPackages(request):
     try:
-        if request.session['role'] == 'Recruiter':
-            # From post job form
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+                # From post job form
             if request.method == "GET":
                 try:
                     # print('request for get user packages')
-                    user_packages_docs = db.collection(u'users').document(request.session['email']).collection(
+                    user_packages_docs = db.collection(u'users').document(main_email).collection(
                         u'packages').get()
                     user_packages = []
                     for doc in user_packages_docs:
@@ -402,15 +437,19 @@ def getPackages(request):
 
 def deletequestion(request):
     try:
-        if request.session['role'] == 'Recruiter':
-            # From post job form
+        if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian':
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+                # From post job form
             if request.method == "POST":
                 try:
                     id = request.POST.get('id')
                     packageName = request.POST.get('packageName')
                     # print('deleting question with id=>', id, ' and package =>', packageName)
-
-                    db.collection(u'users').document(request.session['email']).collection(
+                    db.collection(u'users').document(main_email).collection(
                         u'packages').document(packageName).collection(
                         u'questions').document(id).delete()
                     return JsonResponse({"success": "true"})
@@ -425,7 +464,7 @@ def deletequestion(request):
 def feedback(request):
     try:
         if request.session['role'] == 'Recruiter':
-            return render(request, 'recruiter/feedback.html')
+            return render(request, 'recruiter/feedback.html',{'role': request.session['role']})
 
     except:
         return HttpResponseRedirect('/')

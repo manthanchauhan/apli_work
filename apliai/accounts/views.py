@@ -50,35 +50,37 @@ def reachus(request):
 
 def login(request):
     if request.method == "POST":
-        try:
-            email = request.POST.get('inputEmail')
-            password = request.POST.get('inputPassword')
-            if (db.collection(u'users').document(email).get().exists):
-                # user exists
-                # print(email,password)
-                req = db.collection(u'users').document(email).get().to_dict()
-                password_check = req['password']
-                role = req['role']
-                if (password == password_check):
-                    # session start
-                    request.session['name'] = req['name']
-                    request.session['email'] = email
-                    request.session['cname'] = req['company_name']
-                    if role == 'Recruiter':
-                        request.session['role'] = 'Recruiter'
-                    if role == 'Interviewer':
-                        request.session['role'] = 'Interviewer'
-                    if role == 'Librarian':
-                        request.session['role'] = 'Librarian'
-                    if role == 'Staff':
-                        request.session['role'] = 'Staff'
-                    return HttpResponseRedirect('/recruiter/dashboard')
-                else:
-                    messages.error(request, 'Incorrect Password')
+        # try:
+        email = request.POST.get('inputEmail')
+        password = request.POST.get('inputPassword')
+        if db.collection(u'users').document(email).get().exists:
+            # user exists
+            # print(email,password)
+            req = db.collection(u'users').document(email).get().to_dict()
+            password_check = req['password']
+            role = req['role']
+            if password == password_check:
+                # session start
+                request.session['name'] = req['name']
+                request.session['email'] = email
+                request.session['cname'] = req['company_name']
+
+                if role == 'Recruiter':
+                    request.session['role'] = 'Recruiter'
+                if role == 'Interviewer':
+                    request.session['role'] = 'Interviewer'
+                if role == 'Librarian':
+                    request.session['role'] = 'Librarian'
+                    request.session['parent'] = req['parent']
+                if role == 'Staff':
+                    request.session['role'] = 'Staff'
+                return HttpResponseRedirect('/recruiter/dashboard')
             else:
-                messages.error(request, 'No such Account. Please Proceed to Reach Us')
-        except:
-            messages.error(request, 'Something went wrong! Try Again Later.')
+                messages.error(request, 'Incorrect Password')
+        else:
+            messages.error(request, 'No such Account. Please Proceed to Reach Us')
+    # except:
+    #     messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request, 'accounts/login.html')
 
 
@@ -138,7 +140,7 @@ def step3(request):
                 u'company_name': cname,
                 u'password': password,
                 u'position': position,
-                u'role':'Recruiter'
+                u'role': 'Recruiter'
             })
             messages.success(request, 'Signup completed successfully.')
             emails.mail3(email)
@@ -187,11 +189,11 @@ def teamsignupcomplete(request):
                 if member_info['status'] == 'inactive':
                     print('inactive status')
                     db.collection(u'users').document(invimail).update({
-                        'status' : 'active',
-                        'position' : position,
-                        'name' : name,
-                        'password' : password,
-                        'company_name' : company_name
+                        'status': 'active',
+                        'position': position,
+                        'name': name,
+                        'password': password,
+                        'company_name': company_name
                     })
                     return render(request, 'accounts/login.html')
 
