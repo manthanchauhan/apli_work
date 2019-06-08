@@ -142,6 +142,8 @@ def step3(request):
                 u'position': position,
                 u'role': 'Recruiter'
             })
+            db.collection(u'users').document(email).collection(
+                u'packages').document(u'sample').set({u'id': 'sample'})
             messages.success(request, 'Signup completed successfully.')
             emails.mail3(email)
             return render(request, 'accounts/login.html')
