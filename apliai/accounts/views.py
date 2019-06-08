@@ -69,11 +69,13 @@ def login(request):
                     request.session['role'] = 'Recruiter'
                 if role == 'Interviewer':
                     request.session['role'] = 'Interviewer'
+                    request.session['parent'] = req['parent']
                 if role == 'Librarian':
                     request.session['role'] = 'Librarian'
                     request.session['parent'] = req['parent']
                 if role == 'Staff':
                     request.session['role'] = 'Staff'
+                    request.session['parent'] = req['parent']
                 return HttpResponseRedirect('/recruiter/dashboard')
             else:
                 messages.error(request, 'Incorrect Password')
