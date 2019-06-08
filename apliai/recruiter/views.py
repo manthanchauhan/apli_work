@@ -186,10 +186,10 @@ def candidates(request):
             applicants.append(custom_dict)
         if not applicants:
             return render(request, 'recruiter/candidates.html',
-                            {'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
+                            {'role': request.session['role'],'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
         else:
             return render(request, 'recruiter/candidates.html',
-                            {'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
+                            {'role': request.session['role'],'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
                             'appcount': len(applicants), 'jobs_posted': jobs_posted})
 
     # except:
