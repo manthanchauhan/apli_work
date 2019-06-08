@@ -177,6 +177,11 @@
         </li>
         {% endif %}
 
+      <li class="nav-item {% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'accounts:logout'  %}">
+          <i class="fas fa fa-power-off"></i>
+          <span>Logout</span></a>
+      </li>
     </ul>
 
     <div id="content-wrapper">

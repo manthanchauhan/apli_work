@@ -170,11 +170,14 @@ def candidates(request):
         custom_dict = {}
         for doc in docs:
             custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
+            custom_dict['id'] = doc.to_dict()['id']
+            custom_dict['candidate_img'] = doc.to_dict()['candidate_img']
             custom_dict['company_name'] = doc.to_dict()['company_name']
             custom_dict['resume'] = doc.to_dict()['resume']
             custom_dict['video_resume'] = doc.to_dict()['video_resume']
             custom_dict['resume_score'] = doc.to_dict()['resume_score']
             custom_dict['video_resume_score'] = doc.to_dict()['video_resume_score']
+            custom_dict['skills'] = doc.to_dict()['skills_score'] 
             custom_dict['grade'] = (custom_dict['resume_score'] + custom_dict['video_resume_score'])/2.0
             custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()[
                 'place']
