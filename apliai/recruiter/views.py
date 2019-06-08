@@ -160,6 +160,7 @@ def candidates(request):
             custom_dict['video_resume'] = doc.to_dict()['video_resume']
             custom_dict['resume_score'] = doc.to_dict()['resume_score']
             custom_dict['video_resume_score'] = doc.to_dict()['video_resume_score']
+            custom_dict['skills'] = doc.to_dict()['skills_score'] 
             custom_dict['grade'] = (custom_dict['resume_score'] + custom_dict['video_resume_score'])/2.0
             custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()[
                 'place']
