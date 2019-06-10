@@ -14,6 +14,70 @@
     .rou{
         border-radius : 25rem;
     }
+    /* The container */
+    .container1 {
+    display: inline;
+    position: relative;
+    padding-left: 35px;
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* Hide the browser's default radio button */
+    .container1 input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    }
+
+    /* Create a custom radio button */
+    .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container1:hover input ~ .checkmark {
+    background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .container1 input:checked ~ .checkmark {
+    background-color: #2196F3;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .container1 input:checked ~ .checkmark:after {
+    display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .container1 .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+
     </style>
   </head>
   <body>
@@ -40,23 +104,34 @@
 
                     <div class="form-label-group">
                         <input type="text" name="company_name" id="company_name" class="form-control" placeholder="Company Name" required autofocus>
-                        <label for="company_name">Company Name *</label>
+                        <label for="company_name">Company Name / Campus Name *</label>
                     </div>
 
                     <div class="form-label-group">
                         <input type="email" name="company_email" id="company_email" class="form-control" placeholder="Company Email address" required autofocus>
-                        <label for="company_email">Company Email address *</label>
+                        <label for="company_email">Work Email address *</label>
                     </div>
-
+                    <div align="center">
+                    <label class="container1">Company
+                    <input type="radio" checked="checked" name="user_type" value="company">
+                    <span class="checkmark"></span>
+                    </label>
+                    <label class="container1">Campus
+                    <input type="radio" name="user_type" value="campus">
+                    <span class="checkmark"></span>
+                    </label>
+                    </div>
+                    <br><br>
                     <div class="form-label-group">
                         <input type="tel" name="emp_num" id="emp_num" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" autofocus>
                         <label for="emp_num">Phone Number</label>
                     </div>
+                    
                     <button class="btn-lg btn-primary btn-block text-uppercase txt rou" type="submit"><b>Send</b></button>
                 </form>
                 
                 <hr>
-                <label for="login" align='center'><b>Have Credentials ?</b></label>
+                <div align="center"><label for="login" ><b>Have Credentials ?</b></label></div>
                 <div class="form-label-group">
                     <a href="{% url 'accounts:login'  %}" ><button class="btn-lg btn-primary btn-block text-uppercase rou txt" ><b>Login</b></button></a>
                 </div>                                                

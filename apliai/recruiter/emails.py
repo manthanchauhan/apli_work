@@ -4,7 +4,7 @@ import string
 
 def inmail(invmail,role,recemail,rname):
     subject = 'Team Invitation'
-    pass_phrase = 'APLIAI'
+    pass_phrase = 'E7rtQhHyMPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:

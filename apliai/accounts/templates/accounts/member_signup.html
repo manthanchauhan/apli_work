@@ -27,6 +27,7 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
+                        <span id='message'></span>
                         <h5 class="card-title text-center">Member Signup</h5>
                         <form class="form-signin" >
                             <div class="form-label-group">
@@ -111,7 +112,7 @@ $("#signup").click(function () {
         urlarray.pop();
         urlarray.pop();
         let url = urlarray.join('/');
-      console.log('signup btn => ',name,pass,position,url);
+      //console.log('signup btn => ',name,pass,position,url);
         teamSignupComplete(name,pass,position,url);
      
     });
@@ -175,6 +176,12 @@ $("#signup").click(function () {
             data: data,
             success: function (data) {
               console.log(data['success']);
+              if(data['success']){
+                  window.location.replace("localhost:8000/accounts/login");
+              }
+              else{
+                  $('#message').html('Member already exists').css('color', 'red');
+              }
            //   window.location.reload();
             }
     
