@@ -31,17 +31,17 @@ def dashboard(request):
     # try:
     if request.session['role'] == 'Recruiter' or request.session['role'] == 'Librarian' or request.session[
         'role'] == 'Interviewer' or request.session['role'] == 'Staff':
-        print('current role is : ', request.session['role'])
+        #print('current role is : ', request.session['role'])
         if request.session['role'] == 'Recruiter':
             main_email = request.session['email']
         else:
-            print('current role is : ', request.session['role'])
+            #print('current role is : ', request.session['role'])
             main_email = request.session['parent']
     company_name = request.session['cname']
     username = request.session['name']
     email = main_email
     role = request.session['role']
-    print(username, email, company_name, role)
+    #print(username, email, company_name, role)
     return render(request, 'recruiter/dashboard.html', {'name': username, 'role': role})
 
 
@@ -55,7 +55,7 @@ def jobs(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
                 # From post job form
             if request.method == "POST":
@@ -122,7 +122,7 @@ def jobs(request):
             user_packages_docs = db.collection(u'users').document(main_email).collection(u'packages').get()
             user_packages = []
             for doc in user_packages_docs:
-                print(doc.id)
+                #print(doc.id)
                 user_packages.append(doc.id)
 
             close_count = len(jobs) - open_count
@@ -143,7 +143,7 @@ def jobs(request):
 def deletepost(request):
     try:
 
-        if request.session['role'] == 'Recruiter':
+        if request.session['role'] == 'Recruiter' or request.session['role']=='Staff':
             # From post job form
             if request.method == "POST":
                 try:
@@ -216,7 +216,7 @@ def deleteteamuser(request):
             if request.method == "POST":
                 try:
                     uid = request.POST.get('uid')
-                    print('request for deleteing field of id=> ', uid)
+                    #print('request for deleteing field of id=> ', uid)
 
                     db.collection(u'users').document(uid).delete()
                     return JsonResponse({"success": "true"})
@@ -267,7 +267,7 @@ def question(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
             user_packages_docs = db.collection(u'users').document(main_email).collection(
                 u'packages').get()
@@ -307,7 +307,7 @@ def addpackage(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
             # From post job form
             if request.method == "POST":
@@ -343,7 +343,7 @@ def changepackage(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']  # From post job form
             if request.method == "POST":
                 try:
@@ -373,13 +373,13 @@ def loadquestions(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
                 # From post job form
             if request.method == "POST":
                 try:
                     questionType = request.POST.get('questionType')
-                    print('request for change package', questionType)
+                    #print('request for change package', questionType)
 
                     built_in_questions_docs = db.collection(
                         u'questions').where(u'type', u'==', questionType).get()
@@ -403,7 +403,7 @@ def addquestion(request):
         if request.session['role'] == 'Recruiter':
             main_email = request.session['email']
         else:
-            print('current role is : ', request.session['role'])
+            #print('current role is : ', request.session['role'])
             main_email = request.session['parent']
             # From post job form
         if request.method == "POST":
@@ -439,7 +439,7 @@ def getPackages(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
                 # From post job form
             if request.method == "GET":
@@ -466,7 +466,7 @@ def deletequestion(request):
             if request.session['role'] == 'Recruiter':
                 main_email = request.session['email']
             else:
-                print('current role is : ', request.session['role'])
+                #print('current role is : ', request.session['role'])
                 main_email = request.session['parent']
                 # From post job form
             if request.method == "POST":
