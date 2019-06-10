@@ -7,5 +7,5 @@ urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^accounts/', include('accounts.urls')),
     re_path(r'^recruiter/', include('recruiter.urls')),
-
+    re_path(r'^campus/', include('campus.urls')),
 ]

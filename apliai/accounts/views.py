@@ -12,36 +12,41 @@ from string import ascii_lowercase, ascii_uppercase
 # Use a service account
 cred = credentials.Certificate('./serviceAccountKey.json')
 firebase_admin.initialize_app(cred)
-
 db = firestore.client()
-
+# Powerful query not for developers
+# docs = db.collection(u'users').get()
+# for doc in docs:
+#     db.collection(u'users').document(doc.id).set({u'user_type':'Company'},merge=True)
 
 def reachus(request):
     if request.method == "POST":
         try:
-            emp_name = request.POST.get('emp_name')
-            company_name = request.POST.get('company_name')
-            company_email = request.POST.get('company_email')
+            name = request.POST.get('emp_name')
+            workplace = request.POST.get('company_name')
+            work_email = request.POST.get('company_email')
+            user_type = request.POST.get('user_type')
             if request.POST.get('emp_num') == '':
                 # print(emp_name,company_name,company_email,"None")
-                doc_ref = db.collection(u'reachus').document(company_email)
+                doc_ref = db.collection(u'reachus').document(work_email)
                 doc_ref.set({
-                    u'emp_name': emp_name,
-                    u'company_name': company_name,
+                    u'name': name,
+                    u'workplace': workplace,
+                    u'user_type':user_type
                 })
-                emp_num = '-'
+                contact = '-'
             else:
-                emp_num = request.POST.get('emp_num')
+                contact = request.POST.get('emp_num')
                 # print(emp_name,company_name,company_email,emp_num)
-                doc_ref = db.collection(u'reachus').document(company_email)
+                doc_ref = db.collection(u'reachus').document(work_email)
                 doc_ref.set({
-                    u'emp_name': emp_name,
-                    u'company_name': company_name,
-                    u'emp_num': emp_num
+                    u'name': name,
+                    u'workplace': workplace,
+                    u'user_type':user_type,
+                    u'contact': contact
                 })
             email_from = settings.EMAIL_HOST_USER
-            emails.mail(email_from, company_email)
-            emails.mail2(company_name, company_email, emp_name, str(emp_num))
+            emails.mail(email_from, work_email)
+            emails.mail2(workplace, work_email, name, str(contact),user_type)
             messages.success(request, 'Form submitted successfully, you will be contacted soon.')
         except:
             messages.error(request, 'Something went wrong! Try Again Later.')
@@ -50,39 +55,45 @@ def reachus(request):
 
 def login(request):
     if request.method == "POST":
-        # try:
-        email = request.POST.get('inputEmail')
-        password = request.POST.get('inputPassword')
-        if db.collection(u'users').document(email).get().exists:
-            # user exists
-            # print(email,password)
-            req = db.collection(u'users').document(email).get().to_dict()
-            password_check = req['password']
-            role = req['role']
-            if password == password_check:
-                # session start
-                request.session['name'] = req['name']
-                request.session['email'] = email
-                request.session['cname'] = req['company_name']
+        try:
+            email = request.POST.get('inputEmail')
+            password = request.POST.get('inputPassword')
+            if db.collection(u'users').document(email).get().exists:
+                # user exists
+                req = db.collection(u'users').document(email).get().to_dict()
+                password_check = req['password']
+                user_type = req['user_type']
+                if password == password_check:
+                    if user_type == 'Company':
+                        role = req['role']
+                        # session start
+                        request.session['name'] = req['name']
+                        request.session['email'] = email
+                        request.session['cname'] = req['company_name']
 
-                if role == 'Recruiter':
-                    request.session['role'] = 'Recruiter'
-                if role == 'Interviewer':
-                    request.session['role'] = 'Interviewer'
-                    request.session['parent'] = req['parent']
-                if role == 'Librarian':
-                    request.session['role'] = 'Librarian'
-                    request.session['parent'] = req['parent']
-                if role == 'Staff':
-                    request.session['role'] = 'Staff'
-                    request.session['parent'] = req['parent']
-                return HttpResponseRedirect('/recruiter/dashboard')
+                        if role == 'Recruiter':
+                            request.session['role'] = 'Recruiter'
+                        if role == 'Interviewer':
+                            request.session['role'] = 'Interviewer'
+                            request.session['parent'] = req['parent']
+                        if role == 'Librarian':
+                            request.session['role'] = 'Librarian'
+                            request.session['parent'] = req['parent']
+                        if role == 'Staff':
+                            request.session['role'] = 'Staff'
+                            request.session['parent'] = req['parent']
+                        return HttpResponseRedirect('/recruiter/dashboard')
+                    if user_type == 'Campus':
+                        request.session['name'] = req['name']
+                        request.session['email'] = email
+                        request.session['cname'] = req['college']
+                        return HttpResponseRedirect('/campus/dashboard')
+                else:
+                    messages.error(request, 'Incorrect Password')
             else:
-                messages.error(request, 'Incorrect Password')
-        else:
-            messages.error(request, 'No such Account. Please Proceed to Reach Us')
-    # except:
-    #     messages.error(request, 'Something went wrong! Try Again Later.')
+                messages.error(request, 'No such Account. Please Proceed to Reach Us')
+        except:
+            messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request, 'accounts/login.html')
 
 
@@ -142,7 +153,8 @@ def step3(request):
                 u'company_name': cname,
                 u'password': password,
                 u'position': position,
-                u'role': 'Recruiter'
+                u'role': 'Recruiter',
+                u'user_type':'Company'
             })
             db.collection(u'users').document(email).collection(
                 u'packages').document(u'sample').set({u'id': 'sample'})
@@ -153,10 +165,31 @@ def step3(request):
             messages.error(request, 'Something went wrong! Try Again Later.')
     return render(request, 'accounts/step3.html')
 
+def campus_signup(request):
+    if request.method == "POST":
+        try:
+            college_name = request.POST.get('cname')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            name = request.POST.get('uname')
+            if (not db.collection(u'users').document(email).get().exists):
+                doc_ref = db.collection(u'users').document(email)
+                doc_ref.set({
+                    u'name': name,
+                    u'college': college_name,
+                    u'password': password,
+                    u'user_type':'Campus'
+                })
+                messages.success(request, 'Signup completed successfully.')
+            return render(request, 'accounts/login.html')
+        except:
+            messages.error(request, 'Something went wrong! Try Again Later.')
+    return render(request, 'accounts/campus_signup.html')
+
 
 def teamsignup(request, encodeddata):
     encodeddatareceived = "{}".format(encodeddata)
-    pass_phrase = 'APLIAI'
+    pass_phrase = 'E7rtQhHyMPriyam'
     used = {' ', '\n'}
     key = []
     for c in pass_phrase.lower() + ascii_lowercase:
@@ -197,9 +230,10 @@ def teamsignupcomplete(request):
                         'position': position,
                         'name': name,
                         'password': password,
-                        'company_name': company_name
+                        'company_name': company_name,
+                        'user_type':'Company'
                     })
-                    return render(request, 'accounts/login.html')
+                    return JsonResponse({"success": "true"})
 
                 if member_info['status'] == 'active':
                     return JsonResponse({"success": "false"})

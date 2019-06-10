@@ -305,9 +305,9 @@ table[class=hide], img[class=hide], td[class=hide] {
     recipient_list = [r,]
     send_mail(subject, message,s, recipient_list,fail_silently=False,html_message=html_message)
 
-def mail2(cn,ce,en,eno):
+def mail2(cn,ce,en,eno,u_type):
     subject = 'Contacted Company via Website'
-    message="Company Name: "+" "+cn+"\n"+"CompanyEmail: "+" "+ce+"\n"+"Employee Name: "+" "+en+"\nEmployee Number: "+ " "+eno
+    message="Company Name: "+" "+cn+"\n"+"CompanyEmail: "+" "+ce+"\n"+"Employee Name: "+" "+en+"\nEmployee Number: "+ " "+eno+"\n"+"User_type"+" : "+u_type
     recipient_list = ['aplidotaiintern@gmail.com',]
     send_mail(subject, message,'aplidotaiintern@gmail.com', recipient_list,fail_silently=False,)
 
