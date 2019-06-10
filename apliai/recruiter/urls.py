@@ -7,6 +7,8 @@ urlpatterns = [
     path('jobs', views.jobs, name="jobs"),
     path('candidates', views.candidates, name="candidates"),
     path('team', views.team, name="team"),
+    path('deleteteamuser', views.deleteteamuser, name="deleteteamuser"),
+    path('inviteteamuser', views.inviteteamuser, name="inviteteamuser"),
     path('feedback', views.feedback, name="feedback"),
     path('question', views.question, name="question"),
     path('deletepost',views.deletepost,name="deletepost"),
@@ -16,5 +18,4 @@ urlpatterns = [
     path('deletequestion', views.deletequestion, name="deletequestion"),
     path('getPackages', views.getPackages, name="getPackages"),
     path('changepackage', views.changepackage, name="changepackage"),
-
 ]
