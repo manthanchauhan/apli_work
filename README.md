@@ -18,17 +18,12 @@ A Website to make hiring easy.
 * apliai -> Main Project.
 * accounts -> App to handle user accounts.
 * recruiter -> App to handle recruiter demands.
+* campus -> App to handle campus demands.
+* maintainer -> Main Admin side
 
 # Improvements To be made
 
-<h3> Frontend </h4>
-1. simplify templates to base,header,footer ie django style <br>
-2. improve pages,styling and basic codes.<br>
-3. Home page redesign as per need
-
-<h3> Backend </h3>
-
-1. Dashboard logic to be started.
+https://docs.google.com/spreadsheets/d/1_qbsjBP7NekRRNS54Q31qhrqQgx78UQvGW1PWXrJpZA/edit?usp=sharing
 
 # Contributors
 
