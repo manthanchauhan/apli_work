@@ -1,6 +1,14 @@
 {% extends "recruiter/base.html" %}
 {% block title %}Apli.ai | Candidates{% endblock title %}
 {% block content %}
+<style>
+.app {
+  display: flex;
+  height:300px;
+  width:300px;
+}
+
+</style>
         <!-- Icon Cards-->
         <div class="row">
           <div class="col-xl-4 col-sm-6 mb-4">
@@ -47,31 +55,66 @@
           </div>
           
           {% if new_user == 'False' %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Profile</th>
-                      <th>Skills</th>
-                      <th>Resume | Score</th>
-                      <th>Video-Resume | Score</th>
-                      <th>Post | Place</th>
-                      <th>Grade</th>
-                      <th>Status</th>
+                      <th class="text-center">Profile</th>
+                      <th class="text-center">Skills</th>
+                      <th class="text-center">Resume & Score</th>
+                      {% comment %} <th class="text-center">Post & Place</th> {% endcomment %}
+                      <th class="text-center">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                   {% for applicant in applicants %}
                     <tr>
-                      <td>{{applicant.candidate_name}}</td>
-                      <td>Skills chart</td>
-                      <td>Resume link | 4/5</td>
-                      <td>Video-Resume link | 4/5</td>                      
-                      <td>{{applicant.post}} | {{applicant.place}}</td>
-                      <td>{{applicant.grade}} / 5.0</td>
-                      <td>Applied</td>
+                      <td align='center'><div style="display:table-cell; vertical-align:middle; text-align:center"><img src='{{applicant.candidate_img}}' alt='profile-pic' style="width:200px;height:200px;border-radius:50%;"><br><b>{{applicant.candidate_name}}</b><br><a href="#">See Audio-Video Interview</a></div></td>
+                      <td align='center'>
+                            <div class="app">
+                              <canvas id="{{applicant.id}}/chart" width="300" height="300"></canvas>
+                            </div>
+                      </td> 
+                      <td align='center'>
+                          <a href='{{applicant.resume}}' target="_blank">Resume</a> &nbsp;&nbsp;                          
+                          {{applicant.resume_score}}/5 <br>
+
+                          {{applicant.grade}} / 5.0
+                          <br>
+                          <a href='{{applicant.video_resume}}' target="_blank">Video Resume</a> &nbsp;&nbsp;
+                          {{applicant.video_resume_score}}/5 
+                          
+                      </td>
+                      {% comment %} <td align='center'><b>{{applicant.post}} <br> {{applicant.place}}</b></td> {% endcomment %}
+                      <td align='center'>Applied<br>
+                          <div><a href="#">Accept</a>&nbsp;&nbsp;&nbsp;<a href="#">Reject</a></div>
+                      </td>
                     </tr> 
+                    <script>
+                    var ctx = document.getElementById('{{applicant.id}}/chart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"],
+                            datasets: [{
+                                backgroundColor: 'rgba(0, 255, 0, .5)',
+                                borderColor: 'rgb(0,255,0)',
+                                data: {{applicant.skills}},
+                            }]
+                        },
+                        options: {
+                          scale: {
+                            ticks: {
+                              min: 0,
+                              max: 5
+                            }
+                          },
+                        legend:false
+                        }
+                    });
+                    </script>  
                   {% endfor %} 
                   </tbody>
                 </table>
@@ -85,7 +128,6 @@
                 </table>
               </div>
           </div>
-          {% endif %}
-          
+          {% endif %}        
 
 {% endblock content %}
