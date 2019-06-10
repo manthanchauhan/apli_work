@@ -88,6 +88,10 @@ def login(request):
                         request.session['email'] = email
                         request.session['cname'] = req['college']
                         return HttpResponseRedirect('/campus/dashboard')
+                    if user_type == 'Admin':
+                        request.session['name'] = req['name']
+                        request.session['email'] = email
+                        return HttpResponseRedirect('/maintainer/dashboard')
                 else:
                     messages.error(request, 'Incorrect Password')
             else:
