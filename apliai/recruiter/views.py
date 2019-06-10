@@ -52,90 +52,89 @@ def dashboard(request):
 def jobs(request):
     try:
         if request.session['role'] == 'Recruiter' or request.session['role'] == 'Staff':
-            main_email = request.session['email']
-        else:
-            print('current role is : ', request.session['role'])
-            main_email = request.session['parent']
-            # From post job form
-        if request.method == "POST":
-            try:
-                company_name = request.session['cname']
-                packageId = request.POST.get('userPackages')
-                post = request.POST.get('post')
-                job_description = request.POST.get('jobdesc')
-                key_responsibility = request.POST.get('keyresp')
-                tskill = request.POST.getlist('tskill')
-                sskill = request.POST.getlist('sskill')
-                other = request.POST.getlist('other')
-                bond = request.POST.get('bond')
-                salary = request.POST.get('salary')
-                add_detail = request.POST.get('adddetail')
-                place = request.POST.get('place')
-                joining_date = request.POST.get('startdate')
-                deadline = request.POST.get('deadline')
-                status = 'Opened'
-                jobid = main_email + '$' + post + '$' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
-                doc_ref = db.collection(u'jobs').document(jobid)
-                doc_ref.set({
-                    u'post': post,
-                    u'job_description': job_description,
-                    u'key_responsibility': key_responsibility,
-                    u'place': place,
-                    u'tskill': tskill,
-                    u'sskill': sskill,
-                    u'other': other,
-                    u'start_date': joining_date,
-                    u'deadline': deadline,
-                    u'bond': bond,
-                    u'salary': salary,
-                    u'add_detail': add_detail,
-                    u'status': status,
-                    u'email': main_email,
-                    u'packageId': packageId
-                })
-                messages.success(request, 'Job posted successfully.')
-            except:
-                messages.error(request, 'Something went wrong! Try Again Later.')
+            if request.session['role'] == 'Recruiter':
+                main_email = request.session['email']
+            else:
+                print('current role is : ', request.session['role'])
+                main_email = request.session['parent']
+                # From post job form
+            if request.method == "POST":
+                try:
+                    company_name = request.session['cname']
+                    packageId = request.POST.get('userPackages')
+                    post = request.POST.get('post')
+                    job_description = request.POST.get('jobdesc')
+                    key_responsibility = request.POST.get('keyresp')
+                    tskill = request.POST.getlist('tskill')
+                    sskill = request.POST.getlist('sskill')
+                    other = request.POST.getlist('other')
+                    bond = request.POST.get('bond')
+                    salary = request.POST.get('salary')
+                    add_detail = request.POST.get('adddetail')
+                    place = request.POST.get('place')
+                    joining_date = request.POST.get('startdate')
+                    deadline = request.POST.get('deadline')
+                    status = 'Opened'
+                    jobid = main_email + '$' + post + '$' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
+                    doc_ref = db.collection(u'jobs').document(jobid)
+                    doc_ref.set({
+                        u'post': post,
+                        u'job_description': job_description,
+                        u'key_responsibility': key_responsibility,
+                        u'place': place,
+                        u'tskill': tskill,
+                        u'sskill': sskill,
+                        u'other': other,
+                        u'start_date': joining_date,
+                        u'deadline': deadline,
+                        u'bond': bond,
+                        u'salary': salary,
+                        u'add_detail': add_detail,
+                        u'status': status,
+                        u'email': main_email,
+                        u'packageId': packageId
+                    })
+                    messages.success(request, 'Job posted successfully.')
+                except:
+                    messages.error(request, 'Something went wrong! Try Again Later.')
 
-                # get jobs data
-        docs = db.collection(u'jobs').where(u'email', u'==', main_email).get()
-        jobs = []
-        open_count = 0
-        close_count = 0
-        for doc in docs:
-            # print(doc.to_dict())
-            # print(doc.id)
-            stat = doc.to_dict()['status']
-            deadline = doc.to_dict()['deadline']
-            if stat == 'Opened':
-                if datetime.strptime(deadline, '%Y-%m-%d') < datetime.today():
-                    db.collection(u'jobs').document(doc.id).set({u'status': 'Closed'}, merge=True)
-                    doc.to_dict()['status'] = 'Closed'
-                else:
-                    open_count += 1
-            temp = doc.to_dict()
-            temp.update({'id': doc.id})
-            # print(temp['id'])
-            jobs.append(temp)
+            # get jobs data
+            docs = db.collection(u'jobs').where(u'email', u'==', main_email).get()
+            jobs = []
+            open_count = 0
+            close_count = 0
+            for doc in docs:
+                # print(doc.to_dict())
+                # print(doc.id)
+                stat = doc.to_dict()['status']
+                deadline = doc.to_dict()['deadline']
+                if stat == 'Opened':
+                    if datetime.strptime(deadline, '%Y-%m-%d') < datetime.today():
+                        db.collection(u'jobs').document(doc.id).set({u'status': 'Closed'}, merge=True)
+                        doc.to_dict()['status'] = 'Closed'
+                    else:
+                        open_count += 1
+                temp = doc.to_dict()
+                temp.update({'id': doc.id})
+                # print(temp['id'])
+                jobs.append(temp)
+            user_packages_docs = db.collection(u'users').document(main_email).collection(u'packages').get()
+            user_packages = []
+            for doc in user_packages_docs:
+                print(doc.id)
+                user_packages.append(doc.id)
 
-        user_packages_docs = db.collection(u'users').document(main_email).collection(
-            u'packages').get()
-        user_packages = []
-        for doc in user_packages_docs:
-            # print(doc.id)
-            user_packages.append(doc.id)
-
-        close_count = len(jobs) - open_count
-        if not jobs:
-            return render(request, 'recruiter/jobs.html',
-                          {'role': request.session['role'], 'new_user': 'True', 'name': request.session['name'],
-                           'jc': 0, 'oc': 0, 'cc': 0})
-        else:
-            return render(request, 'recruiter/jobs.html',
-                          {'role': request.session['role'], 'new_user': 'False', 'jobs': jobs,
-                           'name': request.session['name'], 'jc': len(jobs),
-                           'oc': open_count, 'cc': close_count, 'user_packages': user_packages})
+            close_count = len(jobs) - open_count
+            if not jobs:
+                return render(request, 'recruiter/jobs.html',
+                              {'role': request.session['role'], 'new_user': 'True', 'name': request.session['name'],
+                               'jc': 0, 'oc': 0, 'cc': 0, 'user_packages': user_packages})
+            else:
+                return render(request, 'recruiter/jobs.html',
+                              {'role': request.session['role'], 'new_user': 'False', 'jobs': jobs,
+                               'name': request.session['name'], 'jc': len(jobs),
+                               'oc': open_count, 'cc': close_count, 'user_packages': user_packages})
 
     except:
         return HttpResponseRedirect('/')
@@ -237,21 +236,23 @@ def inviteteamuser(request):
                     role = request.POST.get('role')
                     recmail = request.session['email']
                     rname = request.session['name']
-                    print("inviteteamuser")
-                    print("invmail: " + email)
-                    print("rname: " + rname)
-                    print("role: " + role)
-                    print("recmail: " + recmail)
-                    print('request for invite user => ', email, ' => ', role)
-                    db.collection(u'users').document(email).set({
-                        'parent': recmail,
-                        'role': role,
-                        'status': 'inactive',
-                        'email': email
-                    })
-                    # write logic for send invite email here
-                    emails.inmail(email, role, recmail, rname)
-                    return JsonResponse({"success": "true"})
+
+                    users_docs = db.collection(u'users').where(u'parent', u'==', recmail).get()
+                    users = []
+                    for doc in users_docs:
+                        users.append(str(doc.id))
+                    if str(email) not in users:
+                        db.collection(u'users').document(email).set({
+                            'parent': recmail,
+                            'role': role,
+                            'status': 'inactive',
+                            'email': email
+                        })
+                        # write logic for send invite email here
+                        emails.inmail(email, role, recmail, rname)
+                        return JsonResponse({"success": "true"})
+                    else:
+                        return JsonResponse({"success": "false"})
                 except:
                     return JsonResponse({"success": "false"})
 

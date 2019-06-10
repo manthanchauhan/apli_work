@@ -126,7 +126,7 @@
   });
   $("#sendInviteBtn").click(function () {
     let role = $("#role").val();
-    let email = $("#inviteEmail").val();
+    let email = $("#inviteEmail").val().trim();
     inviteTeamUser(email, role);
     $('#addUserModal').modal('hide')
     console.log('invite user btn => ', role, email);
@@ -215,7 +215,7 @@
       data: data,
       success: function (data) {
         console.log(data);
-        // window.location.reload();
+         window.location.reload();
       }
 
     });
