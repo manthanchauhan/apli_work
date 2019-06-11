@@ -3,9 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('dashboard', views.dashboard, name="dashboard"),
+    path('cdashboard', views.cdashboard, name="cdashboard"),
     path('batch', views.batch, name="batch"),
     path('company', views.company, name="company"),
     path('analysis', views.analysis, name="analysis"),
-    path('feedback', views.feedback, name="feedback"),
+    path('cfeedback', views.cfeedback, name="cfeedback"),
 ]

@@ -3,11 +3,11 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-def dashboard(request):
+def cdashboard(request):
     name = request.session['name']
     college = request.session['cname']
     email = request.session['email']
-    return render(request,'campus/dashboard.html',{'name': name})
+    return render(request,'campus/cdashboard.html',{'name': name})
 
 def batch(request):
     return render(request,'campus/batch.html')
@@ -18,5 +18,5 @@ def company(request):
 def analysis(request):
     return render(request,'campus/analysis.html')
 
-def feedback(request):
-    return render(request,'campus/feedback.html')
+def cfeedback(request):
+    return render(request,'campus/cfeedback.html')
