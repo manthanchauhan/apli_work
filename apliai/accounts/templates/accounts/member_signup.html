@@ -1,0 +1,195 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+    <title>Apli.ai | Signup</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <span id='message'></span>
+                        <h5 class="card-title text-center">Member Signup</h5>
+                        <form class="form-signin" >
+                            <div class="form-label-group">
+                                <input type="email" name="recEmail" id="recEmail" class="form-control"
+                                    value={{recmail}} placeholder="Email address" readonly>
+                                <label for="inputEmail">Recruiter Email</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="email" name="inputEmail" id="inputEmail" class="form-control"
+                                    value={{invmail}} placeholder="Email address" readonly>
+                                <label for="inputEmail">Your Email address</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="text" name="name" id="uname" class="form-control"
+                                    placeholder="First Middle Last Name" required autofocus>
+                                <label for="uname">Full Name</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" name="inputPassword" id="inputPassword" class="form-control"
+                                    placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                <label for="inputPassword">Password</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="text" name="role" id="role" class="form-control"
+                                    value={{role}} placeholder="Email address" readonly>
+                                <label for="inputEmail">Your Role</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <label for="position" align="center"><b>Choose Your Current Position</b></label>
+                                <br><br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio1" value="HR" checked>
+                                    <label class="form-check-label" for="inlineRadio1">HR</label>
+                                </div>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio2" value="Staff">
+                                    <label class="form-check-label" for="inlineRadio2">Staff</label>
+                                </div>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio3" value="Manager">
+                                    <label class="form-check-label" for="inlineRadio3">Manager</label>
+                                </div>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                        id="inlineRadio4" value="Other">
+                                    <label class="form-check-label" for="inlineRadio4">Other</label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                                id="signup" type="submit">Signup</button>
+                        </form>
+                        <hr>
+                        <h6><b>Note:</b>Password must contain 8 or more characters that are of at least one number, and
+                            one uppercase and lowercase letter.</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+
+$("#signup").click(function () {
+        let name = $("#uname").val();
+        let pass = $("#inputPassword").val();
+        let position = $('input[name=inlineRadioOptions]:checked').val();
+        let currentUrl = window.location.href;
+        let urlarray= currentUrl.split('/');
+        urlarray.pop();
+        urlarray.pop();
+        urlarray.pop();
+        let url = urlarray.join('/');
+      //console.log('signup btn => ',name,pass,position,url);
+        teamSignupComplete(name,pass,position,url);
+     
+    });
+
+
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        function sameOrigin(url) {
+          // test that a given url is a same-origin URL
+          // url could be relative or scheme relative or absolute
+          var host = document.location.host; // host + port
+          var protocol = document.location.protocol;
+          var sr_origin = '//' + host;
+          var origin = protocol + sr_origin;
+          // Allow absolute or scheme relative URLs to same origin
+          return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+        }
+        function teamSignupComplete(name,pass,position,url) {
+        
+    
+          $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                // Send the token to same-origin, relative URLs only.
+                // Send the token only if the method warrants CSRF protection
+                // Using the CSRFToken value acquired earlier
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+            }
+          });
+          data = {
+            'name': name,
+            'password' : pass,
+            'position' : position
+          }
+          $.ajax({
+            url: url+ '/teamsignupcomplete/',
+            type: 'POST',
+            dataType: "json",
+            data: data,
+            success: function (data) {
+              console.log(data['success']);
+              if(data['success']){
+                  window.location.replace("localhost:8000/accounts/login");
+              }
+              else{
+                  $('#message').html('Member already exists').css('color', 'red');
+              }
+           //   window.location.reload();
+            }
+    
+          });
+        }
+      </script>
+</body>
+
+</html>
+
+

@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}" >
+    <title>Apli.ai | Signup</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+            <div class="card-body">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <h5 class="card-title text-center">SignUp | Step 3/3 </h5>
+                <form class="form-signin" method="POST" action="step3">
+                   {% csrf_token %}
+                        <h6 class="card-title text-center"> Hi {{name}} from {{cname}}</h6>
+                    <div class="form-label-group">
+                        <label for="position" align="center" class='txt'><b>Position</b></label>
+                        <br><br>                    
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="HR" checked>
+                        <label class="form-check-label" for="inlineRadio1" class='txt'><b>HR</b></label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="CEO">
+                        <label class="form-check-label" for="inlineRadio2" class='txt'><b>CEO</b></label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Manager">
+                        <label class="form-check-label" for="inlineRadio2" class='txt'><b>Manager</b></label>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Other">
+                        <label class="form-check-label" for="inlineRadio2" class='txt'><b>Other</b></label>
+                        </div>
+                        <br>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">SignUp Complete</button>
+                  </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
