@@ -75,10 +75,10 @@ def jobs(request):
                     joining_date = request.POST.get('startdate')
                     deadline = request.POST.get('deadline')
                     status = 'Opened'
-                    jobid = main_email + '$' + post + '$' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    #jobid = main_email + '$' + post + '$' + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    jobid = db.collection(u'jobs').document()
                     # print(company_name,post,job_description,tskill,sskill,other,bond,salary,add_detail,status,jobid,place,joining_date,deadline,key_responsibility)
-                    doc_ref = db.collection(u'jobs').document(jobid)
-                    doc_ref.set({
+                    jobid.set({
                         u'post': post,
                         u'job_description': job_description,
                         u'key_responsibility': key_responsibility,
@@ -163,34 +163,34 @@ def candidates(request):
     # try:
     if request.session['role'] == 'Recruiter' or request.session['role'] == 'Interviewer':
         # get jobs data
-        docs = db.collection(u'candidates').where(u'company_name', u'==', request.session['cname']).get()
-        jobs_posted = len(list(db.collection(u'jobs').where(u'email', u'==', request.session['email']).get()))
-        applicants = []
-        custom_dict = {}
-        for doc in docs:
-            custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
-            custom_dict['id'] = doc.to_dict()['id']
-            custom_dict['candidate_img'] = doc.to_dict()['candidate_img']
-            custom_dict['company_name'] = doc.to_dict()['company_name']
-            custom_dict['resume'] = doc.to_dict()['resume']
-            custom_dict['video_resume'] = doc.to_dict()['video_resume']
-            custom_dict['resume_score'] = doc.to_dict()['resume_score']
-            custom_dict['video_resume_score'] = doc.to_dict()['video_resume_score']
-            custom_dict['skills'] = doc.to_dict()['skills_score'] 
-            custom_dict['grade'] = (custom_dict['resume_score'] + custom_dict['video_resume_score'])/2.0
-            custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()[
-                'place']
-            custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()['post']
-            # print(custom_dict)
-            applicants.append(custom_dict)
-        if not applicants:
-            return render(request, 'recruiter/candidates.html',
-                            {'role': request.session['role'],'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
-        else:
-            return render(request, 'recruiter/candidates.html',
-                            {'role': request.session['role'],'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
-                            'appcount': len(applicants), 'jobs_posted': jobs_posted})
-
+        # docs = db.collection(u'candidates').where(u'company_name', u'==', request.session['cname']).get()
+        # jobs_posted = len(list(db.collection(u'jobs').where(u'email', u'==', request.session['email']).get()))
+        # applicants = []
+        # custom_dict = {}
+        # for doc in docs:
+        #     custom_dict['candidate_name'] = doc.to_dict()['candidate_name']
+        #     custom_dict['id'] = doc.to_dict()['id']
+        #     custom_dict['candidate_img'] = doc.to_dict()['candidate_img']
+        #     custom_dict['company_name'] = doc.to_dict()['company_name']
+        #     custom_dict['resume'] = doc.to_dict()['resume']
+        #     custom_dict['video_resume'] = doc.to_dict()['video_resume']
+        #     custom_dict['resume_score'] = doc.to_dict()['resume_score']
+        #     custom_dict['video_resume_score'] = doc.to_dict()['video_resume_score']
+        #     custom_dict['skills'] = doc.to_dict()['skills_score'] 
+        #     custom_dict['grade'] = (custom_dict['resume_score'] + custom_dict['video_resume_score'])/2.0
+        #     custom_dict['place'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()[
+        #         'place']
+        #     custom_dict['post'] = db.collection(u'jobs').document(doc.to_dict()['jobid'].id).get().to_dict()['post']
+        #     # print(custom_dict)
+        #     applicants.append(custom_dict)
+        # if not applicants:
+        #     return render(request, 'recruiter/candidates.html',
+        #                     {'role': request.session['role'],'new_user': 'True', 'name': request.session['name'], 'appcount': 0, 'jobs_posted': 0, })
+        # else:
+        #     return render(request, 'recruiter/candidates.html',
+        #                     {'role': request.session['role'],'new_user': 'False', 'applicants': applicants, 'name': request.session['name'],
+        #                     'appcount': len(applicants), 'jobs_posted': jobs_posted})
+        return render(request,'recruiter/candidates.html',{'role': request.session['role'],'name':request.session['name'],'new_user':'True','appcount': 0})
     # except:
     #     return HttpResponseRedirect('/')
 
