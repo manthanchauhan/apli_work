@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03d83b6e-61b4-494a-93ba-7a2fe2ef6f26" name="Default Changelist" comment="rfeedback view rewritten.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website" beforeDir="false" afterPath="$PROJECT_DIR$/website" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/apliai/recruiter/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/apliai/recruiter/views.py" afterDir="false" />
     </list>
@@ -28,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/website/apliai/recruiter/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="546" lean-forward="true" selection-start-line="546" selection-end-line="546" />
+            <state relative-caret-position="-4981">
+              <caret line="243" column="7" selection-start-line="243" selection-start-column="7" selection-end-line="243" selection-end-column="7" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -332,7 +331,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" x="0" y="55" width="1366" height="713" id="Terminal" maximized="true" order="8" type="WINDOWED" visible="true" weight="0.32899022" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" auto_hide="true" id="Event Log" order="9" side_tool="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -449,8 +448,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/website/apliai/recruiter/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="546" lean-forward="true" selection-start-line="546" selection-end-line="546" />
+        <state relative-caret-position="-4981">
+          <caret line="243" column="7" selection-start-line="243" selection-start-column="7" selection-end-line="243" selection-end-column="7" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
